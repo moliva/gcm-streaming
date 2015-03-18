@@ -2,14 +2,14 @@
 <!-- @snippet-start-with-header component_userguide_1 -->
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.objectweb.proactive.examples.components.helloworld.HelloWorld">
-    <interface name="m" role="server" signature="org.objectweb.proactive.examples.components.helloworld.Main"/>
+<definition name="org.inria.scale.streams.HelloWorld">
+    <interface name="m" role="server" signature="org.inria.scale.streams.helloworld.Main"/>
 
-    <component name="client" definition="org.objectweb.proactive.examples.components.helloworld.ClientImpl"/>
+    <component name="client" definition="org.inria.scale.streams.ClientImpl"/>
     <component name="server">
-        <interface name="s" role="server" signature="org.objectweb.proactive.examples.components.helloworld.Service"/>
+        <interface name="s" role="server" signature="org.inria.scale.streams.Service"/>
         <content class="ServerImpl"/>
-        <attributes signature="org.objectweb.proactive.examples.components.helloworld.ServiceAttributes">
+        <attributes signature="org.inria.scale.streams.ServiceAttributes">
             <attribute name="header" value="-> "/>
             <attribute name="count" value="1"/>
         </attributes>

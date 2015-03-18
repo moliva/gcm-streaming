@@ -36,6 +36,11 @@
  */
 package org.inria.scale.streams;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.log4j.Logger;
+
 public class ServerImpl implements Service, ServiceAttributes {
     private String header = "";
     private int count = 0;
@@ -43,11 +48,12 @@ public class ServerImpl implements Service, ServiceAttributes {
     public ServerImpl() {
         // the following instruction was removed, because ProActive requires empty no-args constructors
         // otherwise this instruction is executed also at the construction of the stubs
-        // System.err.println("SERVER created");
+         System.err.println("SERVER created");
     }
 
     public void print(final String msg) {
-        new Exception() {
+    	System.out.println("Here we are!");
+    	new Exception() {
             @Override
             public String toString() {
                 return "Server: print method called";
@@ -58,6 +64,17 @@ public class ServerImpl implements Service, ServiceAttributes {
             System.err.println(header + msg);
         }
         System.err.println("Server: print done.");
+
+        Logger.getLogger(getClass()).info("hellooo");
+        Logger.getLogger(getClass()).error("hellooo");
+        
+        
+        try {
+			new File("/user/moliva/home/repos/adaptable-stream-gcm-example/mayo.txt").createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     public String getHeader() {

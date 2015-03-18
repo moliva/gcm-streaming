@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-		<source.version>1.8</source.version>
+		<source.version>1.7</source.version>
 		<target.version>1.7</target.version>
 	</properties>
 
@@ -17,7 +17,7 @@
 			<version>20150127</version>
 		</dependency>
 
-		<!-- Others -->
+		<!-- Fwk deps -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -52,6 +52,18 @@
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.11.0.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.objectweb.fractal.fractaladl</groupId>
+			<artifactId>fractal-adl</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+
+		<!-- Others -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
 		</dependency>
 	</dependencies>
 

@@ -104,106 +104,101 @@ public class HelloWorld {
 			final String arg0 = "-fractal"; // using the fractal component model
 			String arg1; // which component definition to load
 			final String arg2 = "r";
-			final String arg3 = HelloWorld.class.getResource(
-					"/org/objectweb/proactive/examples/components/helloworld/deployment.xml").toString(); // the
-			// deployment
-			// descriptor
-			// for
-			// proactive
+			final String arg3 = HelloWorld.class.getResource("deployment.xml").toString();
 
 			if (distributed) {
 				if (useWrapper)
-					arg1 = "org.objectweb.proactive.examples.components.helloworld.helloworld-distributed-wrappers";
+					arg1 = "org.inria.scale.streams.helloworld-distributed-wrappers";
 				else
-					arg1 = "org.objectweb.proactive.examples.components.helloworld.helloworld-distributed-no-wrappers";
+					arg1 = "org.inria.scale.streams.helloworld-distributed-no-wrappers";
 			} else if (useWrapper)
-				arg1 = "org.objectweb.proactive.examples.components.helloworld.helloworld-local-wrappers";
+				arg1 = "org.inria.scale.streams.helloworld-local-wrappers";
 			else
-				arg1 = "org.objectweb.proactive.examples.components.helloworld.helloworld-local-no-wrappers";
+				arg1 = "org.inria.scale.streams.helloworld-local-no-wrappers";
 			Launcher.main(new String[] { arg0, arg1, arg2, arg3 });
 		} else {
 			// -------------------------------------------------------------------
 			// OPTION 2 : DO NOT USE THE FRACTAL ADL
 			// -------------------------------------------------------------------
 			final Component boot = Utils.getBootstrapComponent();
-			final GCMTypeFactory tf = GCM.getGCMTypeFactory(boot);
-			Component rComp = null;
+			final GCMTypeFactory typeFactory = GCM.getGCMTypeFactory(boot);
+			Component rootComponent = null;
 
 			// type of root component
-			final ComponentType rType = tf.createFcType(new InterfaceType[] { tf.createFcItfType("r",
-					Runnable.class.getName(), false, false, false) });
+			final ComponentType rootType = typeFactory.createFcType(new InterfaceType[] { //
+					typeFactory.createFcItfType("r", Runnable.class.getName(), false, false, false) } //
+					);
 
 			// type of client component
-			final ComponentType cType = tf.createFcType(new InterfaceType[] {
-					tf.createFcItfType("r", Runnable.class.getName(), false, false, false),
-					tf.createFcItfType("s", Service.class.getName(), true, false, false) });
+			final ComponentType clientType = typeFactory.createFcType(new InterfaceType[] {
+					typeFactory.createFcItfType("r", Runnable.class.getName(), false, false, false), //
+					typeFactory.createFcItfType("s", Service.class.getName(), true, false, false) } //
+					);
 
 			// type of server component
-			ComponentType sType = tf.createFcType(new InterfaceType[] {
-					tf.createFcItfType("s", Service.class.getName(), false, false, false),
-					tf.createFcItfType(Constants.ATTRIBUTE_CONTROLLER, ServiceAttributes.class.getName(), false, false, false) });
+			ComponentType serverType = typeFactory.createFcType(new InterfaceType[] {
+					typeFactory.createFcItfType("s", Service.class.getName(), false, false, false), //
+					typeFactory.createFcItfType(Constants.ATTRIBUTE_CONTROLLER, ServiceAttributes.class.getName(), false, false,
+							false) //
+					});
 
-			final GenericFactory cf = GCM.getGenericFactory(boot);
+			final GenericFactory genericFactory = GCM.getGenericFactory(boot);
 
 			if (!useTemplates) {
 				// -------------------------------------------------------------------
 				// OPTION 2.1 : CREATE COMPONENTS DIRECTLY
 				// -------------------------------------------------------------------
-				// create root component
-				rComp = cf.newFcInstance(rType, new ControllerDescription("root", Constants.COMPOSITE), null);
-				// create client component
-				Component cComp = cf.newFcInstance(cType, new ControllerDescription("client", Constants.PRIMITIVE),
-						new ContentDescription(ClientImpl.class.getName())); // other
-				// properties
-				// could
-				// be added (activity
-				// for example)
 
+				// create root component
+				rootComponent = genericFactory.newFcInstance(rootType, new ControllerDescription("root", Constants.COMPOSITE), null);
+				// create client component
+				Component clientComponent = genericFactory.newFcInstance(clientType, new ControllerDescription("client", Constants.PRIMITIVE),
+						new ContentDescription(ClientImpl.class.getName()));
 				// create server component
-				Component sComp = cf.newFcInstance(sType, new ControllerDescription("server", Constants.PRIMITIVE),
+				Component serverComponent = genericFactory.newFcInstance(serverType, new ControllerDescription("server", Constants.PRIMITIVE),
 						new ContentDescription(ServerImpl.class.getName()));
 
-				((ServiceAttributes) GCM.getAttributeController(sComp)).setHeader("--------> ");
-				((ServiceAttributes) GCM.getAttributeController(sComp)).setCount(1);
+				((ServiceAttributes) GCM.getAttributeController(serverComponent)).setHeader("--------> ");
+				((ServiceAttributes) GCM.getAttributeController(serverComponent)).setCount(1);
 
 				if (useWrapper) {
-					sType = tf.createFcType(new InterfaceType[] { tf.createFcItfType("s", Service.class.getName(), false, false,
-							false) });
+					serverType = typeFactory.createFcType(new InterfaceType[] { typeFactory.createFcItfType("s",
+							Service.class.getName(), false, false, false) });
 					// create client component "wrapper" component
-					final Component CComp = cf.newFcInstance(cType, new ControllerDescription("client-wrapper",
+					final Component CComp = genericFactory.newFcInstance(clientType, new ControllerDescription("client-wrapper",
 							Constants.COMPOSITE), null);
 
 					// create server component "wrapper" component
-					final Component SComp = cf.newFcInstance(sType, new ControllerDescription("server-wrapper",
+					final Component SComp = genericFactory.newFcInstance(serverType, new ControllerDescription("server-wrapper",
 							Constants.COMPOSITE), null);
 
 					// component assembly
-					GCM.getContentController(CComp).addFcSubComponent(cComp);
-					GCM.getContentController(SComp).addFcSubComponent(sComp);
-					GCM.getBindingController(CComp).bindFc("r", cComp.getFcInterface("r"));
-					GCM.getBindingController(cComp).bindFc("s", GCM.getContentController(CComp).getFcInternalInterface("s"));
+					GCM.getContentController(CComp).addFcSubComponent(clientComponent);
+					GCM.getContentController(SComp).addFcSubComponent(serverComponent);
+					GCM.getBindingController(CComp).bindFc("r", clientComponent.getFcInterface("r"));
+					GCM.getBindingController(clientComponent).bindFc("s", GCM.getContentController(CComp).getFcInternalInterface("s"));
 					// GCM.getBindingController(cComp).bindFc("s",
 					// CComp.getFcInterface("s"));
-					GCM.getBindingController(SComp).bindFc("s", sComp.getFcInterface("s"));
+					GCM.getBindingController(SComp).bindFc("s", serverComponent.getFcInterface("s"));
 					// replaces client and server components by "wrapper"
 					// components
 					// THIS CHANGES REFERENCES (STUBS)
-					cComp = CComp;
-					sComp = SComp;
+					clientComponent = CComp;
+					serverComponent = SComp;
 				}
 
 				// component assembly
-				GCM.getContentController(rComp).addFcSubComponent(cComp);
-				GCM.getContentController(rComp).addFcSubComponent(sComp);
-				GCM.getBindingController(rComp).bindFc("r", cComp.getFcInterface("r"));
-				GCM.getBindingController(cComp).bindFc("s", sComp.getFcInterface("s"));
+				GCM.getContentController(rootComponent).addFcSubComponent(clientComponent);
+				GCM.getContentController(rootComponent).addFcSubComponent(serverComponent);
+				GCM.getBindingController(rootComponent).bindFc("r", clientComponent.getFcInterface("r"));
+				GCM.getBindingController(clientComponent).bindFc("s", serverComponent.getFcInterface("s"));
 			}
 
 			// start root component
-			GCM.getGCMLifeCycleController(rComp).startFc();
+			GCM.getGCMLifeCycleController(rootComponent).startFc();
 
 			// call main method
-			((Runnable) rComp.getFcInterface("r")).run();
+			((Runnable) rootComponent.getFcInterface("r")).run();
 		}
 		PALifeCycle.exitSuccess();
 	}

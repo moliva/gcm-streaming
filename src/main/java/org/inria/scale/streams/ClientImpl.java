@@ -45,7 +45,7 @@ public class ClientImpl implements Runnable, BindingController {
     public ClientImpl() {
         // the following instruction was removed, because ProActive requires empty no-args constructors
         // otherwise this instruction is executed also at the construction of the stub
-        //System.err.println("CLIENT created");
+        System.err.println("CLIENT created");
     }
 
     public void run() {
