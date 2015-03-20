@@ -39,20 +39,11 @@ package org.inria.scale.streams;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.etsi.uri.gcm.api.type.GCMTypeFactory;
 import org.etsi.uri.gcm.util.GCM;
 import org.objectweb.fractal.adl.Factory;
 import org.objectweb.fractal.api.Component;
-import org.objectweb.fractal.api.factory.GenericFactory;
-import org.objectweb.fractal.api.type.ComponentType;
-import org.objectweb.fractal.api.type.InterfaceType;
 import org.objectweb.proactive.api.PADeployment;
 import org.objectweb.proactive.api.PALifeCycle;
-import org.objectweb.proactive.core.component.Constants;
-import org.objectweb.proactive.core.component.ContentDescription;
-import org.objectweb.proactive.core.component.ControllerDescription;
-import org.objectweb.proactive.core.component.Utils;
-import org.objectweb.proactive.core.component.adl.Launcher;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
 
 /**
@@ -99,28 +90,24 @@ public class HelloWorld {
 	public static void main(final String[] args) throws Exception {
 		try {
 			// get the component Factory allowing component creation from ADL
-			Factory factory = org.objectweb.proactive.core.component.adl.FactoryFactory.getFactory();
-			Map<String, Object> context = new HashMap<String, Object>();
+			final Factory factory = org.objectweb.proactive.core.component.adl.FactoryFactory.getFactory();
+			final Map<String, Object> context = new HashMap<String, Object>();
 
 			// retrieve the deployment descriptor
-			ProActiveDescriptor deploymentDescriptor = //
-			PADeployment.getProactiveDescriptor(HelloWorld.class.getResource("deployment.xml").getPath());
+			final ProActiveDescriptor deploymentDescriptor = //
+					PADeployment.getProactiveDescriptor(HelloWorld.class.getResource("deployment.xml").getPath());
 			context.put("deployment-descriptor", deploymentDescriptor);
 			deploymentDescriptor.activateMappings();
 
-			Component compositeWrapper = (Component) factory.newComponent(ADL, context);
-
-//			Component sComp = (Component) compositeWrapper.getFcInterface("s");
-//			((ServiceAttributes) GCM.getAttributeController(sComp)).setHeader("--------> ");
-//			((ServiceAttributes) GCM.getAttributeController(sComp)).setCount(1);
+			final Component compositeWrapper = (Component) factory.newComponent(ADL, context);
 
 			// start PrimitiveComputer component
 			GCM.getGCMLifeCycleController(compositeWrapper).startFc();
 
-			Runnable itf = ((Runnable) compositeWrapper.getFcInterface("r"));
+			final Runnable runnable = (Runnable) compositeWrapper.getFcInterface("r");
 
 			// call component
-			itf.run();
+			runnable.run();
 
 			Thread.sleep(5000);
 			// wait for the end of execution
@@ -129,7 +116,7 @@ public class HelloWorld {
 
 			PALifeCycle.exitSuccess();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
