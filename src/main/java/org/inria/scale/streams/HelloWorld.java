@@ -122,7 +122,7 @@ public class HelloWorld {
 			// call component
 			itf.run();
 
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 			// wait for the end of execution
 			// and kill JVM created with the deployment descriptor
 			deploymentDescriptor.killall(false);

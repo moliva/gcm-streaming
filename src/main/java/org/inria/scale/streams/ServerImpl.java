@@ -42,54 +42,55 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 public class ServerImpl implements Service, ServiceAttributes {
-    private String header = "";
-    private int count = 0;
+	private String header = "";
+	private int count = 0;
 
-    public ServerImpl() {
-        // the following instruction was removed, because ProActive requires empty no-args constructors
-        // otherwise this instruction is executed also at the construction of the stubs
-         System.err.println("SERVER created");
-    }
+	public ServerImpl() {
+		// the following instruction was removed, because ProActive requires empty
+		// no-args constructors
+		// otherwise this instruction is executed also at the construction of the
+		// stubs
+		// System.err.println("SERVER created");
+	}
 
-    public void print(final String msg) {
-    	System.out.println("Here we are!");
-    	new Exception() {
-            @Override
-            public String toString() {
-                return "Server: print method called";
-            }
-        }.printStackTrace();
-        System.err.println("Server: begin printing...");
-        for (int i = 0; i < count; ++i) {
-            System.err.println(header + msg);
-        }
-        System.err.println("Server: print done.");
+	public void print(final String msg) {
+		System.out.println("Here we are!");
+		new Exception() {
+			@Override
+			public String toString() {
+				return "Server: print method called";
+			}
+		}.printStackTrace();
+		System.err.println("Server: begin printing...");
+		for (int i = 0; i < count; ++i) {
+			System.err.println(header + msg);
+		}
+		System.err.println("Server: print done.");
 
-        Logger.getLogger(getClass()).info("hellooo");
-        Logger.getLogger(getClass()).error("hellooo");
-        
-        
-        try {
+		Logger.getLogger(getClass()).info("hellooo");
+		Logger.getLogger(getClass()).error("hellooo");
+
+		try {
 			new File("/user/moliva/home/repos/adaptable-stream-gcm-example/mayo.txt").createNewFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    }
+	}
 
-    public String getHeader() {
-        return header;
-    }
+	public String getHeader() {
+		return header;
+	}
 
-    public void setHeader(final String header) {
-        this.header = header;
-    }
+	public void setHeader(final String header) {
+		this.header = header;
+	}
 
-    public int getCount() {
-        return count;
-    }
+	public int getCount() {
+		return count;
+	}
 
-    public void setCount(final int count) {
-        this.count = count;
-    }
+	public void setCount(final int count) {
+		this.count = count;
+	}
 }
