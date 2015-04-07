@@ -18,7 +18,11 @@
     </exportedVirtualNodes>
     <!-- @snippet-end exported_virtual_node_1 -->
   <component name="client-wrapper" definition="org.inria.scale.streams.ClientType">
-	  <component name="client" definition="org.inria.scale.streams.ClientImpl"/>
+	  <component name="client" definition="org.inria.scale.streams.ClientImpl">
+	  	<attributes signature="org.inria.scale.streams.ConfigAttr">
+			<attribute name="config" value="my incredible string" />
+	  	</attributes>
+	  </component>
 	  <binding client="this.r" server="client.r"/>
 	  <binding client="client.s" server="this.s"/>
 	  <controller desc="composite"/>

@@ -46,48 +46,12 @@ import org.objectweb.proactive.api.PADeployment;
 import org.objectweb.proactive.api.PALifeCycle;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
 
-/**
- * This example is a mix from the helloworld examples in the Fractal
- * distribution : the example from Julia, and the one from the FractalADL.<br>
- * The differences are the following : <br>
- * - from FractalADL : <br>
- * * this one uses a custom parser, based on the standard FractalADL, but it is
- * able to add cardinality to virtual nodes and allows the composition of
- * virtual nodes.<br>
- * * there are 4 .fractal files corresponding to definitions of the system in
- * the current vm, in distributed vms (this uses the ProActive deployment
- * capabilities), a version with wrapping composite components and a version
- * without wrapping components.
- *
- * Use the "parser" parameter to make it work.<br>
- * - from Julia :
- *
- *
- * Sections involving templates have been removed, because this implementation
- * does not provide templates. <br>
- * A functionality offered by ProActive is the automatic deployment of
- * components onto remote locations.<br>
- * TODO change comment When using the "distributed" option with the "parser"
- * option, the ADL loader will load the "helloworld-distributed.xml" ADL, which
- * affects virtual nodes to components, and the "deployment.xml" file, which
- * maps the virtual nodes to real nodes.<br>
- * If other cases, all components are instantiated locally, in the current
- * virtual machine. <br>
- *
- *
- */
-public class HelloWorld {
 
-	private static final String ADL = "org.inria.scale.streams.helloworld-distributed-wrappers";
+public class WordCountStreaming {
 
-	// private static final String ADL =
-	// "org.inria.scale.streams.helloworld-distributed-no-wrappers";
-	// private static final String ADL =
-	// "org.inria.scale.streams.helloworld-local-wrappers";
-	// private static final String ADL =
-	// "org.inria.scale.streams.helloworld-local-no-wrappers";
+	private static final String ADL = "org.inria.scale.streams.WordCountStreaming";
 
-	public static void main(final String[] args) throws Exception {
+	public static void main(final String... args) throws Exception {
 		try {
 			// get the component Factory allowing component creation from ADL
 			final Factory factory = org.objectweb.proactive.core.component.adl.FactoryFactory.getFactory();
@@ -95,7 +59,7 @@ public class HelloWorld {
 
 			// retrieve the deployment descriptor
 			final ProActiveDescriptor deploymentDescriptor = //
-					PADeployment.getProactiveDescriptor(HelloWorld.class.getResource("deployment.xml").getPath());
+					PADeployment.getProactiveDescriptor(WordCountStreaming.class.getClassLoader().getResource("deployment.xml").getPath());
 			context.put("deployment-descriptor", deploymentDescriptor);
 			deploymentDescriptor.activateMappings();
 
@@ -112,7 +76,7 @@ public class HelloWorld {
 			Thread.sleep(5000);
 			// wait for the end of execution
 			// and kill JVM created with the deployment descriptor
-			deploymentDescriptor.killall(false);
+			// deploymentDescriptor.killall(true);
 
 			PALifeCycle.exitSuccess();
 

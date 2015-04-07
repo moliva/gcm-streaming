@@ -38,8 +38,9 @@ package org.inria.scale.streams;
 
 import org.objectweb.fractal.api.control.BindingController;
 
-public class ClientImpl implements Runnable, BindingController {
+public class ClientImpl implements Runnable, BindingController, ConfigAttr {
 	private Service service;
+	private String config;
 
 	public ClientImpl() {
 		// the following instruction was removed, because ProActive requires empty
@@ -49,30 +50,43 @@ public class ClientImpl implements Runnable, BindingController {
 		// System.err.println("CLIENT created");
 	}
 
+	@Override
 	public void run() {
 		service.print("hello world");
 	}
 
+	@Override
 	public String[] listFc() {
 		return new String[] { "s" };
 	}
 
+	@Override
 	public Object lookupFc(final String cItf) {
-		if (cItf.equals("s")) {
+		if (cItf.equals("s"))
 			return service;
-		}
 		return null;
 	}
 
+	@Override
 	public void bindFc(final String cItf, final Object sItf) {
-		if (cItf.equals("s")) {
+		if (cItf.equals("s"))
 			service = (Service) sItf;
-		}
 	}
 
+	@Override
 	public void unbindFc(final String cItf) {
-		if (cItf.equals("s")) {
+		if (cItf.equals("s"))
 			service = null;
-		}
+	}
+
+	@Override
+	public void setConfig(final String config) {
+		this.config = config;
+		System.out.println("My new config = " + config);
+	}
+
+	@Override
+	public String getConfig() {
+		return config;
 	}
 }
