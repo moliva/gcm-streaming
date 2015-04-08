@@ -2,6 +2,8 @@ package org.inria.scale.streams.examples;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
@@ -19,6 +21,8 @@ public class LineReader implements InTap, LineReaderConfiguration, BindingContro
 	private InStream out;
 	private String filePath;
 
+	private final List<String> lines = new ArrayList<>();
+
 	// //////////////////////////////////////////////
 	// ******* InTap *******
 	// //////////////////////////////////////////////
@@ -30,8 +34,11 @@ public class LineReader implements InTap, LineReaderConfiguration, BindingContro
 		LineIterator iterator = null;
 		try {
 			iterator = FileUtils.lineIterator(file, "UTF-8");
-			while (iterator.hasNext())
-				out.process(iterator.nextLine());
+			while (iterator.hasNext()) {
+				final String line = iterator.nextLine();
+				lines.add(line);
+				out.process(line);
+			}
 		} catch (final IOException e) {
 			e.printStackTrace();
 		} finally {
