@@ -2,27 +2,34 @@
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
 <definition name="org.inria.scale.streams.WordCountStreaming">
-	<interface name="run" role="server" signature="java.lang.Runnable" />
+	<interface name="run" role="server" signature="org.inria.scale.streams.InTap" />
 
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
-		<content class="org.inria.scale.streams.LineReader" />
-		<attributes signature="org.inria.scale.streams.WindowConfiguration">
+		<content class="org.inria.scale.streams.examples.LineReader" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
 			<attribute name="batchInterval" value="1" />
-		</attributes>
-		<attributes signature="org.inria.scale.streams.LineReaderConfiguration">
-			<attribute name="filePath" value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" />
+			<attribute name="filePath"
+				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" />
 		</attributes>
 	</component>
 	<component name="csv-writer" definition="org.inria.scale.streams.OutTap">
-		<content class="org.inria.scale.streams.CsvWriter" />
-		<attributes signature="org.inria.scale.streams.LineReaderConfiguration">
-			<attribute name="filePath" value="/user/moliva/home/repos/adaptable-stream-gcm-example/out/csv.txt" />
+		<content class="org.inria.scale.streams.examples.CsvWriter" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.WindowConfiguration">
+			<attribute name="batchInterval" value="1" />
 		</attributes>
+		<!-- <attributes -->
+		<!-- signature="org.inria.scale.streams.configuration.LineReaderConfiguration"> -->
+		<!-- <attribute name="filePath" -->
+		<!-- value="/user/moliva/home/repos/adaptable-stream-gcm-example/out/csv.txt" 
+			/> -->
+		<!-- </attributes> -->
 	</component>
 
 	<!-- Application run -->
-	<binding client="this.run" server="lines-reader.run" />
+	<binding client="this.run" server="lines-reader.startStreaming" />
 
 	<!-- Operator bindings -->
-	<binding client="lines-reader.out" server="csv-writer.out" />
+	<binding client="lines-reader.out" server="csv-writer.in" />
 </definition>

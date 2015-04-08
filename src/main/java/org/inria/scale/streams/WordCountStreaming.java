@@ -46,7 +46,6 @@ import org.objectweb.proactive.api.PADeployment;
 import org.objectweb.proactive.api.PALifeCycle;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
 
-
 public class WordCountStreaming {
 
 	private static final String ADL = "org.inria.scale.streams.WordCountStreaming";
@@ -59,7 +58,8 @@ public class WordCountStreaming {
 
 			// retrieve the deployment descriptor
 			final ProActiveDescriptor deploymentDescriptor = //
-					PADeployment.getProactiveDescriptor(WordCountStreaming.class.getClassLoader().getResource("deployment.xml").getPath());
+					PADeployment.getProactiveDescriptor(WordCountStreaming.class.getClassLoader().getResource("deployment.xml")
+							.getPath());
 			context.put("deployment-descriptor", deploymentDescriptor);
 			deploymentDescriptor.activateMappings();
 
@@ -68,10 +68,10 @@ public class WordCountStreaming {
 			// start PrimitiveComputer component
 			GCM.getGCMLifeCycleController(compositeWrapper).startFc();
 
-			final Runnable runnable = (Runnable) compositeWrapper.getFcInterface("r");
+			final InTap runnable = (InTap) compositeWrapper.getFcInterface("run");
 
 			// call component
-			runnable.run();
+			runnable.startStreaming();
 
 			Thread.sleep(5000);
 			// wait for the end of execution
