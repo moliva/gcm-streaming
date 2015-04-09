@@ -3,32 +3,63 @@
 
 <definition name="org.inria.scale.streams.WordCountStreaming">
 	<interface name="run" role="server" signature="org.inria.scale.streams.InTap" />
+	<interface name="run1" role="server" signature="org.inria.scale.streams.InTap" />
 
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
 		<content class="org.inria.scale.streams.examples.LineReader" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
-			<attribute name="batchInterval" value="1" />
+			<attribute name="batchInterval" value="1000" />
 			<attribute name="filePath"
 				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" />
 		</attributes>
 	</component>
 	<component name="csv-writer" definition="org.inria.scale.streams.OutTap">
-		<content class="org.inria.scale.streams.examples.CsvWriter" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.WindowConfiguration">
-			<attribute name="batchInterval" value="1" />
-		</attributes>
+		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
+		<interface name="startStreaming" role="server"
+			signature="org.inria.scale.streams.InTap" />
+
+		<component name="impl" definition="org.inria.scale.streams.OutTap">
+			<content class="org.inria.scale.streams.examples.SeparatedValuesWriter" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
+				<attribute name="batchInterval" value="1000" />
+				<attribute name="separator" value="&#009;" /> <!-- tab separated -->
+			</attributes>
+		</component>
+		<component name="mailbox" definition="org.inria.scale.streams.InTap">
+			<content class="org.inria.scale.streams.examples.MailBox" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
+				<attribute name="batchInterval" value="1000" />
+				<attribute name="separator" value="&#009;" /> <!-- tab separated -->
+			</attributes>
+		</component>
 		<!-- <attributes -->
 		<!-- signature="org.inria.scale.streams.configuration.LineReaderConfiguration"> -->
 		<!-- <attribute name="filePath" -->
 		<!-- value="/user/moliva/home/repos/adaptable-stream-gcm-example/out/csv.txt" 
 			/> -->
 		<!-- </attributes> -->
+		<binding client="mailbox.out" server="impl.in" />
+		<binding client="this.in" server="impl.in" />
+		<binding client="this.startStreaming" server="mailbox.startStreaming" />
+		<controller desc="composite" />
 	</component>
+	<!-- <component name="normalizer" definition="org.inria.scale.streams.InTap"> -->
+	<!-- <content class="org.inria.scale.streams.examples.LineReader" /> -->
+	<!-- <attributes -->
+	<!-- signature="org.inria.scale.streams.configuration.LineReaderConfiguration"> -->
+	<!-- <attribute name="batchInterval" value="1000" /> -->
+	<!-- <attribute name="filePath" -->
+	<!-- value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" 
+		/> -->
+	<!-- </attributes> -->
+	<!-- </component> -->
 
 	<!-- Application run -->
 	<binding client="this.run" server="lines-reader.startStreaming" />
+	<binding client="this.run1" server="csv-writer.startStreaming" />
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="csv-writer.in" />

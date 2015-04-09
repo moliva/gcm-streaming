@@ -1,19 +1,8 @@
 package org.inria.scale.streams.examples;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.LineIterator;
 import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.InTap;
-import org.inria.scale.streams.configuration.LineReaderConfiguration;
-import org.javatuples.Tuple;
-import org.javatuples.Unit;
+import org.inria.scale.streams.configuration.SeparatedValuesConfiguration;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
@@ -21,25 +10,17 @@ import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 
-public class LineReader implements InTap, LineReaderConfiguration, BindingController, RunActive {
-
-	private long batchIntervalMilliseconds;
-	private InStream out;
-	private String filePath;
-
-	private final Queue<Tuple> lines = new ConcurrentLinkedQueue<>();
+public class MailBox implements BindingController, SeparatedValuesConfiguration, InTap, RunActive {
 
 	// //////////////////////////////////////////////
-	// ******* InTap *******
+	// ******* InStream *******
 	// //////////////////////////////////////////////
 
 	@Override
-	public void startStreaming() {
-
-	}
-
+	public void startStreaming() {}
 	@Override
 	public void runActivity(final Body body) {
+
 		final Thread thread = new Thread("consuming thread") {
 			@Override
 			public void run() {
@@ -50,49 +31,21 @@ public class LineReader implements InTap, LineReaderConfiguration, BindingContro
 						e.printStackTrace();
 					}
 
-					final List<Tuple> tuplesToSend = new ArrayList<>(lines);
-					lines.removeAll(tuplesToSend);
-
-					if (!tuplesToSend.isEmpty())
-						out.receive(tuplesToSend);
+					out.process();
 				}
 			}
 		};
 		thread.start();
-
-		final File file = new File(filePath);
-
-		LineIterator iterator = null;
-		try {
-			iterator = FileUtils.lineIterator(file, "UTF-8");
-
-			while (iterator.hasNext())
-				lines.add(Unit.with(iterator.nextLine()));
-
-		} catch (final IOException e) {
-			e.printStackTrace();
-		} finally {
-			LineIterator.closeQuietly(iterator);
-		}
-	}
-
-	// //////////////////////////////////////////////
-	// ******* WindowConfiguration *******
-	// //////////////////////////////////////////////
-
-	@Override
-	public void setBatchInterval(final long batchIntervalMilliseconds) {
-		this.batchIntervalMilliseconds = batchIntervalMilliseconds;
-	}
-
-	@Override
-	public long getBatchInterval() {
-		return batchIntervalMilliseconds;
 	}
 
 	// //////////////////////////////////////////////
 	// ******* BindingController *******
 	// //////////////////////////////////////////////
+
+	private InStream out;
+
+	private String separator;
+	private long batchIntervalMilliseconds;
 
 	@Override
 	public String[] listFc() {
@@ -121,17 +74,31 @@ public class LineReader implements InTap, LineReaderConfiguration, BindingContro
 	}
 
 	// //////////////////////////////////////////////
-	// ******* Runnable *******
+	// ******* WindowConfiguration *******
 	// //////////////////////////////////////////////
 
 	@Override
-	public void setFilePath(final String filePath) {
-		this.filePath = filePath;
+	public void setBatchInterval(final long batchIntervalMilliseconds) {
+		this.batchIntervalMilliseconds = batchIntervalMilliseconds;
 	}
 
 	@Override
-	public String getFilePath() {
-		return filePath;
+	public long getBatchInterval() {
+		return batchIntervalMilliseconds;
+	}
+
+	// //////////////////////////////////////////////
+	// ******* SeparatedValuesConfiguration *******
+	// //////////////////////////////////////////////
+
+	@Override
+	public void setSeparator(final String separator) {
+		this.separator = separator;
+	}
+
+	@Override
+	public String getSeparator() {
+		return separator;
 	}
 
 }

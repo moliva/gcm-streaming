@@ -42,6 +42,7 @@ import java.util.Map;
 import org.etsi.uri.gcm.util.GCM;
 import org.objectweb.fractal.adl.Factory;
 import org.objectweb.fractal.api.Component;
+import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.proactive.api.PADeployment;
 import org.objectweb.proactive.api.PALifeCycle;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
@@ -68,17 +69,30 @@ public class WordCountStreaming {
 			// start PrimitiveComputer component
 			GCM.getGCMLifeCycleController(compositeWrapper).startFc();
 
-			final InTap runnable = (InTap) compositeWrapper.getFcInterface("run");
+			//			new Thread() {
+			//				@Override
+			//				public void run() {
+			//					InTap runnable1 = null;
+			//					try {
+			//						runnable1 = (InTap) compositeWrapper.getFcInterface("run1");
+			//					} catch (final NoSuchInterfaceException e) {
+			//						// TODO Auto-generated catch block
+			//						e.printStackTrace();
+			//					}
+			//					runnable1.startStreaming();
+			//				};
+			//			}.start();
+			//
+			//			final InTap runnable = (InTap) compositeWrapper.getFcInterface("run");
+			//			runnable.startStreaming();
 
-			// call component
-			runnable.startStreaming();
+			// Thread.sleep(5000);
 
-			Thread.sleep(5000);
 			// wait for the end of execution
 			// and kill JVM created with the deployment descriptor
 			// deploymentDescriptor.killall(true);
 
-			PALifeCycle.exitSuccess();
+			// PALifeCycle.exitSuccess();
 
 		} catch (final Exception e) {
 			e.printStackTrace();
