@@ -121,7 +121,7 @@ public class LineReader implements InTap, LineReaderConfiguration, BindingContro
 	}
 
 	// //////////////////////////////////////////////
-	// ******* Runnable *******
+	// ******* LineReaderConfiguration *******
 	// //////////////////////////////////////////////
 
 	@Override

@@ -18,7 +18,7 @@ public class SeparatedValuesWriter implements InStream, SeparatedValuesConfigura
 	private final Queue<Tuple> lines = new ConcurrentLinkedQueue<>();
 
 	@Override
-	public void receive(final List<Tuple> tuples) {
+	public void receive(final List<? extends Tuple> tuples) {
 		lines.addAll(tuples);
 	}
 

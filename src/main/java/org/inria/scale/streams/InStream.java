@@ -6,7 +6,7 @@ import org.javatuples.Tuple;
 
 public interface InStream {
 
-	void receive(List<Tuple> tuples);
+	void receive(List<? extends Tuple> tuples);
 
 	void process();
 
