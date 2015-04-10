@@ -2,8 +2,6 @@
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
 <definition name="org.inria.scale.streams.WordCountStreaming">
-	<interface name="run" role="server" signature="org.inria.scale.streams.InTap" />
-	<interface name="run1" role="server" signature="org.inria.scale.streams.InTap" />
 
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
 		<content class="org.inria.scale.streams.examples.LineReader" />
@@ -23,16 +21,14 @@
 			<content class="org.inria.scale.streams.examples.SeparatedValuesWriter" />
 			<attributes
 				signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
-				<attribute name="batchInterval" value="1000" />
 				<attribute name="separator" value="&#009;" /> <!-- tab separated -->
 			</attributes>
 		</component>
 		<component name="mailbox" definition="org.inria.scale.streams.InTap">
 			<content class="org.inria.scale.streams.examples.MailBox" />
 			<attributes
-				signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
-				<attribute name="batchInterval" value="1000" />
-				<attribute name="separator" value="&#009;" /> <!-- tab separated -->
+				signature="org.inria.scale.streams.configuration.WindowConfiguration">
+				<attribute name="batchInterval" value="100" />
 			</attributes>
 		</component>
 		<!-- <attributes -->
@@ -43,7 +39,6 @@
 		<!-- </attributes> -->
 		<binding client="mailbox.out" server="impl.in" />
 		<binding client="this.in" server="impl.in" />
-		<binding client="this.startStreaming" server="mailbox.startStreaming" />
 		<controller desc="composite" />
 	</component>
 	<!-- <component name="normalizer" definition="org.inria.scale.streams.InTap"> -->
@@ -58,8 +53,6 @@
 	<!-- </component> -->
 
 	<!-- Application run -->
-	<binding client="this.run" server="lines-reader.startStreaming" />
-	<binding client="this.run1" server="csv-writer.startStreaming" />
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="csv-writer.in" />

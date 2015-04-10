@@ -28,51 +28,51 @@ public class LineReader implements InTap, LineReaderConfiguration, BindingContro
 	private String filePath;
 
 	private final Queue<Tuple> lines = new ConcurrentLinkedQueue<>();
+	private boolean firstTime = true;
 
 	// //////////////////////////////////////////////
 	// ******* InTap *******
 	// //////////////////////////////////////////////
 
 	@Override
-	public void startStreaming() {
-
-	}
-
-	@Override
 	public void runActivity(final Body body) {
-		final Thread thread = new Thread("consuming thread") {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						Thread.sleep(batchIntervalMilliseconds);
-					} catch (final InterruptedException e) {
-						e.printStackTrace();
+		if (firstTime) {
+			final Thread thread = new Thread("consuming thread") {
+				@Override
+				public void run() {
+					while (true) {
+						try {
+							Thread.sleep(batchIntervalMilliseconds);
+						} catch (final InterruptedException e) {
+							e.printStackTrace();
+						}
+
+						final List<Tuple> tuplesToSend = new ArrayList<>(lines);
+						lines.removeAll(tuplesToSend);
+
+						if (!tuplesToSend.isEmpty())
+							out.receive(tuplesToSend);
 					}
-
-					final List<Tuple> tuplesToSend = new ArrayList<>(lines);
-					lines.removeAll(tuplesToSend);
-
-					if (!tuplesToSend.isEmpty())
-						out.receive(tuplesToSend);
 				}
+			};
+			thread.start();
+
+			final File file = new File(filePath);
+
+			LineIterator iterator = null;
+			try {
+				iterator = FileUtils.lineIterator(file, "UTF-8");
+
+				while (iterator.hasNext())
+					lines.add(Unit.with(iterator.nextLine()));
+
+			} catch (final IOException e) {
+				e.printStackTrace();
+			} finally {
+				LineIterator.closeQuietly(iterator);
 			}
-		};
-		thread.start();
 
-		final File file = new File(filePath);
-
-		LineIterator iterator = null;
-		try {
-			iterator = FileUtils.lineIterator(file, "UTF-8");
-
-			while (iterator.hasNext())
-				lines.add(Unit.with(iterator.nextLine()));
-
-		} catch (final IOException e) {
-			e.printStackTrace();
-		} finally {
-			LineIterator.closeQuietly(iterator);
+			firstTime = false;
 		}
 	}
 

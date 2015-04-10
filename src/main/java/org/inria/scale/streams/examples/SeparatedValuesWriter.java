@@ -13,7 +13,6 @@ import com.google.common.base.Joiner;
 
 public class SeparatedValuesWriter implements InStream, SeparatedValuesConfiguration {
 
-	private long batchIntervalMilliseconds;
 	private String separator;
 
 	private final Queue<Tuple> lines = new ConcurrentLinkedQueue<>();
@@ -30,20 +29,6 @@ public class SeparatedValuesWriter implements InStream, SeparatedValuesConfigura
 
 		for (final Tuple tuple : tuplesToSend)
 			System.out.println(Joiner.on(separator).join(tuple));
-	}
-
-	// //////////////////////////////////////////////
-	// ******* WindowConfiguration *******
-	// //////////////////////////////////////////////
-
-	@Override
-	public void setBatchInterval(final long batchIntervalMilliseconds) {
-		this.batchIntervalMilliseconds = batchIntervalMilliseconds;
-	}
-
-	@Override
-	public long getBatchInterval() {
-		return batchIntervalMilliseconds;
 	}
 
 	// //////////////////////////////////////////////

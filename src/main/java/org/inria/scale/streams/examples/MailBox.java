@@ -2,7 +2,7 @@ package org.inria.scale.streams.examples;
 
 import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.InTap;
-import org.inria.scale.streams.configuration.SeparatedValuesConfiguration;
+import org.inria.scale.streams.configuration.WindowConfiguration;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
@@ -10,42 +10,33 @@ import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 
-public class MailBox implements BindingController, SeparatedValuesConfiguration, InTap, RunActive {
+public class MailBox implements BindingController, WindowConfiguration, InTap, RunActive {
+
+	private InStream out;
+
+	private long batchIntervalMilliseconds;
 
 	// //////////////////////////////////////////////
 	// ******* InStream *******
 	// //////////////////////////////////////////////
 
 	@Override
-	public void startStreaming() {}
-	@Override
 	public void runActivity(final Body body) {
 
-		final Thread thread = new Thread("consuming thread") {
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						Thread.sleep(batchIntervalMilliseconds);
-					} catch (final InterruptedException e) {
-						e.printStackTrace();
-					}
-
-					out.process();
-				}
+		while (true) {
+			try {
+				Thread.sleep(batchIntervalMilliseconds);
+			} catch (final InterruptedException e) {
+				e.printStackTrace();
 			}
-		};
-		thread.start();
+
+			out.process();
+		}
 	}
 
 	// //////////////////////////////////////////////
 	// ******* BindingController *******
 	// //////////////////////////////////////////////
-
-	private InStream out;
-
-	private String separator;
-	private long batchIntervalMilliseconds;
 
 	@Override
 	public String[] listFc() {
@@ -85,20 +76,6 @@ public class MailBox implements BindingController, SeparatedValuesConfiguration,
 	@Override
 	public long getBatchInterval() {
 		return batchIntervalMilliseconds;
-	}
-
-	// //////////////////////////////////////////////
-	// ******* SeparatedValuesConfiguration *******
-	// //////////////////////////////////////////////
-
-	@Override
-	public void setSeparator(final String separator) {
-		this.separator = separator;
-	}
-
-	@Override
-	public String getSeparator() {
-		return separator;
 	}
 
 }

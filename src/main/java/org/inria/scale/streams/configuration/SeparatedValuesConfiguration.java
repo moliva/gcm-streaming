@@ -1,6 +1,8 @@
 package org.inria.scale.streams.configuration;
 
-public interface SeparatedValuesConfiguration extends WindowConfiguration {
+import org.objectweb.fractal.api.control.AttributeController;
+
+public interface SeparatedValuesConfiguration extends AttributeController {
 
 	void setSeparator(String separator);
 
