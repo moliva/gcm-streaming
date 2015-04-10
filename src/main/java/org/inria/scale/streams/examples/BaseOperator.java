@@ -1,38 +1,39 @@
 package org.inria.scale.streams.examples;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.inria.scale.streams.InStream;
-import org.inria.scale.streams.InTap;
-import org.inria.scale.streams.configuration.WindowConfiguration;
+import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
-import org.objectweb.proactive.Body;
-import org.objectweb.proactive.RunActive;
 
-public class MailBox implements BindingController, WindowConfiguration, InTap, RunActive {
+public abstract class BaseOperator implements InStream, BindingController {
 
 	private InStream out;
 
-	private long batchIntervalMilliseconds = 100;
-
-	// //////////////////////////////////////////////
-	// ******* InStream *******
-	// //////////////////////////////////////////////
+	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
 	@Override
-	public void runActivity(final Body body) {
-
-		while (true) {
-			try {
-				Thread.sleep(batchIntervalMilliseconds);
-			} catch (final InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			out.process();
-		}
+	public void receive(final List<? extends Tuple> newTuples) {
+		tuples.addAll(newTuples);
 	}
+
+	@Override
+	public void process() {
+		final List<Tuple> tuplesToProcess = new ArrayList<>(tuples);
+		tuples.removeAll(tuplesToProcess);
+
+		final List<Tuple> processedTuples = processTuples(tuplesToProcess);
+
+		out.receive(processedTuples);
+	}
+
+	protected abstract List<Tuple> processTuples(List<Tuple> tuplesToProcess);
 
 	// //////////////////////////////////////////////
 	// ******* BindingController *******
@@ -62,20 +63,6 @@ public class MailBox implements BindingController, WindowConfiguration, InTap, R
 	IllegalLifeCycleException {
 		if (clientItfName.equals("out"))
 			out = null;
-	}
-
-	// //////////////////////////////////////////////
-	// ******* WindowConfiguration *******
-	// //////////////////////////////////////////////
-
-	@Override
-	public void setBatchInterval(final long batchIntervalMilliseconds) {
-		this.batchIntervalMilliseconds = batchIntervalMilliseconds;
-	}
-
-	@Override
-	public long getBatchInterval() {
-		return batchIntervalMilliseconds;
 	}
 
 }
