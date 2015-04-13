@@ -8,6 +8,4 @@ public interface InStream {
 
 	void receive(List<? extends Tuple> tuples);
 
-	void process();
-
 }

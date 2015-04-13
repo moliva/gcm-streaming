@@ -6,13 +6,14 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.InnerProcessor;
 import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 
-public abstract class BaseOperator implements InStream, BindingController {
+public abstract class BaseOperator implements InStream, InnerProcessor, BindingController {
 
 	private InStream out;
 
@@ -28,12 +29,12 @@ public abstract class BaseOperator implements InStream, BindingController {
 		final List<Tuple> tuplesToProcess = new ArrayList<>(tuples);
 		tuples.removeAll(tuplesToProcess);
 
-		final List<Tuple> processedTuples = processTuples(tuplesToProcess);
+		final List<? extends Tuple> processedTuples = processTuples(tuplesToProcess);
 
 		out.receive(processedTuples);
 	}
 
-	protected abstract List<Tuple> processTuples(List<Tuple> tuplesToProcess);
+	protected abstract List<? extends Tuple> processTuples(List<Tuple> tuplesToProcess);
 
 	// //////////////////////////////////////////////
 	// ******* BindingController *******

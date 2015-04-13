@@ -1,7 +1,7 @@
 package org.inria.scale.streams.examples;
 
-import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.InTap;
+import org.inria.scale.streams.InnerProcessor;
 import org.inria.scale.streams.configuration.WindowConfiguration;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
@@ -12,7 +12,7 @@ import org.objectweb.proactive.RunActive;
 
 public class MailBox implements BindingController, WindowConfiguration, InTap, RunActive {
 
-	private InStream out;
+	private InnerProcessor processor;
 
 	private long batchIntervalMilliseconds = 100;
 
@@ -30,7 +30,7 @@ public class MailBox implements BindingController, WindowConfiguration, InTap, R
 				e.printStackTrace();
 			}
 
-			out.process();
+			processor.process();
 		}
 	}
 
@@ -40,28 +40,28 @@ public class MailBox implements BindingController, WindowConfiguration, InTap, R
 
 	@Override
 	public String[] listFc() {
-		return new String[] { "out" };
+		return new String[] { "processor" };
 	}
 
 	@Override
 	public Object lookupFc(final String clientItfName) throws NoSuchInterfaceException {
-		if (clientItfName.equals("out"))
-			return out;
+		if (clientItfName.equals("processor"))
+			return processor;
 		return null;
 	}
 
 	@Override
 	public void bindFc(final String clientItfName, final Object serverItf) throws NoSuchInterfaceException,
 	IllegalBindingException, IllegalLifeCycleException {
-		if (clientItfName.equals("out"))
-			out = (InStream) serverItf;
+		if (clientItfName.equals("processor"))
+			processor = (InnerProcessor) serverItf;
 	}
 
 	@Override
 	public void unbindFc(final String clientItfName) throws NoSuchInterfaceException, IllegalBindingException,
 	IllegalLifeCycleException {
-		if (clientItfName.equals("out"))
-			out = null;
+		if (clientItfName.equals("processor"))
+			processor = null;
 	}
 
 	// //////////////////////////////////////////////

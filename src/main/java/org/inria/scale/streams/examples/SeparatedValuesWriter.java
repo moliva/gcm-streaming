@@ -6,12 +6,13 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.InnerProcessor;
 import org.inria.scale.streams.configuration.SeparatedValuesConfiguration;
 import org.javatuples.Tuple;
 
 import com.google.common.base.Joiner;
 
-public class SeparatedValuesWriter implements InStream, SeparatedValuesConfiguration {
+public class SeparatedValuesWriter implements InStream, InnerProcessor, SeparatedValuesConfiguration {
 
 	private String separator;
 
