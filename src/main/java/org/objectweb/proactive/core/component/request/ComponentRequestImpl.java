@@ -47,6 +47,7 @@ import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 import org.etsi.uri.gcm.util.GCM;
+import org.javatuples.Pair;
 import org.objectweb.fractal.api.Interface;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.LifeCycleController;
@@ -211,25 +212,28 @@ public class ComponentRequestImpl extends RequestImpl implements ComponentReques
 
 	private boolean isAnAttribute(final MethodCall methodCall, final Object reifiedObject) {
 		final Field[] fields = reifiedObject.getClass().getDeclaredFields();
-		final Optional<String> match = FluentIterable.of(fields).transformAndConcat(new Function<Field, Iterable<String>>() {
+		final Optional<Pair<String, String>> match = FluentIterable.of(fields)
+				.transformAndConcat(new Function<Field, Iterable<Pair<String, String>>>() {
 
-			@Override
-			public Iterable<String> apply(final Field field) {
-				final String fieldName = field.getName().substring(0, 1).toUpperCase() + field.getName().substring(1);
-				final String getter = "get" + fieldName;
-				final String setter = "set" + fieldName;
+					@Override
+					public Iterable<Pair<String, String>> apply(final Field field) {
+						final String capitalizedFieldName = field.getName().substring(0, 1).toUpperCase()
+								+ field.getName().substring(1);
+						final String getter = "get" + capitalizedFieldName;
+						final String setter = "set" + capitalizedFieldName;
 
-				final List<String> list = field.isAnnotationPresent(Attribute.class) ? Arrays.asList(getter, setter)
-						: Collections.<String> emptyList();
-				return list;
-			}
-		}).firstMatch(new Predicate<String>() {
+						return field.isAnnotationPresent(Attribute.class) ? Arrays.asList(Pair.with(field.getName(), getter),
+								Pair.with(field.getName(), setter)) : Collections.<Pair<String, String>> emptyList();
+					}
+				}).firstMatch(new Predicate<Pair<String, String>>() {
 
-			@Override
-			public boolean apply(final String methodName) {
-				return methodName.equals(methodCall.getName());
-			}
-		});
+					@Override
+					public boolean apply(final Pair<String, String> pair) {
+						return pair.getValue1().equals(methodCall.getName());
+					}
+				});
+
+		// hacer con el par que setee el valor o getee
 
 		System.out.println("method is " + match);
 
