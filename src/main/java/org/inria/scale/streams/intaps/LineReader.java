@@ -7,9 +7,11 @@ import java.util.Scanner;
 
 import org.inria.scale.streams.configuration.LineReaderConfiguration;
 import org.javatuples.Unit;
+import org.objectweb.proactive.core.component.request.Attribute;
 
 public class LineReader extends BaseInTap implements LineReaderConfiguration {
 
+	@Attribute
 	private String charset = "UTF-8";
 	private String filePath;
 
