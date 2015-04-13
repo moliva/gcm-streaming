@@ -14,16 +14,39 @@
 		</attributes>
 	</component>
 
-	<!-- SeparatedValuesWriter -->
-	<component name="csv-writer" definition="org.inria.scale.streams.OutTap">
-		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
-
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOutTap">
-			<content class="org.inria.scale.streams.outtaps.SeparatedValuesWriter" />
+	<!-- SeparatedValuesTransformer -->
+	<component name="csv-transformer" definition="org.inria.scale.streams.Operator">
+		<component name="impl" definition="org.inria.scale.streams.PrimitiveOperator">
+			<content
+				class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
 			<attributes
 				signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
 				<attribute name="separator" value="&#009;" /> <!-- tab separated -->
 			</attributes>
+		</component>
+
+		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
+			<content class="org.inria.scale.streams.intaps.MailBox" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.WindowConfiguration">
+				<attribute name="batchInterval" value="100" />
+			</attributes>
+		</component>
+
+		<!-- Internal bindings -->
+		<binding client="mailbox.processor" server="impl.processor" />
+
+		<!-- Composite + impl bindings -->
+		<binding client="this.in" server="impl.in" />
+		<binding client="impl.out" server="this.out" />
+	</component>
+
+	<!-- SystemOutputWriter -->
+	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
+		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
+
+		<component name="impl" definition="org.inria.scale.streams.PrimitiveOutTap">
+			<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
 		</component>
 		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
 			<content class="org.inria.scale.streams.intaps.MailBox" />
@@ -138,5 +161,6 @@
 	<binding client="normalizer.out" server="tokenizer.in" />
 	<binding client="tokenizer.out" server="count.in" />
 	<binding client="count.out" server="sort-by.in" />
-	<binding client="sort-by.out" server="csv-writer.in" />
+	<binding client="sort-by.out" server="csv-transformer.in" />
+	<binding client="csv-transformer.out" server="system-output-writer.in" />
 </definition>

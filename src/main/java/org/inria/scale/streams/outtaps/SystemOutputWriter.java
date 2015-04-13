@@ -7,14 +7,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.InnerProcessor;
-import org.inria.scale.streams.configuration.SeparatedValuesConfiguration;
 import org.javatuples.Tuple;
 
 import com.google.common.base.Joiner;
 
-public class SeparatedValuesWriter implements InStream, InnerProcessor, SeparatedValuesConfiguration {
-
-	private String separator;
+public class SystemOutputWriter implements InStream, InnerProcessor {
 
 	private final Queue<Tuple> lines = new ConcurrentLinkedQueue<>();
 
@@ -29,21 +26,7 @@ public class SeparatedValuesWriter implements InStream, InnerProcessor, Separate
 		lines.removeAll(tuplesToSend);
 
 		for (final Tuple tuple : tuplesToSend)
-			System.out.println(Joiner.on(separator).join(tuple));
-	}
-
-	// //////////////////////////////////////////////
-	// ******* SeparatedValuesConfiguration *******
-	// //////////////////////////////////////////////
-
-	@Override
-	public void setSeparator(final String separator) {
-		this.separator = separator;
-	}
-
-	@Override
-	public String getSeparator() {
-		return separator;
+			System.out.println(Joiner.on(" ").join(tuple));
 	}
 
 }
