@@ -1,4 +1,4 @@
-package org.inria.scale.streams.examples;
+package org.inria.scale.streams.outtaps;
 
 import java.util.ArrayList;
 import java.util.List;

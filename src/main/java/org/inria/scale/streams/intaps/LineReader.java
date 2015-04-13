@@ -1,4 +1,4 @@
-package org.inria.scale.streams.examples;
+package org.inria.scale.streams.intaps;
 
 import java.io.File;
 import java.io.IOException;

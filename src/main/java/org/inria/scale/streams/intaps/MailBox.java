@@ -1,4 +1,4 @@
-package org.inria.scale.streams.examples;
+package org.inria.scale.streams.intaps;
 
 import org.inria.scale.streams.InTap;
 import org.inria.scale.streams.InnerProcessor;

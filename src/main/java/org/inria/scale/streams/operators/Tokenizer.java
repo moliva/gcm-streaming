@@ -1,4 +1,4 @@
-package org.inria.scale.streams.examples;
+package org.inria.scale.streams.operators;
 
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.not;
