@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.inria.scale.streams.examples.WordCountStreaming">
+<definition name="org.inria.scale.streams.examples.InputWordCountStreaming">
 
-	<!-- LineReader -->
+	<!-- InputSystemReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
 		<component name="impl" definition="org.inria.scale.streams.PrimitiveInTap">
-			<content class="org.inria.scale.streams.intaps.LineReader" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
-				<attribute name="filePath"
-					value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" />
-				<attribute name="charset" value="UTF-8" />
-			</attributes>
+			<content class="org.inria.scale.streams.intaps.InputSystemReader" />
 		</component>
 
 		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
