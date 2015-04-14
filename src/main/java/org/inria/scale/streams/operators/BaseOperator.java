@@ -19,10 +19,20 @@ public abstract class BaseOperator implements InStream, InnerProcessor, BindingC
 
 	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
+	protected abstract List<? extends Tuple> processTuples(List<Tuple> tuplesToProcess);
+
+	// //////////////////////////////////////////////
+	// ******* InStream *******
+	// //////////////////////////////////////////////
+
 	@Override
 	public void receive(final List<? extends Tuple> newTuples) {
 		tuples.addAll(newTuples);
 	}
+
+	// //////////////////////////////////////////////
+	// ******* InnerProcessor *******
+	// //////////////////////////////////////////////
 
 	@Override
 	public void process() {
@@ -33,8 +43,6 @@ public abstract class BaseOperator implements InStream, InnerProcessor, BindingC
 
 		out.receive(processedTuples);
 	}
-
-	protected abstract List<? extends Tuple> processTuples(List<Tuple> tuplesToProcess);
 
 	// //////////////////////////////////////////////
 	// ******* BindingController *******

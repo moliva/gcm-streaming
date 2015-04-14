@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
+
+<definition name="org.inria.scale.streams.examples.WriteInputToFile">
+
+	<!-- InputSystemReader -->
+	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
+		<component name="impl" definition="org.inria.scale.streams.PrimitiveInTap">
+			<content class="org.inria.scale.streams.intaps.InputSystemReader" />
+		</component>
+
+		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
+			<content class="org.inria.scale.streams.intaps.MailBox" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.WindowConfiguration">
+				<attribute name="batchInterval" value="1000" />
+			</attributes>
+		</component>
+
+		<component name="buffer" definition="org.inria.scale.streams.PrimitiveOperator">
+			<content class="org.inria.scale.streams.operators.Buffer" />
+		</component>
+
+		<!-- Internal bindings -->
+		<binding client="mailbox.processor" server="buffer.processor" />
+		<binding client="impl.out" server="buffer.in" />
+
+		<binding client="buffer.out" server="this.out" />
+		<controller desc="composite" />
+	</component>
+
+	<!-- TextNormalizer -->
+	<component name="normalizer" definition="org.inria.scale.streams.Operator">
+		<component name="impl" definition="org.inria.scale.streams.PrimitiveOperator">
+			<content class="org.inria.scale.streams.operators.TextNormalizer" />
+		</component>
+
+		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
+			<content class="org.inria.scale.streams.intaps.MailBox" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.WindowConfiguration">
+				<attribute name="batchInterval" value="100" />
+			</attributes>
+		</component>
+
+		<!-- Internal bindings -->
+		<binding client="mailbox.processor" server="impl.processor" />
+
+		<!-- Composite + impl bindings -->
+		<binding client="this.in" server="impl.in" />
+		<binding client="impl.out" server="this.out" />
+	</component>
+
+	<!-- FileWriter -->
+	<component name="file-writer" definition="org.inria.scale.streams.OutTap">
+		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
+
+		<component name="impl" definition="org.inria.scale.streams.PrimitiveOutTap">
+			<content class="org.inria.scale.streams.outtaps.FileWriter" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.FileWriterConfiguration">
+				<attribute name="directoryPath" value="out" />
+			</attributes>
+		</component>
+		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
+			<content class="org.inria.scale.streams.intaps.MailBox" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.WindowConfiguration">
+				<attribute name="batchInterval" value="100" />
+			</attributes>
+		</component>
+
+		<binding client="mailbox.processor" server="impl.processor" />
+		<binding client="this.in" server="impl.in" />
+		<controller desc="composite" />
+	</component>
+
+	<!-- Operator bindings -->
+	<binding client="lines-reader.out" server="normalizer.in" />
+	<binding client="normalizer.out" server="file-writer.in" />
+
+</definition>

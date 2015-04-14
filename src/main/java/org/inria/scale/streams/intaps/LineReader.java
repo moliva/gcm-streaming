@@ -13,6 +13,10 @@ public class LineReader extends BaseInTap implements LineReaderConfiguration {
 	private String charset = "UTF-8";
 	private String filePath;
 
+	// //////////////////////////////////////////////
+	// ******* BaseInTap *******
+	// //////////////////////////////////////////////
+
 	@Override
 	protected void startStreaming() {
 		final File file = new File(filePath);

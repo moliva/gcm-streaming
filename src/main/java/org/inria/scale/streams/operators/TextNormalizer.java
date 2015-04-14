@@ -27,7 +27,7 @@ public class TextNormalizer extends BaseOperator {
 			@Override
 			public Object apply(final Object input) {
 				if (input instanceof String)
-					return ((String) input).trim().replaceAll("[,.;:]+", "").toLowerCase();
+					return ((String) input).trim().replaceAll("[,.;:¡!¿?\\(\\)\\[\\]\\{\\}]+", "").toLowerCase();
 				else
 					return input;
 			}

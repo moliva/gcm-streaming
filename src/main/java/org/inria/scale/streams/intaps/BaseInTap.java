@@ -15,13 +15,14 @@ import org.objectweb.proactive.RunActive;
 public abstract class BaseInTap implements InTap, BindingController, RunActive {
 
 	private InStream out;
+
 	private boolean firstTime = true;
+
+	protected abstract void startStreaming();
 
 	protected void send(final List<? extends Tuple> tuples) {
 		out.receive(tuples);
 	}
-
-	protected abstract void startStreaming();
 
 	// //////////////////////////////////////////////
 	// ******* RunActive *******

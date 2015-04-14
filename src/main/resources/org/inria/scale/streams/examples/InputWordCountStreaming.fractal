@@ -56,6 +56,30 @@
 		<binding client="impl.out" server="this.out" />
 	</component>
 
+	<!-- FileWriter -->
+	<component name="file-writer" definition="org.inria.scale.streams.OutTap">
+		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
+
+		<component name="impl" definition="org.inria.scale.streams.PrimitiveOutTap">
+			<content class="org.inria.scale.streams.outtaps.FileWriter" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.FileWriterConfiguration">
+				<attribute name="directoryPath" value="out" />
+			</attributes>
+		</component>
+		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
+			<content class="org.inria.scale.streams.intaps.MailBox" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.WindowConfiguration">
+				<attribute name="batchInterval" value="100" />
+			</attributes>
+		</component>
+
+		<binding client="mailbox.processor" server="impl.processor" />
+		<binding client="this.in" server="impl.in" />
+		<controller desc="composite" />
+	</component>
+
 	<!-- SystemOutputWriter -->
 	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
 		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
@@ -178,4 +202,6 @@
 	<binding client="count.out" server="sort-by.in" />
 	<binding client="sort-by.out" server="csv-transformer.in" />
 	<binding client="csv-transformer.out" server="system-output-writer.in" />
+
+	<binding client="normalizer.out" server="file-writer.in" />
 </definition>
