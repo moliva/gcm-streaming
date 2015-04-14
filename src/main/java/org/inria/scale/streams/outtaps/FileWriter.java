@@ -16,6 +16,8 @@ import com.google.common.base.Joiner;
 public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
 
 	private String path;
+	private String prefix = "";
+	private String postfix = "";
 
 	// //////////////////////////////////////////////
 	// ******* BaseOutTap *******
@@ -23,23 +25,29 @@ public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
 
 	@Override
 	protected void processTuples(final List<Tuple> tuplesToProcess) {
-		final Path directoryPath = FileSystems.getDefault().getPath(".", path);
-		final Path filePath = FileSystems.getDefault().getPath(".", path, String.valueOf(System.currentTimeMillis()));
+		final Path directoryPath = FileSystems.getDefault().getPath(".", path, createDirectoryName());
+		final Path filePath = directoryPath.resolve("part-00000");
+		final Path successPath = directoryPath.resolve("_SUCCESS");
 
 		try {
 			Files.createDirectories(directoryPath);
 			Files.createFile(filePath);
+
+			try (final BufferedWriter writer = Files.newBufferedWriter(filePath, Charset.defaultCharset())) {
+				for (final Tuple tuple : tuplesToProcess)
+					writer.write(Joiner.on(" ").join(tuple) + "\n");
+			}
+
+			successPath.toFile().createNewFile();
+
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+	}
 
-		try (final BufferedWriter writer = Files.newBufferedWriter(filePath, Charset.defaultCharset())) {
-			for (final Tuple tuple : tuplesToProcess)
-				writer.write(Joiner.on(" ").join(tuple));
-
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
+	private String createDirectoryName() {
+		return prefix + (prefix.isEmpty() ? "" : "-") + String.valueOf(System.currentTimeMillis())
+				+ (postfix.isEmpty() ? "" : "-") + postfix;
 	}
 
 	// //////////////////////////////////////////////
@@ -54,6 +62,26 @@ public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
 	@Override
 	public String getDirectoryPath() {
 		return path;
+	}
+
+	@Override
+	public String getPrefix() {
+		return prefix;
+	}
+
+	@Override
+	public void setPrefix(final String prefix) {
+		this.prefix = prefix;
+	}
+
+	@Override
+	public String getPostfix() {
+		return postfix;
+	}
+
+	@Override
+	public void setPostfix(final String postfix) {
+		this.postfix = postfix;
 	}
 
 }

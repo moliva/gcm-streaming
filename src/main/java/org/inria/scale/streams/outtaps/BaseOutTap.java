@@ -20,7 +20,7 @@ public abstract class BaseOutTap implements InStream, InnerProcessor {
 	// //////////////////////////////////////////////
 
 	@Override
-	public void receive(final List<? extends Tuple> newTuples) {
+	public void receive(final List<Tuple> newTuples) {
 		tuples.addAll(newTuples);
 	}
 

@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.InnerProcessor;
+import org.inria.scale.streams.MulticastInStream;
 import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
@@ -15,7 +16,7 @@ import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 
 public abstract class BaseOperator implements InStream, InnerProcessor, BindingController {
 
-	private InStream out;
+	private MulticastInStream out;
 
 	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
@@ -26,7 +27,7 @@ public abstract class BaseOperator implements InStream, InnerProcessor, BindingC
 	// //////////////////////////////////////////////
 
 	@Override
-	public void receive(final List<? extends Tuple> newTuples) {
+	public void receive(final List<Tuple> newTuples) {
 		tuples.addAll(newTuples);
 	}
 
@@ -41,7 +42,7 @@ public abstract class BaseOperator implements InStream, InnerProcessor, BindingC
 
 		final List<? extends Tuple> processedTuples = processTuples(tuplesToProcess);
 
-		out.receive(processedTuples);
+		out.receive((List<Tuple>)processedTuples);
 	}
 
 	// //////////////////////////////////////////////
@@ -64,7 +65,7 @@ public abstract class BaseOperator implements InStream, InnerProcessor, BindingC
 	public void bindFc(final String clientItfName, final Object serverItf) throws NoSuchInterfaceException,
 	IllegalBindingException, IllegalLifeCycleException {
 		if (clientItfName.equals("out"))
-			out = (InStream) serverItf;
+			out = (MulticastInStream) serverItf;
 	}
 
 	@Override

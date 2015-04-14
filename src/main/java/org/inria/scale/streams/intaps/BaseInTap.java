@@ -21,7 +21,7 @@ public abstract class BaseInTap implements InTap, BindingController, RunActive {
 	protected abstract void startStreaming();
 
 	protected void send(final List<? extends Tuple> tuples) {
-		out.receive(tuples);
+		out.receive((List<Tuple>)tuples);
 	}
 
 	// //////////////////////////////////////////////

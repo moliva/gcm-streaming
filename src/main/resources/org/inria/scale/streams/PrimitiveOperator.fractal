@@ -5,5 +5,6 @@
 	<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
 	<interface name="processor" role="server"
 		signature="org.inria.scale.streams.InnerProcessor" />
-	<interface name="out" role="client" signature="org.inria.scale.streams.InStream" />
+	<interface name="out" role="client" cardinality="multicast"
+		signature="org.inria.scale.streams.MulticastInStream" />
 </definition>

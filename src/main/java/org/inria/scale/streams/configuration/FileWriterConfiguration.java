@@ -8,4 +8,12 @@ public interface FileWriterConfiguration extends AttributeController {
 
 	String getDirectoryPath();
 
+	String getPrefix();
+
+	void setPrefix(String prefix);
+
+	String getPostfix();
+
+	void setPostfix(String postfix);
+
 }
