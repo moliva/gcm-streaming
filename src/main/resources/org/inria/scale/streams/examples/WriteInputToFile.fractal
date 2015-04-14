@@ -79,27 +79,7 @@
 
 	<!-- SystemOutputWriter -->
 	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
-		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
-
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOutTap">
-			<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
-		</component>
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="100" />
-			</attributes>
-		</component>
-
-		<binding client="mailbox.processor" server="impl.processor" />
-		<binding client="this.in" server="impl.in" />
-		<controller desc="composite" />
-	</component>
-
-	<!-- SystemOutputWriter -->
-	<component name="system-output-writer1" definition="org.inria.scale.streams.OutTap">
-		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
+			<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
 
 		<component name="impl" definition="org.inria.scale.streams.PrimitiveOutTap">
 			<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
@@ -119,7 +99,7 @@
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="normalizer.in" />
-	<binding client="lines-reader.out" server="system-output-writer1.in" />
+	<binding client="lines-reader.out" server="system-output-writer.in" />
 	<binding client="normalizer.out" server="file-writer.in" />
 	<binding client="normalizer.out" server="system-output-writer.in" />
 
