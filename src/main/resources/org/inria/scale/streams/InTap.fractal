@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.inria.scale.streams.InTap">
+<definition name="org.inria.scale.streams.InTap" arguments="batchInterval">
 	<interface name="out" role="client" cardinality="multicast"
 		signature="org.inria.scale.streams.MulticastInStream" />
+
+	<component name="mailbox" definition="org.inria.scale.streams.WindowController">
+		<content class="org.inria.scale.streams.intaps.MailBox" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.WindowConfiguration">
+			<attribute name="batchInterval" value="${batchInterval}" />
+		</attributes>
+	</component>
+
+	<component name="buffer" definition="org.inria.scale.streams.PrimitiveOperator">
+		<content class="org.inria.scale.streams.operators.Buffer" />
+	</component>
+
+	<!-- Internal bindings -->
+	<binding client="mailbox.processor" server="buffer.processor" />
+	<binding client="impl.out" server="buffer.in" />
+
+	<binding client="buffer.out" server="this.out" />
 </definition>
