@@ -1,3 +1,8 @@
+
+# temp output files
+out
+
+# eclipse project files
 .classpath
 .project
 
