@@ -23,16 +23,10 @@
 			</attributes>
 		</component>
 
-		<component name="buffer" definition="org.inria.scale.streams.PrimitiveOperator">
-			<content class="org.inria.scale.streams.operators.Buffer" />
-		</component>
-
 		<!-- Internal bindings -->
-		<binding client="mailbox.processor" server="buffer.processor" />
-		<binding client="impl.out" server="buffer.in" />
+		<binding client="impl.out" server="mailbox.in" />
 
-		<binding client="buffer.out" server="this.out" />
-		<controller desc="composite" />
+		<binding client="mailbox.out" server="this.out" />
 	</component>
 
 	<!-- SeparatedValuesTransformer -->
@@ -64,22 +58,7 @@
 
 	<!-- SystemOutputWriter -->
 	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
-		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
-
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOutTap">
-			<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
-		</component>
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="100" />
-			</attributes>
-		</component>
-
-		<binding client="mailbox.processor" server="impl.processor" />
-		<binding client="this.in" server="impl.in" />
-		<controller desc="composite" />
+		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
 	</component>
 
 	<!-- TextNormalizer -->

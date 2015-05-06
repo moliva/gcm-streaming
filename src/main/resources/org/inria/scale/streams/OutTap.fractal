@@ -3,4 +3,5 @@
 
 <definition name="org.inria.scale.streams.OutTap">
 	<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
+	<controller desc="primitive" />
 </definition>

@@ -8,23 +8,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.configuration.FileWriterConfiguration;
 import org.javatuples.Tuple;
 
 import com.google.common.base.Joiner;
 
-public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
+public class FileWriter implements InStream, FileWriterConfiguration {
 
 	private String path;
 	private String prefix = "";
 	private String postfix = "";
 
 	// //////////////////////////////////////////////
-	// ******* BaseOutTap *******
+	// ******* InStream *******
 	// //////////////////////////////////////////////
 
 	@Override
-	protected void processTuples(final List<Tuple> tuplesToProcess) {
+	public void receive(final List<Tuple> tuplesToProcess) {
 		final Path directoryPath = FileSystems.getDefault().getPath(".", path, createDirectoryName());
 		final Path filePath = directoryPath.resolve("part-00000");
 		final Path successPath = directoryPath.resolve("_SUCCESS");

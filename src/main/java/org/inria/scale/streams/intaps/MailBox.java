@@ -1,67 +1,46 @@
 package org.inria.scale.streams.intaps;
 
-import org.inria.scale.streams.InTap;
-import org.inria.scale.streams.InnerProcessor;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.inria.scale.streams.configuration.WindowConfiguration;
-import org.objectweb.fractal.api.NoSuchInterfaceException;
-import org.objectweb.fractal.api.control.BindingController;
-import org.objectweb.fractal.api.control.IllegalBindingException;
-import org.objectweb.fractal.api.control.IllegalLifeCycleException;
+import org.inria.scale.streams.operators.BaseOperator;
+import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
+import org.objectweb.proactive.multiactivity.MultiActiveService;
 
-public class MailBox implements BindingController, WindowConfiguration, InTap, RunActive {
-
-	private InnerProcessor processor;
+public class MailBox extends BaseOperator implements WindowConfiguration, RunActive {
 
 	private long batchIntervalMilliseconds = 100;
 
-	// //////////////////////////////////////////////
-	// ******* InStream *******
-	// //////////////////////////////////////////////
-
 	@Override
 	public void runActivity(final Body body) {
+		final Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
 
-		while (true) {
-			try {
-				Thread.sleep(batchIntervalMilliseconds);
-			} catch (final InterruptedException e) {
-				e.printStackTrace();
+			@Override
+			public void run() {
+				process();
 			}
+		}, batchIntervalMilliseconds, batchIntervalMilliseconds);
 
-			processor.process();
+		final MultiActiveService service = new MultiActiveService(body);
+		while (body.isActive()) {
+			service.multiActiveServing();
 		}
+
+		timer.cancel();
 	}
 
 	// //////////////////////////////////////////////
-	// ******* BindingController *******
+	// ******* BaseOperator *******
 	// //////////////////////////////////////////////
 
 	@Override
-	public String[] listFc() {
-		return new String[] { "processor" };
-	}
-
-	@Override
-	public Object lookupFc(final String clientItfName) throws NoSuchInterfaceException {
-		if (clientItfName.equals("processor"))
-			return processor;
-		return null;
-	}
-
-	@Override
-	public void bindFc(final String clientItfName, final Object serverItf) throws NoSuchInterfaceException,
-	IllegalBindingException, IllegalLifeCycleException {
-		if (clientItfName.equals("processor"))
-			processor = (InnerProcessor) serverItf;
-	}
-
-	@Override
-	public void unbindFc(final String clientItfName) throws NoSuchInterfaceException, IllegalBindingException,
-	IllegalLifeCycleException {
-		if (clientItfName.equals("processor"))
-			processor = null;
+	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
+		return tuplesToProcess;
 	}
 
 	// //////////////////////////////////////////////

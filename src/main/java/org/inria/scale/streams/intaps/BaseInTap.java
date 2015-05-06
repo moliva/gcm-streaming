@@ -3,7 +3,6 @@ package org.inria.scale.streams.intaps;
 import java.util.List;
 
 import org.inria.scale.streams.InStream;
-import org.inria.scale.streams.InTap;
 import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
@@ -12,7 +11,7 @@ import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 
-public abstract class BaseInTap implements InTap, BindingController, RunActive {
+public abstract class BaseInTap implements BindingController, RunActive {
 
 	private InStream out;
 
@@ -20,6 +19,7 @@ public abstract class BaseInTap implements InTap, BindingController, RunActive {
 
 	protected abstract void startStreaming();
 
+	@SuppressWarnings("unchecked")
 	protected void send(final List<? extends Tuple> tuples) {
 		out.receive((List<Tuple>)tuples);
 	}

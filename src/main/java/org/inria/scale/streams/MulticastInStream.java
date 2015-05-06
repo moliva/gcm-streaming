@@ -10,6 +10,6 @@ import org.objectweb.proactive.core.component.type.annotations.multicast.ParamDi
 public interface MulticastInStream {
 
 	@MethodDispatchMetadata(mode = @ParamDispatchMetadata(mode = ParamDispatchMode.BROADCAST))
-	public void receive(List<Tuple> newTuples);
+	void receive(List<Tuple> newTuples);
 
 }

@@ -4,4 +4,5 @@
 <definition name="org.inria.scale.streams.InTap">
 	<interface name="out" role="client" cardinality="multicast"
 		signature="org.inria.scale.streams.MulticastInStream" />
+	<controller desc="primitive" />
 </definition>
