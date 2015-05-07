@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.inria.scale.streams.WindowController">
-	<interface name="processor" role="client" signature="org.inria.scale.streams.InnerProcessor" />
+<definition name="org.inria.scale.streams.WindowController" extends="org.inria.scale.streams.Operator">
+	<content class="org.inria.scale.streams.intaps.MailBox" />
 </definition>

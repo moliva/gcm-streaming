@@ -15,8 +15,7 @@
 			</attributes>
 		</component>
 
-		<component name="mailbox" definition="org.inria.scale.streams.Operator">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
+		<component name="window" definition="org.inria.scale.streams.WindowController">
 			<attributes
 				signature="org.inria.scale.streams.configuration.WindowConfiguration">
 				<attribute name="batchInterval" value="1000" />
@@ -24,8 +23,8 @@
 		</component>
 
 		<!-- Internal bindings -->
-		<binding client="impl.out" server="mailbox.in" />
-		<binding client="mailbox.out" server="this.out" />
+		<binding client="impl.out" server="window.in" />
+		<binding client="window.out" server="this.out" />
 	</component>
 
 	<!-- SystemOutputWriter -->
