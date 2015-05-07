@@ -15,7 +15,7 @@
 			</attributes>
 		</component>
 
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
+		<component name="mailbox" definition="org.inria.scale.streams.Operator">
 			<content class="org.inria.scale.streams.intaps.MailBox" />
 			<attributes
 				signature="org.inria.scale.streams.configuration.WindowConfiguration">
@@ -25,35 +25,7 @@
 
 		<!-- Internal bindings -->
 		<binding client="impl.out" server="mailbox.in" />
-
 		<binding client="mailbox.out" server="this.out" />
-	</component>
-
-	<!-- SeparatedValuesTransformer -->
-	<component name="csv-transformer" definition="org.inria.scale.streams.Operator">
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOperator">
-			<content
-				class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
-				<attribute name="separator" value="&#009;" /> <!-- tab separated -->
-			</attributes>
-		</component>
-
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="100" />
-			</attributes>
-		</component>
-
-		<!-- Internal bindings -->
-		<binding client="mailbox.processor" server="impl.processor" />
-
-		<!-- Composite + impl bindings -->
-		<binding client="this.in" server="impl.in" />
-		<binding client="impl.out" server="this.out" />
 	</component>
 
 	<!-- SystemOutputWriter -->
@@ -61,97 +33,39 @@
 		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
 	</component>
 
+	<!-- SeparatedValuesTransformer -->
+	<component name="csv-transformer" definition="org.inria.scale.streams.Operator">
+		<content
+			class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
+			<attribute name="separator" value="&#009;" /> <!-- tab separated -->
+		</attributes>
+	</component>
+
 	<!-- TextNormalizer -->
 	<component name="normalizer" definition="org.inria.scale.streams.Operator">
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOperator">
-			<content class="org.inria.scale.streams.operators.TextNormalizer" />
-		</component>
-
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="100" />
-			</attributes>
-		</component>
-
-		<!-- Internal bindings -->
-		<binding client="mailbox.processor" server="impl.processor" />
-
-		<!-- Composite + impl bindings -->
-		<binding client="this.in" server="impl.in" />
-		<binding client="impl.out" server="this.out" />
+		<content class="org.inria.scale.streams.operators.TextNormalizer" />
 	</component>
 
 	<!-- Tokenizer -->
 	<component name="tokenizer" definition="org.inria.scale.streams.Operator">
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOperator">
-			<content class="org.inria.scale.streams.operators.Tokenizer" />
-		</component>
-
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="100" />
-			</attributes>
-		</component>
-
-		<!-- Internal bindings -->
-		<binding client="mailbox.processor" server="impl.processor" />
-
-		<!-- Composite + impl bindings -->
-		<binding client="this.in" server="impl.in" />
-		<binding client="impl.out" server="this.out" />
+		<content class="org.inria.scale.streams.operators.Tokenizer" />
 	</component>
 
 	<!-- Count -->
 	<component name="count" definition="org.inria.scale.streams.Operator">
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOperator">
-			<content class="org.inria.scale.streams.operators.Count" />
-		</component>
-
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="100" />
-			</attributes>
-		</component>
-
-		<!-- Internal bindings -->
-		<binding client="mailbox.processor" server="impl.processor" />
-
-		<!-- Composite + impl bindings -->
-		<binding client="this.in" server="impl.in" />
-		<binding client="impl.out" server="this.out" />
+		<content class="org.inria.scale.streams.operators.Count" />
 	</component>
 
 	<!-- SortBy -->
 	<component name="sort-by" definition="org.inria.scale.streams.Operator">
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveOperator">
-			<content class="org.inria.scale.streams.operators.SortBy" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.SortByConfiguration">
-				<attribute name="tupleComponent" value="1" />
-				<attribute name="order" value="desc" />
-			</attributes>
-		</component>
-
-		<component name="mailbox" definition="org.inria.scale.streams.WindowController">
-			<content class="org.inria.scale.streams.intaps.MailBox" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="100" />
-			</attributes>
-		</component>
-
-		<!-- Internal bindings -->
-		<binding client="mailbox.processor" server="impl.processor" />
-
-		<!-- Composite + impl bindings -->
-		<binding client="this.in" server="impl.in" />
-		<binding client="impl.out" server="this.out" />
+		<content class="org.inria.scale.streams.operators.SortBy" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.SortByConfiguration">
+			<attribute name="tupleComponent" value="1" />
+			<attribute name="order" value="desc" />
+		</attributes>
 	</component>
 
 	<!-- Application run -->

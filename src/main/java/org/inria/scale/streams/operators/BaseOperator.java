@@ -1,12 +1,8 @@
 package org.inria.scale.streams.operators;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
-import org.inria.scale.streams.InnerProcessor;
 import org.inria.scale.streams.MulticastInStream;
 import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
@@ -14,11 +10,9 @@ import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 
-public abstract class BaseOperator implements InStream, InnerProcessor, BindingController {
+public abstract class BaseOperator implements InStream, BindingController {
 
 	private MulticastInStream out;
-
-	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
 	protected abstract List<? extends Tuple> processTuples(List<Tuple> tuplesToProcess);
 
@@ -26,23 +20,11 @@ public abstract class BaseOperator implements InStream, InnerProcessor, BindingC
 	// ******* InStream *******
 	// //////////////////////////////////////////////
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive(final List<Tuple> newTuples) {
-		tuples.addAll(newTuples);
-	}
-
-	// //////////////////////////////////////////////
-	// ******* InnerProcessor *******
-	// //////////////////////////////////////////////
-
-	@Override
-	public void process() {
-		final List<Tuple> tuplesToProcess = new ArrayList<>(tuples);
-		tuples.removeAll(tuplesToProcess);
-
-		final List<? extends Tuple> processedTuples = processTuples(tuplesToProcess);
-
-		out.receive((List<Tuple>)processedTuples);
+		final List<? extends Tuple> processedTuples = processTuples(newTuples);
+		out.receive((List<Tuple>) processedTuples);
 	}
 
 	// //////////////////////////////////////////////

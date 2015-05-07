@@ -6,5 +6,5 @@
 	<interface name="out" role="client" cardinality="multicast"
 		signature="org.inria.scale.streams.MulticastInStream" />
 
-	<controller desc="composite" />
+	<controller desc="primitive" />
 </definition>
