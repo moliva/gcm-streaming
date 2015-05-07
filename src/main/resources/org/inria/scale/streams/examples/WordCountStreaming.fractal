@@ -5,26 +5,21 @@
 
 	<!-- LineReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
-		<component name="impl" definition="org.inria.scale.streams.PrimitiveInTap">
-			<content class="org.inria.scale.streams.intaps.LineReader" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
-				<attribute name="filePath"
-					value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" />
-				<attribute name="charset" value="UTF-8" />
-			</attributes>
-		</component>
+		<content class="org.inria.scale.streams.intaps.LineReader" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
+			<attribute name="filePath"
+				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" />
+			<attribute name="charset" value="UTF-8" />
+		</attributes>
+	</component>
 
-		<component name="window" definition="org.inria.scale.streams.WindowController">
-			<attributes
-				signature="org.inria.scale.streams.configuration.WindowConfiguration">
-				<attribute name="batchInterval" value="1000" />
-			</attributes>
-		</component>
-
-		<!-- Internal bindings -->
-		<binding client="impl.out" server="window.in" />
-		<binding client="window.out" server="this.out" />
+	<!-- Input window -->
+	<component name="input-window" definition="org.inria.scale.streams.WindowController">
+		<attributes
+			signature="org.inria.scale.streams.configuration.WindowConfiguration">
+			<attribute name="batchInterval" value="1000" />
+		</attributes>
 	</component>
 
 	<!-- SystemOutputWriter -->
@@ -70,7 +65,8 @@
 	<!-- Application run -->
 
 	<!-- Operator bindings -->
-	<binding client="lines-reader.out" server="normalizer.in" />
+	<binding client="lines-reader.out" server="input-window.in" />
+	<binding client="input-window.out" server="normalizer.in" />
 	<binding client="normalizer.out" server="tokenizer.in" />
 	<binding client="tokenizer.out" server="count.in" />
 	<binding client="count.out" server="sort-by.in" />

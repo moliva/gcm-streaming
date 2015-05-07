@@ -25,7 +25,6 @@ public class LineReader extends BaseInTap implements LineReaderConfiguration {
 			while (iterator.hasNext()) {
 				send(Arrays.asList(Unit.with(iterator.nextLine())));
 			}
-
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
