@@ -1,10 +1,9 @@
-package org.inria.scale.streams.intaps;
+package org.inria.scale.streams.base;
 
-import org.inria.scale.streams.MulticastInstreamBindingController;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 
-public abstract class BaseInTap extends MulticastInstreamBindingController implements RunActive {
+public abstract class BaseInTap extends MulticastInStreamBindingController implements RunActive {
 
 	private boolean firstTime = true;
 

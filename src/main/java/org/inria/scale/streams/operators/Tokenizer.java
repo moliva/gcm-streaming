@@ -6,6 +6,7 @@ import static com.google.common.base.Predicates.not;
 import java.util.Collections;
 import java.util.List;
 
+import org.inria.scale.streams.base.BaseOperator;
 import org.javatuples.Tuple;
 import org.javatuples.Unit;
 

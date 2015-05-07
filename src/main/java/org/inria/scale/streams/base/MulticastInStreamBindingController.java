@@ -1,14 +1,15 @@
-package org.inria.scale.streams;
+package org.inria.scale.streams.base;
 
 import java.util.List;
 
+import org.inria.scale.streams.MulticastInStream;
 import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 
-public abstract class MulticastInstreamBindingController implements BindingController {
+public abstract class MulticastInStreamBindingController implements BindingController {
 
 	private MulticastInStream out;
 

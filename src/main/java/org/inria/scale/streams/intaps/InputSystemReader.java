@@ -3,6 +3,7 @@ package org.inria.scale.streams.intaps;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import org.inria.scale.streams.base.BaseInTap;
 import org.javatuples.Unit;
 
 public class InputSystemReader extends BaseInTap {

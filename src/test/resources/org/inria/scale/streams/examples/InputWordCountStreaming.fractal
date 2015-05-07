@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.inria.scale.streams.examples.WordCountStreaming">
+<definition name="org.inria.scale.streams.examples.InputWordCountStreaming">
 
-	<!-- LineReader -->
+	<!-- InputSystemReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
-		<content class="org.inria.scale.streams.intaps.LineReader" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
-			<attribute name="filePath"
-				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/main/resources/lines.txt" />
-			<attribute name="charset" value="UTF-8" />
-		</attributes>
+		<content class="org.inria.scale.streams.intaps.InputSystemReader" />
 	</component>
 
 	<!-- Input window -->
-	<component name="input-window" definition="org.inria.scale.streams.WindowController">
+	<component name="input-window" definition="org.inria.scale.streams.Window">
 		<attributes
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
 			<attribute name="batchInterval" value="1000" />
 		</attributes>
 	</component>
 
-	<!-- SystemOutputWriter -->
-	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
-		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
+	<!-- FileWriter -->
+	<component name="file-writer" definition="org.inria.scale.streams.OutTap">
+		<content class="org.inria.scale.streams.outtaps.FileWriter" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.FileWriterConfiguration">
+			<attribute name="directoryPath" value="out" />
+		</attributes>
 	</component>
 
 	<!-- SeparatedValuesTransformer -->
@@ -35,6 +33,11 @@
 			signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
 			<attribute name="separator" value="&#009;" /> <!-- tab separated -->
 		</attributes>
+	</component>
+
+	<!-- SystemOutputWriter -->
+	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
+		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
 	</component>
 
 	<!-- TextNormalizer -->
@@ -62,8 +65,6 @@
 		</attributes>
 	</component>
 
-	<!-- Application run -->
-
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
 	<binding client="input-window.out" server="normalizer.in" />
@@ -72,4 +73,6 @@
 	<binding client="count.out" server="sort-by.in" />
 	<binding client="sort-by.out" server="csv-transformer.in" />
 	<binding client="csv-transformer.out" server="system-output-writer.in" />
+
+	<binding client="normalizer.out" server="file-writer.in" />
 </definition>

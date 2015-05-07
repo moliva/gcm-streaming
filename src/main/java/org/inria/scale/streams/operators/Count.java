@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.inria.scale.streams.base.BaseOperator;
 import org.javatuples.Pair;
 import org.javatuples.Tuple;
 

@@ -1,4 +1,4 @@
-package org.inria.scale.streams.intaps;
+package org.inria.scale.streams.operators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,20 +8,14 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
-import org.inria.scale.streams.MulticastInStream;
+import org.inria.scale.streams.base.MulticastInStreamBindingController;
 import org.inria.scale.streams.configuration.WindowConfiguration;
 import org.javatuples.Tuple;
-import org.objectweb.fractal.api.NoSuchInterfaceException;
-import org.objectweb.fractal.api.control.BindingController;
-import org.objectweb.fractal.api.control.IllegalBindingException;
-import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
 
-public class MailBox implements InStream, BindingController, WindowConfiguration, RunActive {
-
-	private MulticastInStream out;
+public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration, RunActive {
 
 	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
@@ -49,7 +43,7 @@ public class MailBox implements InStream, BindingController, WindowConfiguration
 	public void process() {
 		final List<Tuple> tuplesToSend = new ArrayList<>(tuples);
 		tuples.removeAll(tuplesToSend);
-		out.receive(tuplesToSend);
+		send(tuplesToSend);
 	}
 
 	// //////////////////////////////////////////////
@@ -59,36 +53,6 @@ public class MailBox implements InStream, BindingController, WindowConfiguration
 	@Override
 	public void receive(final List<Tuple> newTuples) {
 		tuples.addAll(newTuples);
-	}
-
-	// //////////////////////////////////////////////
-	// ******* BindingController *******
-	// //////////////////////////////////////////////
-
-	@Override
-	public String[] listFc() {
-		return new String[] { "out" };
-	}
-
-	@Override
-	public Object lookupFc(final String clientItfName) throws NoSuchInterfaceException {
-		if (clientItfName.equals("out"))
-			return out;
-		return null;
-	}
-
-	@Override
-	public void bindFc(final String clientItfName, final Object serverItf) throws NoSuchInterfaceException,
-	IllegalBindingException, IllegalLifeCycleException {
-		if (clientItfName.equals("out"))
-			out = (MulticastInStream) serverItf;
-	}
-
-	@Override
-	public void unbindFc(final String clientItfName) throws NoSuchInterfaceException, IllegalBindingException,
-	IllegalLifeCycleException {
-		if (clientItfName.equals("out"))
-			out = null;
 	}
 
 	// //////////////////////////////////////////////

@@ -2,6 +2,7 @@ package org.inria.scale.streams.operators;
 
 import java.util.List;
 
+import org.inria.scale.streams.base.BaseOperator;
 import org.inria.scale.streams.configuration.SeparatedValuesConfiguration;
 import org.javatuples.Tuple;
 import org.javatuples.Unit;

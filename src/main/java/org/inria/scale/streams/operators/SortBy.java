@@ -3,6 +3,7 @@ package org.inria.scale.streams.operators;
 import java.util.Comparator;
 import java.util.List;
 
+import org.inria.scale.streams.base.BaseOperator;
 import org.inria.scale.streams.configuration.SortByConfiguration;
 import org.javatuples.Tuple;
 

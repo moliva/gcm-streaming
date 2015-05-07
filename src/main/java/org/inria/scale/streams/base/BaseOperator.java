@@ -1,12 +1,11 @@
-package org.inria.scale.streams.operators;
+package org.inria.scale.streams.base;
 
 import java.util.List;
 
 import org.inria.scale.streams.InStream;
-import org.inria.scale.streams.MulticastInstreamBindingController;
 import org.javatuples.Tuple;
 
-public abstract class BaseOperator extends MulticastInstreamBindingController implements InStream {
+public abstract class BaseOperator extends MulticastInStreamBindingController implements InStream {
 
 	protected abstract List<? extends Tuple> processTuples(List<Tuple> tuplesToProcess);
 

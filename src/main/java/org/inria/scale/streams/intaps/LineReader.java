@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import org.inria.scale.streams.base.BaseInTap;
 import org.inria.scale.streams.configuration.LineReaderConfiguration;
 import org.javatuples.Unit;
 
