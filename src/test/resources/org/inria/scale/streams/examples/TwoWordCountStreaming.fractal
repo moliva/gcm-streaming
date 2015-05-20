@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
+
+<definition name="org.inria.scale.streams.examples.TwoWordCountStreaming">
+
+	<!-- InputSystemReader -->
+	<component name="input-system" definition="org.inria.scale.streams.InTap">
+		<content class="org.inria.scale.streams.intaps.InputSystemReader" />
+	</component>
+
+	<!-- LineReader -->
+	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
+		<content class="org.inria.scale.streams.intaps.LineReader" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
+			<attribute name="filePath"
+				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/test/resources/lines.txt" />
+			<attribute name="charset" value="UTF-8" />
+		</attributes>
+	</component>
+
+	<!-- Input window -->
+	<component name="input-window" definition="org.inria.scale.streams.Window">
+		<attributes
+			signature="org.inria.scale.streams.configuration.WindowConfiguration">
+			<attribute name="batchInterval" value="1000" />
+		</attributes>
+	</component>
+
+	<!-- SystemOutputWriter -->
+	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
+		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
+	</component>
+
+	<!-- SeparatedValuesTransformer -->
+	<component name="csv-transformer" definition="org.inria.scale.streams.Operator">
+		<content
+			class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
+			<attribute name="separator" value="&#009;" /> <!-- tab separated -->
+		</attributes>
+	</component>
+
+	<!-- CrossProduct -->
+	<component name="cross" definition="org.inria.scale.streams.Combinator">
+		<component name="in0">
+			<interface name="in" role="server"
+				signature="org.inria.scale.streams.InStream" />
+			<interface name="out" role="client" cardinality="multicast"
+				signature="org.inria.scale.streams.MultipleInStream" />
+
+			<content class="org.inria.scale.streams.base.SingleToMultipleInStream" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.SingleToMultipleInStreamConfiguration">
+				<attribute name="inputSource" value="0" />
+			</attributes>
+		</component>
+
+		<component name="in1">
+			<interface name="in" role="server"
+				signature="org.inria.scale.streams.InStream" />
+			<interface name="out" role="client" cardinality="multicast"
+				signature="org.inria.scale.streams.MultipleInStream" />
+			<content class="org.inria.scale.streams.base.SingleToMultipleInStream" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.SingleToMultipleInStreamConfiguration">
+				<attribute name="inputSource" value="1" />
+			</attributes>
+		</component>
+
+		<component name="impl">
+			<interface name="in" role="server"
+				signature="org.inria.scale.streams.MultipleInStream" />
+			<interface name="out" role="client" cardinality="multicast"
+				signature="org.inria.scale.streams.MulticastInStream" />
+
+			<content class="org.inria.scale.streams.operators.CartesianProduct" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
+				<attribute name="batchInterval" value="5000" />
+			</attributes>
+		</component>
+
+		<binding client="this.in0" server="in0.in" />
+		<binding client="this.in1" server="in1.in" />
+
+		<binding client="in0.out" server="impl.in" />
+		<binding client="in1.out" server="impl.in" />
+
+		<binding client="impl.out" server="this.out" />
+	</component>
+
+	<!-- TextNormalizer -->
+	<component name="normalizer" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.TextNormalizer" />
+	</component>
+
+	<!-- Tokenizer -->
+	<component name="tokenizer" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.Tokenizer" />
+	</component>
+
+	<!-- Count -->
+	<component name="count" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.Count" />
+	</component>
+
+	<!-- SortBy -->
+	<component name="sort-by" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.SortBy" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.SortByConfiguration">
+			<attribute name="tupleComponent" value="1" />
+			<attribute name="order" value="desc" />
+		</attributes>
+	</component>
+
+	<!-- Application run -->
+
+	<!-- Operator bindings -->
+	<binding client="lines-reader.out" server="input-window.in" />
+	<binding client="input-window.out" server="normalizer.in" />
+	<binding client="normalizer.out" server="tokenizer.in" />
+
+	<binding client="tokenizer.out" server="cross.in0" />
+	<binding client="input-system.out" server="cross.in1" />
+	<binding client="cross.out" server="count.in" />
+
+	<binding client="count.out" server="sort-by.in" />
+	<binding client="sort-by.out" server="csv-transformer.in" />
+	<binding client="csv-transformer.out" server="system-output-writer.in" />
+</definition>
