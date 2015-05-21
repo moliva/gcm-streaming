@@ -44,31 +44,6 @@
 
 	<!-- CrossProduct -->
 	<component name="cross" definition="org.inria.scale.streams.Combinator">
-		<component name="in0">
-			<interface name="in" role="server"
-				signature="org.inria.scale.streams.InStream" />
-			<interface name="out" role="client" cardinality="multicast"
-				signature="org.inria.scale.streams.MultipleInStream" />
-
-			<content class="org.inria.scale.streams.base.SingleToMultipleInStream" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.SingleToMultipleInStreamConfiguration">
-				<attribute name="inputSource" value="0" />
-			</attributes>
-		</component>
-
-		<component name="in1">
-			<interface name="in" role="server"
-				signature="org.inria.scale.streams.InStream" />
-			<interface name="out" role="client" cardinality="multicast"
-				signature="org.inria.scale.streams.MultipleInStream" />
-			<content class="org.inria.scale.streams.base.SingleToMultipleInStream" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.SingleToMultipleInStreamConfiguration">
-				<attribute name="inputSource" value="1" />
-			</attributes>
-		</component>
-
 		<component name="impl">
 			<interface name="in" role="server"
 				signature="org.inria.scale.streams.MultipleInStream" />
@@ -81,14 +56,6 @@
 				<attribute name="batchInterval" value="5000" />
 			</attributes>
 		</component>
-
-		<binding client="this.in0" server="in0.in" />
-		<binding client="this.in1" server="in1.in" />
-
-		<binding client="in0.out" server="impl.in" />
-		<binding client="in1.out" server="impl.in" />
-
-		<binding client="impl.out" server="this.out" />
 	</component>
 
 	<!-- TextNormalizer -->
