@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.MultipleInStream;
-import org.inria.scale.streams.configuration.SingleToMultipleInStreamConfiguration;
+import org.inria.scale.streams.configuration.RouterConfiguration;
 import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
 import org.objectweb.fractal.api.control.BindingController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 
-public class SingleToMultipleInStream implements InStream, BindingController, SingleToMultipleInStreamConfiguration {
+public class Router implements InStream, BindingController, RouterConfiguration {
 
 	private MultipleInStream out;
 	private int inputSource;

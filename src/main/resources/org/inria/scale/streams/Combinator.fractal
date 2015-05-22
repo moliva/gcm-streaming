@@ -13,9 +13,9 @@
 		<interface name="out" role="client" cardinality="multicast"
 			signature="org.inria.scale.streams.MultipleInStream" />
 
-		<content class="org.inria.scale.streams.base.SingleToMultipleInStream" />
+		<content class="org.inria.scale.streams.base.Router" />
 		<attributes
-			signature="org.inria.scale.streams.configuration.SingleToMultipleInStreamConfiguration">
+			signature="org.inria.scale.streams.configuration.RouterConfiguration">
 			<attribute name="inputSource" value="0" />
 		</attributes>
 	</component>
@@ -24,9 +24,9 @@
 		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
 		<interface name="out" role="client" cardinality="multicast"
 			signature="org.inria.scale.streams.MultipleInStream" />
-		<content class="org.inria.scale.streams.base.SingleToMultipleInStream" />
+		<content class="org.inria.scale.streams.base.Router" />
 		<attributes
-			signature="org.inria.scale.streams.configuration.SingleToMultipleInStreamConfiguration">
+			signature="org.inria.scale.streams.configuration.RouterConfiguration">
 			<attribute name="inputSource" value="1" />
 		</attributes>
 	</component>
