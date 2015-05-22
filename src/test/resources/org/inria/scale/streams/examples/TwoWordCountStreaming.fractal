@@ -44,12 +44,8 @@
 
 	<!-- CrossProduct -->
 	<component name="cross" definition="org.inria.scale.streams.Combinator">
-		<component name="impl">
-			<interface name="in" role="server"
-				signature="org.inria.scale.streams.MultipleInStream" />
-			<interface name="out" role="client" cardinality="multicast"
-				signature="org.inria.scale.streams.MulticastInStream" />
-
+		<component name="impl"
+			definition="org.inria.scale.streams.CombinatorImplementation">
 			<content class="org.inria.scale.streams.operators.CartesianProduct" />
 			<attributes
 				signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
