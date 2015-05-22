@@ -15,7 +15,7 @@ public abstract class BaseInTap extends MulticastInStreamBindingController imple
 	 * </p>
 	 * <p>
 	 * <b>Note that this method should call the provided
-	 * {@link MulticastInStreamBindingController#send(java.util.List)} method
+	 * {@link MulticastInStreamBindingController#send(int, java.util.List)} method
 	 * whenever a new batch of tuples is prepared to be sent.</b>
 	 * </p>
 	 */

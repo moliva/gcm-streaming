@@ -8,11 +8,7 @@
 		signature="org.inria.scale.streams.MulticastInStream" />
 
 
-	<component name="in0">
-		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
-		<interface name="out" role="client" cardinality="multicast"
-			signature="org.inria.scale.streams.MultipleInStream" />
-
+	<component name="in0" definition="org.inria.scale.streams.Operator">
 		<content class="org.inria.scale.streams.base.Router" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.RouterConfiguration">
@@ -20,17 +16,13 @@
 		</attributes>
 	</component>
 
-	<component name="in1">
-		<interface name="in" role="server" signature="org.inria.scale.streams.InStream" />
-		<interface name="out" role="client" cardinality="multicast"
-			signature="org.inria.scale.streams.MultipleInStream" />
+	<component name="in1" definition="org.inria.scale.streams.Operator">
 		<content class="org.inria.scale.streams.base.Router" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.RouterConfiguration">
 			<attribute name="inputSource" value="1" />
 		</attributes>
 	</component>
-
 
 	<binding client="this.in0" server="in0.in" />
 	<binding client="this.in1" server="in1.in" />

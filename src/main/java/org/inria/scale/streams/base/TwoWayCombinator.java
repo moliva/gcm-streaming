@@ -9,14 +9,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.inria.scale.streams.MultipleInStream;
+import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.configuration.CombinatorConfiguration;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
 
-public abstract class TwoWayCombinator extends MulticastInStreamBindingController implements MultipleInStream,
+public abstract class TwoWayCombinator extends MulticastInStreamBindingController implements InStream,
 		CombinatorConfiguration, RunActive {
 
 	private long batchIntervalMilliseconds = 100;
@@ -58,7 +58,7 @@ public abstract class TwoWayCombinator extends MulticastInStreamBindingControlle
 			return;
 		}
 
-		send(process(tuples0, tuples1));
+		send(0, process(tuples0, tuples1));
 	}
 
 	private List<Tuple> removeAllTuples(final Queue<Tuple> tuples) {

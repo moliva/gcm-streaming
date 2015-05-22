@@ -12,7 +12,7 @@ public class InputSystemReader extends BaseInTap {
 	protected void startStreaming() {
 		try (final Scanner scanIn = new Scanner(System.in)) {
 			while (scanIn.hasNext())
-				send(Arrays.asList(Unit.with(scanIn.nextLine())));
+				send(0, Arrays.asList(Unit.with(scanIn.nextLine())));
 		}
 	}
 

@@ -3,6 +3,7 @@ package org.inria.scale.streams.base;
 import java.util.List;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.base.exceptions.RoutingException;
 import org.javatuples.Tuple;
 
 public abstract class BaseOperator extends MulticastInStreamBindingController implements InStream {
@@ -23,8 +24,13 @@ public abstract class BaseOperator extends MulticastInStreamBindingController im
 	// //////////////////////////////////////////////
 
 	@Override
-	public void receive(final List<Tuple> newTuples) {
-		send(processTuples(newTuples));
+	public void receive(final int inputSource, final List<Tuple> newTuples) {
+		if (inputSource > 0) {
+			throw new RoutingException("this operator doesn't allow an input source greater than 0, invalid input source "
+					+ inputSource);
+		}
+
+		send(0, processTuples(newTuples));
 	}
 
 }
