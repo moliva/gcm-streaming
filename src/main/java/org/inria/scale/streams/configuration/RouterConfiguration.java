@@ -4,8 +4,8 @@ import org.objectweb.fractal.api.control.AttributeController;
 
 public interface RouterConfiguration extends AttributeController {
 
-	int getInputSource();
+	int getOutputSource();
 
-	void setInputSource(int inputSource);
+	void setOutputSource(int outputSource);
 
 }

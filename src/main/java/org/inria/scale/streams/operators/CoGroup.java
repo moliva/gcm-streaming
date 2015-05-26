@@ -15,8 +15,8 @@ import com.google.common.collect.Sets;
 
 public class CoGroup extends TwoWayCombinator implements CoGroupConfiguration {
 
-	private int key0;
-	private int key1;
+	private int indexKey0;
+	private int indexKey1;
 
 	// //////////////////////////////////////////////
 	// ******* TwoWayCombinator *******
@@ -34,7 +34,7 @@ public class CoGroup extends TwoWayCombinator implements CoGroupConfiguration {
 
 			@Override
 			public Tuple apply(final Object key) {
-				return Triplet.with(key, collectValues(key, key0, tuples0), collectValues(key, key1, tuples1));
+				return Triplet.with(key, collectValues(key, indexKey0, tuples0), collectValues(key, indexKey1, tuples1));
 			}
 		};
 	}
@@ -50,8 +50,8 @@ public class CoGroup extends TwoWayCombinator implements CoGroupConfiguration {
 	}
 
 	private Set<Object> collectKeys(final List<Tuple> tuples0, final List<Tuple> tuples1) {
-		final Set<Object> keys0 = collectKeys(key0, tuples0);
-		final Set<Object> keys1 = collectKeys(key1, tuples1);
+		final Set<Object> keys0 = collectKeys(indexKey0, tuples0);
+		final Set<Object> keys1 = collectKeys(indexKey1, tuples1);
 
 		return Sets.union(keys0, keys1);
 	}
@@ -72,23 +72,23 @@ public class CoGroup extends TwoWayCombinator implements CoGroupConfiguration {
 	// //////////////////////////////////////////////
 
 	@Override
-	public int getKey0() {
-		return key0;
+	public int getIndexKey0() {
+		return indexKey0;
 	}
 
 	@Override
-	public void setKey0(final int key0) {
-		this.key0 = key0;
+	public void setIndexKey0(final int indexKey0) {
+		this.indexKey0 = indexKey0;
 	}
 
 	@Override
-	public int getKey1() {
-		return key1;
+	public int getIndexKey1() {
+		return indexKey1;
 	}
 
 	@Override
-	public void setKey1(final int key1) {
-		this.key1 = key1;
+	public void setIndexKey1(final int indexKey1) {
+		this.indexKey1 = indexKey1;
 	}
 
 }

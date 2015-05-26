@@ -12,7 +12,7 @@
 		<content class="org.inria.scale.streams.base.Router" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.RouterConfiguration">
-			<attribute name="inputSource" value="0" />
+			<attribute name="outputSource" value="0" />
 		</attributes>
 	</component>
 
@@ -20,7 +20,7 @@
 		<content class="org.inria.scale.streams.base.Router" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.RouterConfiguration">
-			<attribute name="inputSource" value="1" />
+			<attribute name="outputSource" value="1" />
 		</attributes>
 	</component>
 
