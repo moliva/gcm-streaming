@@ -3,34 +3,17 @@
 
 <definition name="org.inria.scale.streams.Combinator">
 	<interface name="in0" role="server" signature="org.inria.scale.streams.InStream" />
-	<interface name="in1" role="server" signature="org.inria.scale.streams.InStream" />
+	<interface name="in1" role="server" signature="org.inria.scale.streams.InStream"
+		interceptors="interceptor.intercept" />
+
 	<interface name="out" role="client" cardinality="multicast"
 		signature="org.inria.scale.streams.MulticastInStream" />
 
-
-	<component name="in0" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.base.Router" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.RouterConfiguration">
-			<attribute name="outputSource" value="0" />
-		</attributes>
-	</component>
-
-	<component name="in1" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.base.Router" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.RouterConfiguration">
-			<attribute name="outputSource" value="1" />
-		</attributes>
-	</component>
-
-	<binding client="this.in0" server="in0.in" />
-	<binding client="this.in1" server="in1.in" />
-
-	<binding client="in0.out" server="impl.in" />
-	<binding client="in1.out" server="impl.in" />
-
-	<binding client="impl.out" server="this.out" />
-
-	<controller desc="primitive" />
+	<controller desc="/config-adl.xml">
+		<component name="interceptor">
+			<interface name="intercept" role="server"
+				signature="org.objectweb.proactive.core.component.interception.Interceptor" />
+			<content class="org.inria.scale.streams.interceptors.CombinatorInterceptor" />
+		</component>
+	</controller>
 </definition>

@@ -44,13 +44,11 @@
 
 	<!-- CrossProduct -->
 	<component name="cross" definition="org.inria.scale.streams.Combinator">
-		<component name="impl" definition="org.inria.scale.streams.Operator">
-			<content class="org.inria.scale.streams.operators.CartesianProduct" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
-				<attribute name="batchInterval" value="5000" />
-			</attributes>
-		</component>
+		<content class="org.inria.scale.streams.operators.CartesianProduct" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
+			<attribute name="batchInterval" value="5000" />
+		</attributes>
 	</component>
 
 	<!-- TextNormalizer -->
