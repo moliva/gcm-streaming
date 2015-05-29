@@ -131,14 +131,14 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	// //////////////////////////////////////////////
 
 	private void validateTotalInputSourceNumber(final int inputSourceNumber) {
-		if (inputSourceNumber > 0) {
+		if (inputSourceNumber < 1) {
 			throw new RoutingException("invalid total input source number: " + inputSourceNumber
-					+ ". Thtotal input source number should be at least 1");
+					+ ". Total input source number should be at least 1");
 		}
 	}
 
 	private void validateInputSource(final int inputSource) {
-		if (inputSource < inputSourceNumber) {
+		if (inputSource > inputSourceNumber) {
 			throw new RoutingException("invalid input source: " + inputSource
 					+ ". this operator can't receive an input higher than " + (inputSourceNumber - 1));
 		}

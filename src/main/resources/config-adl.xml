@@ -78,7 +78,7 @@
 		<!-- Specific controllers -->
 		<controller>
 			<interface>org.objectweb.proactive.core.component.interception.Interceptor</interface>
-			<implementation>org.inria.scale.streams.interceptors.RouterController</implementation>
+			<implementation>org.inria.scale.streams.controllers.RouterController</implementation>
 		</controller>
 	</controllers>
 </componentConfiguration>

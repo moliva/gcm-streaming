@@ -1,4 +1,4 @@
-package org.inria.scale.streams.interceptors;
+package org.inria.scale.streams.controllers;
 
 import org.objectweb.fractal.api.Component;
 import org.objectweb.fractal.api.factory.InstantiationException;
