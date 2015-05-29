@@ -37,7 +37,18 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	 */
 	protected abstract List<? extends Tuple> process();
 
+	/**
+	 * The constructor for multiple sources combinators. A number of total input
+	 * sources should be provided for each combinator implementation. The number
+	 * should be a natural number, greater than 0, and every input source will be
+	 * counted starting in 0.
+	 * 
+	 * @param inputSourceNumber
+	 *          Total number of input sources for the defined combinator
+	 */
 	public MultipleSourcesCombinator(final int inputSourceNumber) {
+		validateTotalInputSourceNumber(inputSourceNumber);
+
 		this.inputSourceNumber = inputSourceNumber;
 		initializeQueues();
 	}
@@ -101,13 +112,6 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 		queue.addAll(newTuples);
 	}
 
-	private void validateInputSource(final int inputSource) {
-		if (inputSource < inputSourceNumber) {
-			throw new RoutingException("invalid input source: " + inputSource
-					+ ". this operator can't receive an input higher than " + (inputSourceNumber - 1));
-		}
-	}
-
 	// //////////////////////////////////////////////
 	// ******* CombinatorConfiguration *******
 	// //////////////////////////////////////////////
@@ -120,6 +124,24 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	@Override
 	public long getBatchInterval() {
 		return batchIntervalMilliseconds;
+	}
+
+	// //////////////////////////////////////////////
+	// ******* validations *******
+	// //////////////////////////////////////////////
+
+	private void validateTotalInputSourceNumber(final int inputSourceNumber) {
+		if (inputSourceNumber > 0) {
+			throw new RoutingException("invalid total input source number: " + inputSourceNumber
+					+ ". Thtotal input source number should be at least 1");
+		}
+	}
+
+	private void validateInputSource(final int inputSource) {
+		if (inputSource < inputSourceNumber) {
+			throw new RoutingException("invalid input source: " + inputSource
+					+ ". this operator can't receive an input higher than " + (inputSourceNumber - 1));
+		}
 	}
 
 }
