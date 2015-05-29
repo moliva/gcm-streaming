@@ -11,6 +11,7 @@ import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 
 public abstract class MulticastInStreamBindingController implements BindingController {
 
+	private static final String CLIENT_INTERFACE_NAME = "out";
 	private static final int DEFAULT_INPUT_SOURCE = 0;
 
 	private MulticastInStream out;
@@ -26,28 +27,32 @@ public abstract class MulticastInStreamBindingController implements BindingContr
 
 	@Override
 	public String[] listFc() {
-		return new String[] { "out" };
+		return new String[] { CLIENT_INTERFACE_NAME };
 	}
 
 	@Override
 	public Object lookupFc(final String clientItfName) throws NoSuchInterfaceException {
-		if (clientItfName.equals("out"))
+		if (clientItfName.equals(CLIENT_INTERFACE_NAME)) {
 			return out;
+		}
+
 		return null;
 	}
 
 	@Override
 	public void bindFc(final String clientItfName, final Object serverItf) throws NoSuchInterfaceException,
 			IllegalBindingException, IllegalLifeCycleException {
-		if (clientItfName.equals("out"))
+		if (clientItfName.equals(CLIENT_INTERFACE_NAME)) {
 			out = (MulticastInStream) serverItf;
+		}
 	}
 
 	@Override
 	public void unbindFc(final String clientItfName) throws NoSuchInterfaceException, IllegalBindingException,
 			IllegalLifeCycleException {
-		if (clientItfName.equals("out"))
+		if (clientItfName.equals(CLIENT_INTERFACE_NAME)) {
 			out = null;
+		}
 	}
 
 }

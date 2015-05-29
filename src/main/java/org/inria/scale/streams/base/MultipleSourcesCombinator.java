@@ -10,24 +10,42 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.base.exceptions.RoutingException;
 import org.inria.scale.streams.configuration.CombinatorConfiguration;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
 
-public abstract class TwoWayCombinator extends MulticastInStreamBindingController implements InStream,
+public abstract class MultipleSourcesCombinator extends MulticastInStreamBindingController implements InStream,
 		CombinatorConfiguration, RunActive {
 
 	private long batchIntervalMilliseconds = 100;
 
+	private final int inputSourceNumber;
 	private final Map<Integer, Queue<Tuple>> tuplesMap = new HashMap<>();
 
-	protected abstract List<? extends Tuple> process(List<Tuple> tuples0, List<Tuple> tuples1);
+	/**
+	 * This is the method to be implemented by any subclass defining a certain
+	 * number of input sources. The logic for getting the actual tuples from the
+	 * queues and processing them should be implemented here. The API for doing
+	 * this currently allows you to call the {@link #removeAllTuples(int)} passing
+	 * the input source index as a parameter.
+	 * 
+	 * @return The list of tuples to be sent to the following operators in the
+	 *         application
+	 */
+	protected abstract List<? extends Tuple> process();
 
-	public TwoWayCombinator() {
-		tuplesMap.put(0, new ConcurrentLinkedQueue<Tuple>());
-		tuplesMap.put(1, new ConcurrentLinkedQueue<Tuple>());
+	public MultipleSourcesCombinator(final int inputSourceNumber) {
+		this.inputSourceNumber = inputSourceNumber;
+		initializeQueues();
+	}
+
+	private void initializeQueues() {
+		for (int i = 0; i < inputSourceNumber; i++) {
+			tuplesMap.put(i, new ConcurrentLinkedQueue<Tuple>());
+		}
 	}
 
 	// //////////////////////////////////////////////
@@ -41,7 +59,7 @@ public abstract class TwoWayCombinator extends MulticastInStreamBindingControlle
 
 			@Override
 			public void run() {
-				process();
+				send(process());
 			}
 		}, batchIntervalMilliseconds, batchIntervalMilliseconds);
 
@@ -53,16 +71,21 @@ public abstract class TwoWayCombinator extends MulticastInStreamBindingControlle
 		timer.cancel();
 	}
 
-	public void process() {
-		final List<Tuple> tuples0 = removeAllTuples(tuplesMap.get(0));
-		final List<Tuple> tuples1 = removeAllTuples(tuplesMap.get(1));
+	/**
+	 * Allows the user to get all the tuples that are currently enqueued for a
+	 * specific input source while removing them from the queue afterwardss.
+	 * 
+	 * @param inputSource
+	 *          Input source from which to take and remove the tuples
+	 * @return The list of tuples enqueued for the specific input source
+	 */
+	protected List<Tuple> removeAllTuples(final int inputSource) {
+		validateInputSource(inputSource);
 
-		send(process(tuples0, tuples1));
-	}
-
-	private List<Tuple> removeAllTuples(final Queue<Tuple> tuples) {
+		final Queue<Tuple> tuples = tuplesMap.get(inputSource);
 		final List<Tuple> tuplesRemoved = new ArrayList<>(tuples);
 		tuples.removeAll(tuplesRemoved);
+
 		return tuplesRemoved;
 	}
 
@@ -72,16 +95,21 @@ public abstract class TwoWayCombinator extends MulticastInStreamBindingControlle
 
 	@Override
 	public void receive(final int inputSource, final List<Tuple> newTuples) {
-		if (!tuplesMap.containsKey(inputSource)) {
-			tuplesMap.put(inputSource, new ConcurrentLinkedQueue<Tuple>());
-		}
+		validateInputSource(inputSource);
 
 		final Queue<Tuple> queue = tuplesMap.get(inputSource);
 		queue.addAll(newTuples);
 	}
 
+	private void validateInputSource(final int inputSource) {
+		if (inputSource < inputSourceNumber) {
+			throw new RoutingException("invalid input source: " + inputSource
+					+ ". this operator can't receive an input higher than " + (inputSourceNumber - 1));
+		}
+	}
+
 	// //////////////////////////////////////////////
-	// ******* WindowConfiguration *******
+	// ******* CombinatorConfiguration *******
 	// //////////////////////////////////////////////
 
 	@Override

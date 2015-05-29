@@ -2,14 +2,14 @@ package org.inria.scale.streams.operators;
 
 import java.util.List;
 
-import org.inria.scale.streams.base.TwoWayCombinator;
+import org.inria.scale.streams.base.BaseTwoSourcesCombinator;
 import org.javatuples.Pair;
 import org.javatuples.Tuple;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 
-public class CartesianProduct extends TwoWayCombinator {
+public class CartesianProduct extends BaseTwoSourcesCombinator {
 
 	// //////////////////////////////////////////////
 	// ******* TwoWayCombinator *******
