@@ -127,7 +127,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	}
 
 	// //////////////////////////////////////////////
-	// ******* validations *******
+	// ******* Validations *******
 	// //////////////////////////////////////////////
 
 	private void validateTotalInputSourceNumber(final int inputSourceNumber) {

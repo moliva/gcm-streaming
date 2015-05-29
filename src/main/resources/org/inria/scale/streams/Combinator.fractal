@@ -9,5 +9,5 @@
 	<interface name="out" role="client" cardinality="multicast"
 		signature="org.inria.scale.streams.MulticastInStream" />
 
-	<controller desc="/config-adl.xml" />
+	<controller desc="/routing-config.xml" />
 </definition>
