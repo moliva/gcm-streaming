@@ -77,8 +77,8 @@
 		</controller>
 		<!-- Specific controllers -->
 		<controller>
-			<interface>org.inria.scale.streams.interceptors.RouterController</interface>
-			<implementation>org.inria.scale.streams.interceptors.CombinatorInterceptor</implementation>
+			<interface>org.objectweb.proactive.core.component.interception.Interceptor</interface>
+			<implementation>org.inria.scale.streams.interceptors.RouterController</implementation>
 		</controller>
 	</controllers>
 </componentConfiguration>

@@ -4,16 +4,10 @@
 <definition name="org.inria.scale.streams.Combinator">
 	<interface name="in0" role="server" signature="org.inria.scale.streams.InStream" />
 	<interface name="in1" role="server" signature="org.inria.scale.streams.InStream"
-		interceptors="interceptor.intercept" />
+		interceptors="this.router-controller" />
 
 	<interface name="out" role="client" cardinality="multicast"
 		signature="org.inria.scale.streams.MulticastInStream" />
 
-	<controller desc="/config-adl.xml">
-		<component name="interceptor">
-			<interface name="intercept" role="server"
-				signature="org.objectweb.proactive.core.component.interception.Interceptor" />
-			<content class="org.inria.scale.streams.interceptors.CombinatorInterceptor" />
-		</component>
-	</controller>
+	<controller desc="/config-adl.xml" />
 </definition>
