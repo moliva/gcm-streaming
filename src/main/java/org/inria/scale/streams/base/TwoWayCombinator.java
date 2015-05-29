@@ -30,6 +30,10 @@ public abstract class TwoWayCombinator extends MulticastInStreamBindingControlle
 		tuplesMap.put(1, new ConcurrentLinkedQueue<Tuple>());
 	}
 
+	// //////////////////////////////////////////////
+	// ******* RunActive *******
+	// //////////////////////////////////////////////
+
 	@Override
 	public void runActivity(final Body body) {
 		final Timer timer = new Timer();
@@ -52,11 +56,6 @@ public abstract class TwoWayCombinator extends MulticastInStreamBindingControlle
 	public void process() {
 		final List<Tuple> tuples0 = removeAllTuples(tuplesMap.get(0));
 		final List<Tuple> tuples1 = removeAllTuples(tuplesMap.get(1));
-
-		if (tuples0.isEmpty() || tuples1.isEmpty()) {
-			// don't process if one of the two is empty
-			return;
-		}
 
 		send(process(tuples0, tuples1));
 	}
