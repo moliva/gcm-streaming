@@ -17,9 +17,13 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
 
 public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration, RunActive {
 
+	private long batchIntervalMilliseconds = 100;
+
 	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
-	private long batchIntervalMilliseconds = 100;
+	// //////////////////////////////////////////////
+	// ******* RunActive *******
+	// //////////////////////////////////////////////
 
 	@Override
 	public void runActivity(final Body body) {
@@ -28,7 +32,7 @@ public class Window extends MulticastInStreamBindingController implements InStre
 
 			@Override
 			public void run() {
-				process();
+				send(process());
 			}
 		}, batchIntervalMilliseconds, batchIntervalMilliseconds);
 
@@ -40,10 +44,10 @@ public class Window extends MulticastInStreamBindingController implements InStre
 		timer.cancel();
 	}
 
-	public void process() {
+	public List<Tuple> process() {
 		final List<Tuple> tuplesToSend = new ArrayList<>(tuples);
 		tuples.removeAll(tuplesToSend);
-		send(tuplesToSend);
+		return tuplesToSend;
 	}
 
 	// //////////////////////////////////////////////
