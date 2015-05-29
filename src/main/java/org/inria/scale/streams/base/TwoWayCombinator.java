@@ -58,7 +58,7 @@ public abstract class TwoWayCombinator extends MulticastInStreamBindingControlle
 			return;
 		}
 
-		send(0, process(tuples0, tuples1));
+		send(process(tuples0, tuples1));
 	}
 
 	private List<Tuple> removeAllTuples(final Queue<Tuple> tuples) {

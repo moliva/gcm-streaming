@@ -11,11 +11,13 @@ import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 
 public abstract class MulticastInStreamBindingController implements BindingController {
 
+	private static final int DEFAULT_INPUT_SOURCE = 0;
+
 	private MulticastInStream out;
 
 	@SuppressWarnings("unchecked")
-	protected void send(final int inputSource, final List<? extends Tuple> tuples) {
-		out.receive(inputSource, (List<Tuple>) tuples);
+	protected void send(final List<? extends Tuple> tuples) {
+		out.receive(DEFAULT_INPUT_SOURCE, (List<Tuple>) tuples);
 	}
 
 	// //////////////////////////////////////////////
@@ -36,14 +38,14 @@ public abstract class MulticastInStreamBindingController implements BindingContr
 
 	@Override
 	public void bindFc(final String clientItfName, final Object serverItf) throws NoSuchInterfaceException,
-	IllegalBindingException, IllegalLifeCycleException {
+			IllegalBindingException, IllegalLifeCycleException {
 		if (clientItfName.equals("out"))
 			out = (MulticastInStream) serverItf;
 	}
 
 	@Override
 	public void unbindFc(final String clientItfName) throws NoSuchInterfaceException, IllegalBindingException,
-	IllegalLifeCycleException {
+			IllegalLifeCycleException {
 		if (clientItfName.equals("out"))
 			out = null;
 	}

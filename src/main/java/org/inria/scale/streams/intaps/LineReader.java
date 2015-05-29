@@ -24,7 +24,7 @@ public class LineReader extends BaseInTap implements LineReaderConfiguration {
 
 		try (final Scanner iterator = new Scanner(file, charset)) {
 			while (iterator.hasNext()) {
-				send(0, Arrays.asList(Unit.with(iterator.nextLine())));
+				send(Arrays.asList(Unit.with(iterator.nextLine())));
 			}
 		} catch (final IOException e) {
 			e.printStackTrace();

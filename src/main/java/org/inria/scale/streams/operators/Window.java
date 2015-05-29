@@ -43,7 +43,7 @@ public class Window extends MulticastInStreamBindingController implements InStre
 	public void process() {
 		final List<Tuple> tuplesToSend = new ArrayList<>(tuples);
 		tuples.removeAll(tuplesToSend);
-		send(0, tuplesToSend);
+		send(tuplesToSend);
 	}
 
 	// //////////////////////////////////////////////

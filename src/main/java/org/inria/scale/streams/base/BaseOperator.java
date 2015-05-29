@@ -30,7 +30,7 @@ public abstract class BaseOperator extends MulticastInStreamBindingController im
 					+ inputSource);
 		}
 
-		send(0, processTuples(newTuples));
+		send(processTuples(newTuples));
 	}
 
 }
