@@ -1,5 +1,11 @@
 package org.inria.scale.streams.configuration;
 
-public interface CombinatorConfiguration extends WindowConfiguration {
+import org.objectweb.fractal.api.control.AttributeController;
+
+public interface CombinatorConfiguration extends AttributeController {
+
+	void setCombinatorConfiguration(String combinatorConfigurationJson);
+
+	String getCombinatorConfiguration();
 
 }

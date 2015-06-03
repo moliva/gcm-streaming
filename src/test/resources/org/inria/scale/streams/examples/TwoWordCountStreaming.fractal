@@ -23,7 +23,8 @@
 	<component name="input-window" definition="org.inria.scale.streams.Window">
 		<attributes
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
-			<attribute name="batchInterval" value="2000" />
+			<attribute name="windowConfiguration"
+				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 2000 )' />
 		</attributes>
 	</component>
 
@@ -47,7 +48,7 @@
 		<content class="org.inria.scale.streams.operators.CartesianProduct" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
-			<attribute name="batchInterval" value="6000" />
+			<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 6000 )" />
 		</attributes>
 	</component>
 

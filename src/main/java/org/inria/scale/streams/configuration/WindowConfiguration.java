@@ -4,8 +4,8 @@ import org.objectweb.fractal.api.control.AttributeController;
 
 public interface WindowConfiguration extends AttributeController {
 
-	void setBatchInterval(long milliseconds);
+	void setWindowConfiguration(String windowConfigurationJson);
 
-	long getBatchInterval();
+	String getWindowConfiguration();
 
 }

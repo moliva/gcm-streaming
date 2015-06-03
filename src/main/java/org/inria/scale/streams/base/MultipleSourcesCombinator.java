@@ -20,7 +20,7 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
 public abstract class MultipleSourcesCombinator extends MulticastInStreamBindingController implements InStream,
 		CombinatorConfiguration, RunActive {
 
-	private long batchIntervalMilliseconds = 100;
+	private CombinatorConfigurationObject combinatorConfiguration;
 
 	private final int inputSourceNumber;
 	private final Map<Integer, Queue<Tuple>> tuplesMap = new HashMap<>();
@@ -72,7 +72,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 			public void run() {
 				send(process());
 			}
-		}, batchIntervalMilliseconds, batchIntervalMilliseconds);
+		}, combinatorConfiguration.getTimeBetweenExecutions(), combinatorConfiguration.getTimeBetweenExecutions());
 
 		final MultiActiveService service = new MultiActiveService(body);
 		while (body.isActive()) {
@@ -117,13 +117,13 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	// //////////////////////////////////////////////
 
 	@Override
-	public void setBatchInterval(final long batchIntervalMilliseconds) {
-		this.batchIntervalMilliseconds = batchIntervalMilliseconds;
+	public void setCombinatorConfiguration(final String combinatorConfigurationJson) {
+		this.combinatorConfiguration = new ConfigurationParser().parseCombinatorConfiguration(combinatorConfigurationJson);
 	}
 
 	@Override
-	public long getBatchInterval() {
-		return batchIntervalMilliseconds;
+	public String getCombinatorConfiguration() {
+		return new ConfigurationParser().serialize(combinatorConfiguration);
 	}
 
 	// //////////////////////////////////////////////
