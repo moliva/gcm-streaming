@@ -1,5 +1,7 @@
 package org.inria.scale.streams.base;
 
+import org.inria.scale.streams.windows.WindowConfigurationObject;
+
 import com.google.gson.Gson;
 
 public class ConfigurationParser {

@@ -1,7 +1,8 @@
-package org.inria.scale.streams.base;
+package org.inria.scale.streams.windows;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.javatuples.Tuple;
 
@@ -48,42 +49,60 @@ public class WindowConfigurationObject {
 		}
 	}
 
-	public <T extends Tuple> TupleSelection<T> selectTuples(final List<T> tuples) {
+	public boolean isTimeGoverned() {
 		switch (tumblingType) {
 		case TIME:
-			return new TupleSelection<T>(tuples, Collections.<T> emptyList());
+			return true;
+		case COUNT:
+			return false;
+		default:
+			throw new RuntimeException("Parameter not specified for this window");
+		}
+	}
+
+	public <T extends Tuple> TupleSelection<T> selectTuples(final Queue<T> tuples) {
+		switch (tumblingType) {
+		case TIME:
+			return new TupleSelection<T>(tuples, new ConcurrentLinkedQueue<T>());
 		case COUNT:
 			final int size = tuples.size();
 			if (count > size) {
-				return new TupleSelection<T>(Collections.<T> emptyList(), tuples);
+				return new TupleSelection<T>(new ConcurrentLinkedQueue<T>(), tuples);
 			} else if (count == size) {
-				return new TupleSelection<T>(tuples, Collections.<T> emptyList());
+				return new TupleSelection<T>(tuples, new ConcurrentLinkedQueue<T>());
 			} else {
-				return new TupleSelection<T>(tuples.subList(0, count), tuples.subList(count, size));
+				return new TupleSelection<T>(slice(tuples, 0, count), slice(tuples, count, size));
 			}
 		default:
 			throw new RuntimeException("Parameter not specified for this window");
 		}
 	}
 
+	private <T> Queue<T> slice(final Queue<T> tuples, final int fromIndex, final int toIndex) {
+		return new ConcurrentLinkedQueue<>(new ArrayList<>(tuples).subList(fromIndex, toIndex));
+	}
+
 	public class TupleSelection<T extends Tuple> {
 
-		private final List<T> tuplesToProcess;
-		private final List<T> newTuples;
+		private final Queue<T> tuplesToProcess;
+		private final Queue<T> newTuples;
 
-		public TupleSelection(final List<T> tuplesToProcess, final List<T> newTuples) {
+		public TupleSelection(final Queue<T> tuplesToProcess, final Queue<T> newTuples) {
 			this.tuplesToProcess = tuplesToProcess;
 			this.newTuples = newTuples;
 		}
 
-		public List<T> getTuplesToProcess() {
+		public Queue<T> getTuplesToProcess() {
 			return tuplesToProcess;
 		}
 
-		public List<T> getNewTuples() {
+		public Queue<T> getNewTuples() {
 			return newTuples;
 		}
 
+		public boolean shouldTrigger() {
+			return WindowConfigurationObject.this.isTimeGoverned() || !tuplesToProcess.isEmpty();
+		}
 	}
 
 	// //////////////////////////////////////////////

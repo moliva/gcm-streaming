@@ -1,6 +1,6 @@
 package org.inria.scale.streams.tests.builders;
 
-import org.inria.scale.streams.base.WindowConfigurationObject;
+import org.inria.scale.streams.windows.WindowConfigurationObject;
 
 public class WindowConfigurationBuilder {
 
