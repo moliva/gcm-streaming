@@ -7,6 +7,21 @@ public class WindowConfigurationBuilder {
 	private String type;
 	private String tumblingType;
 	private long milliseconds;
+	private int count;
+
+	// //////////////////////////////////////////////
+	// ******* Builder method *******
+	// //////////////////////////////////////////////
+
+	public WindowConfigurationObject build() {
+		final WindowConfigurationObject windowConfiguration = new WindowConfigurationObject(type, tumblingType,
+				milliseconds, count);
+		return windowConfiguration;
+	}
+
+	// //////////////////////////////////////////////
+	// ******* Setter methods *******
+	// //////////////////////////////////////////////
 
 	public WindowConfigurationBuilder setType(final String type) {
 		this.type = type;
@@ -23,10 +38,9 @@ public class WindowConfigurationBuilder {
 		return this;
 	}
 
-	public WindowConfigurationObject build() {
-		final WindowConfigurationObject windowConfiguration = new WindowConfigurationObject(type, tumblingType, milliseconds);
-		return windowConfiguration;
+	public WindowConfigurationBuilder setCount(final int count) {
+		this.count = count;
+		return this;
 	}
-
 
 }
