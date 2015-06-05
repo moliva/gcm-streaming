@@ -5,6 +5,7 @@ import static org.inria.scale.streams.windows.WindowConfigurationObject.MINIMUM_
 import static org.inria.scale.streams.windows.WindowConfigurationObject.TIME;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,9 +50,15 @@ public class TumblingWindowStrategy implements WindowStrategy {
 	}
 
 	@Override
-	public void check() {
-		if (!TIME.equals(type)) {
-			singleCheck();
+	public void check(final List<Tuple> tuples) {
+		final Queue<Tuple> queue = window.getTuplesQueue();
+		if (TIME.equals(type)) {
+			queue.addAll(tuples);
+		} else {
+			for (final Tuple tuple : tuples) {
+				queue.add(tuple);
+				singleCheck();
+			}
 		}
 	}
 

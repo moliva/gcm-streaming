@@ -1,6 +1,9 @@
 package org.inria.scale.streams.windows;
 
+import java.util.List;
+
 import org.inria.scale.streams.operators.Window;
+import org.javatuples.Tuple;
 
 public interface WindowStrategy {
 
@@ -8,6 +11,6 @@ public interface WindowStrategy {
 
 	void tearDown();
 
-	void check();
+	void check(List<Tuple> tuples);
 
 }

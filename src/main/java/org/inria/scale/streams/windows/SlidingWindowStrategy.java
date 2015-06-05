@@ -1,6 +1,9 @@
 package org.inria.scale.streams.windows;
 
+import java.util.List;
+
 import org.inria.scale.streams.operators.Window;
+import org.javatuples.Tuple;
 
 public class SlidingWindowStrategy implements WindowStrategy {
 
@@ -17,9 +20,10 @@ public class SlidingWindowStrategy implements WindowStrategy {
 	}
 
 	@Override
-	public void check() {
+	public void check(final List<Tuple> tuples) {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

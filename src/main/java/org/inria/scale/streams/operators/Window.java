@@ -54,8 +54,7 @@ public class Window extends MulticastInStreamBindingController implements InStre
 
 	@Override
 	public void receive(final int inputSource, final List<Tuple> newTuples) {
-		tuples.addAll(newTuples);
-		windowStrategy.check();
+		windowStrategy.check(newTuples);
 	}
 
 	// //////////////////////////////////////////////
@@ -80,7 +79,7 @@ public class Window extends MulticastInStreamBindingController implements InStre
 		return windowConfigurationJson;
 	}
 
-	public Queue<? extends Tuple> getTuplesQueue() {
+	public Queue<Tuple> getTuplesQueue() {
 		return tuples;
 	}
 
