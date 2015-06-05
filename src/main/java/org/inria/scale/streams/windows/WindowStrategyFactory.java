@@ -10,7 +10,10 @@ public class WindowStrategyFactory {
 	public static WindowStrategy createFrom(final WindowConfigurationObject windowConfiguration) {
 		switch (windowConfiguration.getType()) {
 		case TUMBLING:
-			return new TumblingWindowStrategy();
+			return new TumblingWindowStrategy( //
+					windowConfiguration.getTumblingType(), //
+					windowConfiguration.getMilliseconds(), //
+					windowConfiguration.getCount());
 		case SLIDING:
 			return new SlidingWindowStrategy();
 		default:

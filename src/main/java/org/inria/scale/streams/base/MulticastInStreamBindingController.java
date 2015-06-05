@@ -17,7 +17,7 @@ public abstract class MulticastInStreamBindingController implements BindingContr
 	private MulticastInStream out;
 
 	@SuppressWarnings("unchecked")
-	protected void send(final List<? extends Tuple> tuples) {
+	public void send(final List<? extends Tuple> tuples) {
 		out.receive(DEFAULT_INPUT_SOURCE, (List<Tuple>) tuples);
 	}
 

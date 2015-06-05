@@ -16,10 +16,12 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
 
 public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration, RunActive {
 
-	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
+	private Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
 	private String windowConfigurationJson;
 	private WindowStrategy windowStrategy;
+
+	private boolean alreadyRunning = false;
 
 	// //////////////////////////////////////////////
 	// ******* RunActive *******
@@ -27,6 +29,11 @@ public class Window extends MulticastInStreamBindingController implements InStre
 
 	@Override
 	public void runActivity(final Body body) {
+		// the first time we have to initialize the window from here, when all the
+		// bindings have been completed
+		windowStrategy.initialize(this);
+		alreadyRunning = true;
+
 		final MultiActiveService service = new MultiActiveService(body);
 		while (body.isActive()) {
 			service.multiActiveServing();
@@ -62,12 +69,23 @@ public class Window extends MulticastInStreamBindingController implements InStre
 		final WindowStrategy newWindowStrategy = WindowStrategyFactory.createFrom(windowConfigurationJson);
 		safelyTearDownWindowStrategy();
 		windowStrategy = newWindowStrategy;
-		windowStrategy.initialize(this);
+
+		if (alreadyRunning) {
+			windowStrategy.initialize(this);
+		}
 	}
 
 	@Override
 	public String getWindowConfiguration() {
 		return windowConfigurationJson;
+	}
+
+	public Queue<? extends Tuple> getTuplesQueue() {
+		return tuples;
+	}
+
+	public void setTuplesQueue(final Queue<Tuple> tuples) {
+		this.tuples = tuples;
 	}
 
 }
