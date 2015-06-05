@@ -9,8 +9,7 @@ public class SlidingWindowStrategy implements WindowStrategy {
 
 	@Override
 	public void initialize(final Window window) {
-		// TODO Auto-generated method stub
-		
+				
 	}
 
 	@Override
