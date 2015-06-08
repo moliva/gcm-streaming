@@ -19,21 +19,21 @@ public class SlidingWindowStrategy implements WindowStrategy {
 
 	@Override
 	public void initialize(final Window window) {
-		triggerPolicy.initialize(window);
 		evictionPolicy.initialize(window);
+		triggerPolicy.initialize(window);
 	}
 
 	@Override
 	public void tearDown() {
-		triggerPolicy.tearDown();
 		evictionPolicy.tearDown();
+		triggerPolicy.tearDown();
 	}
 
 	@Override
 	public void check(final List<Tuple> tuples) {
 		for (final Tuple tuple : tuples) {
-			triggerPolicy.check(tuple);
 			evictionPolicy.check(tuple);
+			triggerPolicy.check(tuple);
 		}
 	}
 
