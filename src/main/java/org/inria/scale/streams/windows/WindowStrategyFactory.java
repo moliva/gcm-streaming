@@ -10,12 +10,12 @@ import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_SLI
 import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_TUMBLING;
 
 import org.inria.scale.streams.base.ConfigurationParser;
-import org.inria.scale.streams.windows.sliding.CountEvictionStrategy;
-import org.inria.scale.streams.windows.sliding.CountTriggerStrategy;
-import org.inria.scale.streams.windows.sliding.EvictionStrategy;
-import org.inria.scale.streams.windows.sliding.TimeEvictionStrategy;
-import org.inria.scale.streams.windows.sliding.TimeTriggerStrategy;
-import org.inria.scale.streams.windows.sliding.TriggerStrategy;
+import org.inria.scale.streams.windows.sliding.CountEvictionPolicy;
+import org.inria.scale.streams.windows.sliding.CountTriggerPolicy;
+import org.inria.scale.streams.windows.sliding.EvictionPolicy;
+import org.inria.scale.streams.windows.sliding.TimeEvictionPolicy;
+import org.inria.scale.streams.windows.sliding.TimeTriggerPolicy;
+import org.inria.scale.streams.windows.sliding.TriggerPolicy;
 
 public class WindowStrategyFactory {
 
@@ -39,23 +39,23 @@ public class WindowStrategyFactory {
 		}
 	}
 
-	private static TriggerStrategy createTriggerStrategyFrom(final WindowConfigurationObject windowConfiguration) {
-		switch (windowConfiguration.getEvictionType()) {
+	private static TriggerPolicy createTriggerStrategyFrom(final WindowConfigurationObject windowConfiguration) {
+		switch (windowConfiguration.getTriggerType()) {
 		case TRIGGER_TIME:
-			return new TimeTriggerStrategy(windowConfiguration.getTriggerMilliseconds());
+			return new TimeTriggerPolicy(windowConfiguration.getTriggerMilliseconds());
 		case TRIGGER_COUNT:
-			return new CountTriggerStrategy(windowConfiguration.getTriggerCount());
+			return new CountTriggerPolicy(windowConfiguration.getTriggerCount());
 		default:
 			throw new RuntimeException("Trigger type is not valid");
 		}
 	}
 
-	private static EvictionStrategy createEvictionStrategyFrom(final WindowConfigurationObject windowConfiguration) {
+	private static EvictionPolicy createEvictionStrategyFrom(final WindowConfigurationObject windowConfiguration) {
 		switch (windowConfiguration.getEvictionType()) {
 		case EVICTION_TIME:
-			return new TimeEvictionStrategy(windowConfiguration.getEvictionMilliseconds());
+			return new TimeEvictionPolicy(windowConfiguration.getEvictionMilliseconds());
 		case EVICTION_COUNT:
-			return new CountEvictionStrategy(windowConfiguration.getEvictionCount());
+			return new CountEvictionPolicy(windowConfiguration.getEvictionCount());
 		default:
 			throw new RuntimeException("Eviction type is not valid");
 		}

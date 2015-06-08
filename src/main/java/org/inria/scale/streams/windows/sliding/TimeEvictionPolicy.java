@@ -14,7 +14,7 @@ import org.javatuples.Tuple;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 
-public class TimeEvictionStrategy implements EvictionStrategy {
+public class TimeEvictionPolicy implements EvictionPolicy {
 
 	private static final int DEFAULT_INTERVAL = 100;
 
@@ -25,7 +25,7 @@ public class TimeEvictionStrategy implements EvictionStrategy {
 
 	private final Map<Tuple, Long> times = new HashMap<>();
 
-	public TimeEvictionStrategy(final long milliseconds) {
+	public TimeEvictionPolicy(final long milliseconds) {
 		this.milliseconds = milliseconds;
 	}
 
@@ -47,14 +47,13 @@ public class TimeEvictionStrategy implements EvictionStrategy {
 	}
 
 	@Override
-	public void check(final List<Tuple> tuples) {
+	public void check(final Tuple tuple) {
 		final long currentTime = System.currentTimeMillis();
 
 		final Queue<Tuple> queue = window.getTuplesQueue();
-		for (final Tuple tuple : tuples) {
-			times.put(tuple, currentTime);
-		}
-		queue.addAll(tuples);
+		times.put(tuple, currentTime);
+
+		queue.add(tuple);
 	}
 
 	private void singleCheck() {

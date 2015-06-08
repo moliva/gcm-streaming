@@ -1,20 +1,19 @@
 package org.inria.scale.streams.windows.sliding;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.inria.scale.streams.operators.Window;
 import org.javatuples.Tuple;
 
-public class TimeTriggerStrategy implements TriggerStrategy {
+public class TimeTriggerPolicy implements TriggerPolicy {
 
 	private final long milliseconds;
 
 	private Timer timer;
 
-	public TimeTriggerStrategy(final long milliseconds) {
+	public TimeTriggerPolicy(final long milliseconds) {
 		this.milliseconds = milliseconds;
 	}
 
@@ -31,7 +30,7 @@ public class TimeTriggerStrategy implements TriggerStrategy {
 	}
 
 	@Override
-	public void check(final List<Tuple> tuples) {
+	public void check(final Tuple tuple) {
 		// nothing to do here
 	}
 

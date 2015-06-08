@@ -3,36 +3,38 @@ package org.inria.scale.streams.windows;
 import java.util.List;
 
 import org.inria.scale.streams.operators.Window;
-import org.inria.scale.streams.windows.sliding.EvictionStrategy;
-import org.inria.scale.streams.windows.sliding.TriggerStrategy;
+import org.inria.scale.streams.windows.sliding.EvictionPolicy;
+import org.inria.scale.streams.windows.sliding.TriggerPolicy;
 import org.javatuples.Tuple;
 
 public class SlidingWindowStrategy implements WindowStrategy {
 
-	private final EvictionStrategy evictionStrategy;
-	private final TriggerStrategy triggerStrategy;
+	private final EvictionPolicy evictionPolicy;
+	private final TriggerPolicy triggerPolicy;
 
-	public SlidingWindowStrategy(final EvictionStrategy evictionStrategy, final TriggerStrategy triggerStrategy) {
-		this.evictionStrategy = evictionStrategy;
-		this.triggerStrategy = triggerStrategy;
+	public SlidingWindowStrategy(final EvictionPolicy evictionPolicy, final TriggerPolicy triggerPolicy) {
+		this.evictionPolicy = evictionPolicy;
+		this.triggerPolicy = triggerPolicy;
 	}
 
 	@Override
 	public void initialize(final Window window) {
-		triggerStrategy.initialize(window);
-		evictionStrategy.initialize(window);
+		triggerPolicy.initialize(window);
+		evictionPolicy.initialize(window);
 	}
 
 	@Override
 	public void tearDown() {
-		triggerStrategy.tearDown();
-		evictionStrategy.tearDown();
+		triggerPolicy.tearDown();
+		evictionPolicy.tearDown();
 	}
 
 	@Override
 	public void check(final List<Tuple> tuples) {
-		triggerStrategy.check(tuples);
-		evictionStrategy.check(tuples);
+		for (final Tuple tuple : tuples) {
+			triggerPolicy.check(tuple);
+			evictionPolicy.check(tuple);
+		}
 	}
 
 }
