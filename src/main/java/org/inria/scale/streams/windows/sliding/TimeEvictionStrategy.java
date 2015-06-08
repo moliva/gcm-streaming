@@ -70,6 +70,7 @@ public class TimeEvictionStrategy implements EvictionStrategy {
 		}).toList();
 
 		tuplesQueue.removeAll(tuplesToRemove);
+		times.keySet().removeAll(tuplesToRemove);
 	}
 
 	@Override
