@@ -13,7 +13,7 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
 			<attribute name="windowConfiguration"
-				value='( "type": "tumbling", "tumblingType": "count", "count": 5 )' />
+				value='( "type": "sliding", "evictionType": "time", "evictionMilliseconds": 2000, "triggerType": "time", "triggerMilliseconds": 1000 )' />
 		</attributes>
 	</component>
 
