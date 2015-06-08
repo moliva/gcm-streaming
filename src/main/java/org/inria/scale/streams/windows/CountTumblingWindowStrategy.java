@@ -1,6 +1,7 @@
 package org.inria.scale.streams.windows;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -33,10 +34,11 @@ public class CountTumblingWindowStrategy implements WindowStrategy {
 	}
 
 	private void singleCheck() {
-		final TupleSelection<Tuple> selection = selectTuples(new ConcurrentLinkedQueue<>(window.getTuplesQueue()));
-		if (selection.shouldTrigger()) {
-			window.setTuplesQueue(selection.getNewTuples());
-			window.send(new ArrayList<>(selection.getTuplesToProcess()));
+		final Queue<Tuple> tuplesQueue = window.getTuplesQueue();
+		final List<Tuple> selection = selectTuples(new ConcurrentLinkedQueue<>(tuplesQueue));
+		if (!selection.isEmpty()) {
+			tuplesQueue.removeAll(selection);
+			window.send(selection);
 		}
 	}
 
@@ -45,41 +47,14 @@ public class CountTumblingWindowStrategy implements WindowStrategy {
 		// nothing to do here
 	}
 
-	public <T extends Tuple> TupleSelection<T> selectTuples(final Queue<T> tuples) {
+	public <T extends Tuple> List<T> selectTuples(final Queue<T> tuples) {
 		final int size = tuples.size();
 		if (count > size) {
-			return new TupleSelection<T>(new ConcurrentLinkedQueue<T>(), tuples);
+			return Collections.emptyList();
 		} else if (count == size) {
-			return new TupleSelection<T>(tuples, new ConcurrentLinkedQueue<T>());
+			return new ArrayList<T>(tuples);
 		} else {
-			return new TupleSelection<T>(slice(tuples, 0, count), slice(tuples, count, size));
-		}
-	}
-
-	private <T> Queue<T> slice(final Queue<T> tuples, final int fromIndex, final int toIndex) {
-		return new ConcurrentLinkedQueue<>(new ArrayList<>(tuples).subList(fromIndex, toIndex));
-	}
-
-	public class TupleSelection<T extends Tuple> {
-
-		private final Queue<T> tuplesToProcess;
-		private final Queue<T> newTuples;
-
-		public TupleSelection(final Queue<T> tuplesToProcess, final Queue<T> newTuples) {
-			this.tuplesToProcess = tuplesToProcess;
-			this.newTuples = newTuples;
-		}
-
-		public Queue<T> getTuplesToProcess() {
-			return tuplesToProcess;
-		}
-
-		public Queue<T> getNewTuples() {
-			return newTuples;
-		}
-
-		public boolean shouldTrigger() {
-			return !tuplesToProcess.isEmpty();
+			return new ArrayList<>(tuples).subList(0, count);
 		}
 	}
 

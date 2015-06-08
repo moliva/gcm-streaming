@@ -1,24 +1,5 @@
 package org.inria.scale.streams.tests.unit;
 
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.inria.scale.streams.windows.WindowConfigurationObject.COUNT;
-import static org.inria.scale.streams.windows.WindowConfigurationObject.MINIMUM_TIME_BETWEEN_EXECUTIONS;
-import static org.inria.scale.streams.windows.WindowConfigurationObject.TIME;
-import static org.inria.scale.streams.windows.WindowConfigurationObject.TUMBLING;
-import static org.junit.Assert.assertThat;
-
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
-import org.inria.scale.streams.tests.builders.WindowConfigurationBuilder;
-import org.inria.scale.streams.windows.WindowConfigurationObject;
-import org.javatuples.Tuple;
-import org.javatuples.Unit;
-import org.junit.Test;
 
 @SuppressWarnings("unchecked")
 public class TumblingwindowStrategyTest {

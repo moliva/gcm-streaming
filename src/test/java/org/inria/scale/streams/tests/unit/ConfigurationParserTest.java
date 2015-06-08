@@ -21,7 +21,7 @@ public class ConfigurationParserTest {
 				);
 
 		assertThat(configuration.getType(), is(equalTo("tumbling")));
-		assertThat(configuration.getMilliseconds(), is(equalTo(2000l)));
+		assertThat(configuration.getTumblingMilliseconds(), is(equalTo(2000l)));
 	}
 
 	@Test
@@ -32,7 +32,7 @@ public class ConfigurationParserTest {
 				);
 
 		assertThat(configuration.getType(), is(equalTo("tumbling")));
-		assertThat(configuration.getMilliseconds(), is(equalTo(2000l)));
+		assertThat(configuration.getTumblingMilliseconds(), is(equalTo(2000l)));
 	}
 
 	@Test
