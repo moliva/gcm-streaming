@@ -10,6 +10,7 @@ import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_SLI
 import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_TUMBLING;
 
 import org.inria.scale.streams.base.ConfigurationParser;
+import org.inria.scale.streams.exceptions.WindowStrategyCreationException;
 import org.inria.scale.streams.windows.sliding.CountEvictionPolicy;
 import org.inria.scale.streams.windows.sliding.CountTriggerPolicy;
 import org.inria.scale.streams.windows.sliding.EvictionPolicy;
@@ -28,14 +29,14 @@ public class WindowStrategyFactory {
 			case TUMBLING_COUNT:
 				return new CountTumblingWindowStrategy(windowConfiguration.getTumblingCount());
 			default:
-				throw new RuntimeException("Tumbling type is not valid");
+				throw new WindowStrategyCreationException("Tumbling type is not valid", windowConfiguration);
 			}
 		case TYPE_SLIDING:
 			return new SlidingWindowStrategy( //
 					createEvictionStrategyFrom(windowConfiguration), //
 					createTriggerStrategyFrom(windowConfiguration));
 		default:
-			throw new RuntimeException("Window type is not valid");
+			throw new WindowStrategyCreationException("Window type is not valid", windowConfiguration);
 		}
 	}
 
@@ -46,7 +47,7 @@ public class WindowStrategyFactory {
 		case TRIGGER_COUNT:
 			return new CountTriggerPolicy(windowConfiguration.getTriggerCount());
 		default:
-			throw new RuntimeException("Trigger type is not valid");
+			throw new WindowStrategyCreationException("Trigger type is not valid", windowConfiguration);
 		}
 	}
 
@@ -57,7 +58,7 @@ public class WindowStrategyFactory {
 		case EVICTION_COUNT:
 			return new CountEvictionPolicy(windowConfiguration.getEvictionCount());
 		default:
-			throw new RuntimeException("Eviction type is not valid");
+			throw new WindowStrategyCreationException("Eviction type is not valid", windowConfiguration);
 		}
 	}
 

@@ -1,4 +1,4 @@
-package org.inria.scale.streams.base.exceptions;
+package org.inria.scale.streams.exceptions;
 
 public class RoutingException extends RuntimeException {
 
