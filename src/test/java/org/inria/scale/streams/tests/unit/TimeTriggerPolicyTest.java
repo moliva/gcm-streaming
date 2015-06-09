@@ -25,6 +25,7 @@ import org.junit.Test;
 public class TimeTriggerPolicyTest {
 
 	private static final long MILLISECONDS_TO_WAIT = 500;
+	private static final long MILLISECONDS_EXTRA = MILLISECONDS_TO_WAIT / 2;
 
 	private final Tuple[] tuples = new Tuple[] { createTuple(1), createTuple(2) };
 	private final Queue<Tuple> queue = new ConcurrentLinkedQueue<Tuple>(Arrays.asList(tuples));
@@ -53,7 +54,9 @@ public class TimeTriggerPolicyTest {
 	public void shouldTriggerAfterTimeReached() throws Exception {
 		verify(window, never()).send(anyListOf(Tuple.class));
 
-		Thread.sleep(MILLISECONDS_TO_WAIT);
+		// waiting a window + an interval of confidence to ensure the correct
+		// execution of the triggering
+		Thread.sleep(MILLISECONDS_TO_WAIT + MILLISECONDS_EXTRA);
 
 		verify(window).send((List<Tuple>) argThat(contains(tuples)));
 	}

@@ -10,6 +10,14 @@ public class WindowConfigurationBuilder {
 	private SlidingBuilder slidingBuilder;
 
 	// //////////////////////////////////////////////
+	// ******* Creation method *******
+	// //////////////////////////////////////////////
+
+	public static WindowConfigurationBuilder aWindowConfiguration() {
+		return new WindowConfigurationBuilder();
+	}
+
+	// //////////////////////////////////////////////
 	// ******* Builder method *******
 	// //////////////////////////////////////////////
 
@@ -56,7 +64,7 @@ public class WindowConfigurationBuilder {
 	// ******* Setter methods *******
 	// //////////////////////////////////////////////
 
-	public TumblingBuilder tumbling() {
+	public TumblingBuilder ofTumblingType() {
 		type = WindowConfigurationObject.TYPE_TUMBLING;
 		return new TumblingBuilder();
 	}
@@ -85,7 +93,7 @@ public class WindowConfigurationBuilder {
 		}
 	}
 
-	public SlidingBuilder sliding() {
+	public SlidingBuilder ofSlidingType() {
 		type = WindowConfigurationObject.TYPE_SLIDING;
 		return new SlidingBuilder();
 	}
@@ -95,7 +103,7 @@ public class WindowConfigurationBuilder {
 		private TriggerBuilder triggerBuilder;
 		private EvictionBuilder evictionBuilder;
 
-		public EvictionBuilder eviction() {
+		public EvictionBuilder withEvictionPolicy() {
 			evictionBuilder = new EvictionBuilder();
 			return evictionBuilder;
 		}
@@ -120,7 +128,7 @@ public class WindowConfigurationBuilder {
 
 		}
 
-		public TriggerBuilder trigger() {
+		public TriggerBuilder withTriggerPolicy() {
 			triggerBuilder = new TriggerBuilder();
 			return triggerBuilder;
 		}

@@ -4,23 +4,15 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.operators.Window;
-import org.inria.scale.streams.windows.sliding.CountTriggerPolicy;
 import org.inria.scale.streams.windows.sliding.EvictionPolicy;
 import org.inria.scale.streams.windows.sliding.TimeEvictionPolicy;
-import org.inria.scale.streams.windows.sliding.TriggerPolicy;
 import org.javatuples.Tuple;
 import org.javatuples.Unit;
 import org.junit.After;
@@ -60,6 +52,7 @@ public class TimeEvictionPolicyTest {
 
 		Thread.sleep(MILLISECONDS_TO_WAIT / 2);
 
+		// window hasn't slide yet, tuple1 should be still there
 		assertThat(queue, contains(tuple1));
 
 		final Tuple tuple2 = createTuple(2);
@@ -68,10 +61,12 @@ public class TimeEvictionPolicyTest {
 
 		Thread.sleep(MILLISECONDS_TO_WAIT);
 
+		// the window should have slided one time
 		assertThat(queue, contains(tuple2));
 
 		Thread.sleep(MILLISECONDS_TO_WAIT);
 
+		// the window should have slided yet one more time
 		assertThat(queue, is(empty()));
 	}
 
