@@ -10,8 +10,8 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
-import org.inria.scale.streams.base.exceptions.RoutingException;
 import org.inria.scale.streams.configuration.CombinatorConfiguration;
+import org.inria.scale.streams.exceptions.RoutingException;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
