@@ -47,7 +47,7 @@ public class CountTumblingWindowStrategy implements WindowStrategy {
 		// nothing to do here
 	}
 
-	public <T extends Tuple> List<T> selectTuples(final Queue<T> tuples) {
+	private <T extends Tuple> List<T> selectTuples(final Queue<T> tuples) {
 		final int size = tuples.size();
 		if (count > size) {
 			return Collections.emptyList();
