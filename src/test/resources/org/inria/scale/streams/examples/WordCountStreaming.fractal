@@ -5,9 +5,9 @@
 
 	<!-- LineReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
-		<content class="org.inria.scale.streams.intaps.LineReader" />
+		<content class="org.inria.scale.streams.intaps.FileLineReader" />
 		<attributes
-			signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
+			signature="org.inria.scale.streams.configuration.FileLineReaderConfiguration">
 			<attribute name="filePath"
 				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/test/resources/lines.txt" />
 			<attribute name="charset" value="UTF-8" />
@@ -18,8 +18,10 @@
 	<component name="input-window" definition="org.inria.scale.streams.Window">
 		<attributes
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
-<!-- 			<attribute name="windowConfiguration" value='( "type": "tumbling", "tumblingType": "count", "count": 5 )' /> -->
-						<attribute name="windowConfiguration" value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 1000 )' />
+			<!-- <attribute name="windowConfiguration" value='( "type": "tumbling", 
+				"tumblingType": "count", "count": 5 )' /> -->
+			<attribute name="windowConfiguration"
+				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 1000 )' />
 		</attributes>
 	</component>
 

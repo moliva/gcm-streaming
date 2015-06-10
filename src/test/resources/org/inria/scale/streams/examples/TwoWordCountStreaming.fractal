@@ -5,14 +5,14 @@
 
 	<!-- InputSystemReader -->
 	<component name="input-system" definition="org.inria.scale.streams.InTap">
-		<content class="org.inria.scale.streams.intaps.InputSystemReader" />
+		<content class="org.inria.scale.streams.intaps.SystemInputLineReader" />
 	</component>
 
 	<!-- LineReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
-		<content class="org.inria.scale.streams.intaps.LineReader" />
+		<content class="org.inria.scale.streams.intaps.FileLineReader" />
 		<attributes
-			signature="org.inria.scale.streams.configuration.LineReaderConfiguration">
+			signature="org.inria.scale.streams.configuration.FileLineReaderConfiguration">
 			<attribute name="filePath"
 				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/test/resources/lines.txt" />
 			<attribute name="charset" value="UTF-8" />

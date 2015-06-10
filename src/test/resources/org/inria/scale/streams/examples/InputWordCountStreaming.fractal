@@ -5,7 +5,7 @@
 
 	<!-- InputSystemReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
-		<content class="org.inria.scale.streams.intaps.InputSystemReader" />
+		<content class="org.inria.scale.streams.intaps.SystemInputLineReader" />
 	</component>
 
 	<!-- Input window -->
