@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.base.MulticastInStreamBindingController;
 import org.inria.scale.streams.configuration.WindowConfiguration;
+import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.inria.scale.streams.windows.WindowStrategy;
 import org.inria.scale.streams.windows.WindowStrategyFactory;
 import org.javatuples.Tuple;
@@ -14,6 +15,19 @@ import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
 
+/**
+ * Special kind of Operator which does not produce a transformation on the
+ * received tuples but rather is in charge of buffering them and trigger new
+ * executions of the following operations in the graph according to a
+ * {@link WindowConfiguration}.
+ * 
+ * @see WindowConfigurationObject
+ * @see WindowStrategyFactory
+ * @see WindowStrategy
+ * 
+ * @author moliva
+ *
+ */
 public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration, RunActive {
 
 	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
@@ -30,7 +44,7 @@ public class Window extends MulticastInStreamBindingController implements InStre
 	@Override
 	public void runActivity(final Body body) {
 		// the first time we have to initialize the window from here, when all the
-		// bindings have been completed
+		// bindings have been completed by the GCM platform
 		windowStrategy.initialize(this);
 		alreadyRunning = true;
 
@@ -78,6 +92,10 @@ public class Window extends MulticastInStreamBindingController implements InStre
 	public String getWindowConfiguration() {
 		return windowConfigurationJson;
 	}
+
+	// //////////////////////////////////////////////
+	// ******* Getters *******
+	// //////////////////////////////////////////////
 
 	public Queue<Tuple> getTuplesQueue() {
 		return tuples;

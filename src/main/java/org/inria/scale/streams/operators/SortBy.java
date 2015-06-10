@@ -9,6 +9,15 @@ import org.javatuples.Tuple;
 
 import com.google.common.collect.FluentIterable;
 
+/**
+ * Sorts the tuples in a single batch by the values in an index defined by
+ * <code>tupleComponent</code> in each tuple. The order can be descending, from
+ * biggest to lowest, using the <code>desc</code> order, or ascending,
+ * otherwise.
+ * 
+ * @author moliva
+ *
+ */
 public class SortBy extends BaseOperator implements SortByConfiguration {
 
 	private static final String DESCENDING_ORDER = "desc";

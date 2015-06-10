@@ -25,7 +25,7 @@ public abstract class BaseTwoSourcesCombinator extends MultipleSourcesCombinator
 	 *          List of tuples from input source 1
 	 * @return List of tuples resulting from processing the ones in the input
 	 */
-	protected abstract List<? extends Tuple> process(List<Tuple> tuples0, List<Tuple> tuples1);
+	protected abstract List<? extends Tuple> processTuples(List<Tuple> tuples0, List<Tuple> tuples1);
 
 	// //////////////////////////////////////////////
 	// ******* MultipleCombinator *******
@@ -40,7 +40,7 @@ public abstract class BaseTwoSourcesCombinator extends MultipleSourcesCombinator
 		final List<Tuple> tuples0 = removeAllTuples(0);
 		final List<Tuple> tuples1 = removeAllTuples(1);
 
-		return process(tuples0, tuples1);
+		return processTuples(tuples0, tuples1);
 	}
 
 }

@@ -13,17 +13,26 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
 
+/**
+ * Joins two sets of tuples by combining them according to the specified keys
+ * for each one. The resulting tuple from this operation will be {@link Triplet
+ * triplets} with the form (key, values in first set w.r.t. key, values in
+ * second set w.r.t. key).
+ * 
+ * @author moliva
+ *
+ */
 public class CoGroup extends BaseTwoSourcesCombinator implements CoGroupConfiguration {
 
 	private int indexKey0;
 	private int indexKey1;
 
 	// //////////////////////////////////////////////
-	// ******* TwoWayCombinator *******
+	// ******* BaseTwoSourcesCombinator *******
 	// //////////////////////////////////////////////
 
 	@Override
-	protected List<? extends Tuple> process(final List<Tuple> tuples0, final List<Tuple> tuples1) {
+	protected List<? extends Tuple> processTuples(final List<Tuple> tuples0, final List<Tuple> tuples1) {
 		final Set<Object> keys = collectKeys(tuples0, tuples1);
 
 		return FluentIterable.from(keys).transform(makeTripletWithGroups(tuples0, tuples1)).toList();

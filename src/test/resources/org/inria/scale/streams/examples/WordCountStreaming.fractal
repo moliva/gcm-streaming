@@ -47,12 +47,12 @@
 
 	<!-- Tokenizer -->
 	<component name="tokenizer" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.Tokenizer" />
+		<content class="org.inria.scale.streams.operators.WordTokenizer" />
 	</component>
 
 	<!-- Count -->
 	<component name="count" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.Count" />
+		<content class="org.inria.scale.streams.operators.CountByKey" />
 	</component>
 
 	<!-- SortBy -->

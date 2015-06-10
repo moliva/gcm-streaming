@@ -13,7 +13,14 @@ import org.javatuples.Unit;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 
-public class Tokenizer extends BaseOperator {
+/**
+ * Splits a tuple with string components into a set of tuples for each word in
+ * the string.
+ * 
+ * @author moliva
+ *
+ */
+public class WordTokenizer extends BaseOperator {
 
 	@Override
 	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {

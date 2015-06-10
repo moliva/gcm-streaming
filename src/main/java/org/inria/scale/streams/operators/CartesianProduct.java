@@ -9,14 +9,20 @@ import org.javatuples.Tuple;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 
+/**
+ * Produces the Cartesian product of two sets of tuples.
+ * 
+ * @author moliva
+ *
+ */
 public class CartesianProduct extends BaseTwoSourcesCombinator {
 
 	// //////////////////////////////////////////////
-	// ******* TwoWayCombinator *******
+	// ******* BaseTwoSourcesCombinator *******
 	// //////////////////////////////////////////////
 
 	@Override
-	protected List<? extends Tuple> process(final List<Tuple> tuples0, final List<Tuple> tuples1) {
+	protected List<? extends Tuple> processTuples(final List<Tuple> tuples0, final List<Tuple> tuples1) {
 		return FluentIterable.from(tuples0).transformAndConcat(new Function<Tuple, Iterable<? extends Tuple>>() {
 
 			@Override

@@ -9,6 +9,14 @@ import org.javatuples.Unit;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 
+/**
+ * Expects tuples that contain one string component, normalizing them by
+ * applying trim, lower casing them and removing punctuation marks, ignoring any
+ * other kind of component.
+ * 
+ * @author moliva
+ *
+ */
 public class TextNormalizer extends BaseOperator {
 
 	@Override
@@ -23,7 +31,7 @@ public class TextNormalizer extends BaseOperator {
 	}
 
 	private Unit<?> normalizeTuple(final Tuple tuple) {
-		final List<Object> list = FluentIterable.from(tuple).transform(new Function<Object, Object>() {
+		final List<Object> normalizedTupleComponents = FluentIterable.from(tuple).transform(new Function<Object, Object>() {
 
 			@Override
 			public Object apply(final Object input) {
@@ -33,7 +41,7 @@ public class TextNormalizer extends BaseOperator {
 					return input;
 			}
 		}).toList();
-		return Unit.fromIterable(list);
+		return Unit.fromIterable(normalizedTupleComponents);
 	}
 
 }
