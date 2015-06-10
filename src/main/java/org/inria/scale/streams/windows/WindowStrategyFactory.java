@@ -9,7 +9,6 @@ import static org.inria.scale.streams.windows.WindowConfigurationObject.TUMBLING
 import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_SLIDING;
 import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_TUMBLING;
 
-import org.inria.scale.streams.base.ConfigurationParser;
 import org.inria.scale.streams.exceptions.WindowStrategyCreationException;
 import org.inria.scale.streams.windows.sliding.CountEvictionPolicy;
 import org.inria.scale.streams.windows.sliding.CountTriggerPolicy;

@@ -1,6 +1,4 @@
-package org.inria.scale.streams.base;
-
-import org.inria.scale.streams.windows.WindowConfigurationObject;
+package org.inria.scale.streams.windows;
 
 import com.google.gson.Gson;
 

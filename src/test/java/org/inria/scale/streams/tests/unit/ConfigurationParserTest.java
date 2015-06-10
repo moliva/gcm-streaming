@@ -4,8 +4,8 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
-import org.inria.scale.streams.base.CombinatorConfigurationObject;
-import org.inria.scale.streams.base.ConfigurationParser;
+import org.inria.scale.streams.windows.CombinatorConfigurationObject;
+import org.inria.scale.streams.windows.ConfigurationParser;
 import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package org.inria.scale.streams.base;
+package org.inria.scale.streams.windows;
 
 public class CombinatorConfigurationObject {
 
