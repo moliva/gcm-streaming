@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.configuration.CombinatorConfiguration;
+import org.inria.scale.streams.controllers.RouterController;
 import org.inria.scale.streams.exceptions.RoutingException;
 import org.inria.scale.streams.windows.CombinatorConfigurationObject;
 import org.inria.scale.streams.windows.ConfigurationParser;
@@ -19,6 +20,22 @@ import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
 
+/**
+ * <p>
+ * Base class abstraction for an operator which depends on more than one
+ * different kind of input to combine and process them all together.
+ * </p>
+ * <p>
+ * This class doesn't only take care of receiving tuples from different input
+ * sources, but also to trigger the process whenever the combinator window
+ * defines it according to {@link CombinatorConfiguration}.
+ * </p>
+ * 
+ * @see RouterController
+ * 
+ * @author moliva
+ *
+ */
 public abstract class MultipleSourcesCombinator extends MulticastInStreamBindingController implements InStream,
 		CombinatorConfiguration, RunActive {
 
@@ -86,7 +103,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 
 	/**
 	 * Allows the user to get all the tuples that are currently enqueued for a
-	 * specific input source while removing them from the queue afterwardss.
+	 * specific input source while removing them from the queue afterwards.
 	 * 
 	 * @param inputSource
 	 *          Input source from which to take and remove the tuples
@@ -103,7 +120,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	}
 
 	// //////////////////////////////////////////////
-	// ******* MultipleInStream *******
+	// ******* InStream *******
 	// //////////////////////////////////////////////
 
 	@Override
