@@ -16,7 +16,7 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
 
 public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration, RunActive {
 
-	private Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
+	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 
 	private String windowConfigurationJson;
 	private WindowStrategy windowStrategy;
@@ -81,10 +81,6 @@ public class Window extends MulticastInStreamBindingController implements InStre
 
 	public Queue<Tuple> getTuplesQueue() {
 		return tuples;
-	}
-
-	public void setTuplesQueue(final Queue<Tuple> tuples) {
-		this.tuples = tuples;
 	}
 
 }
