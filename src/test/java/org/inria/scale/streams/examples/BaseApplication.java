@@ -1,0 +1,45 @@
+package org.inria.scale.streams.examples;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.etsi.uri.gcm.util.GCM;
+import org.objectweb.fractal.adl.Factory;
+import org.objectweb.fractal.api.Component;
+import org.objectweb.proactive.api.PADeployment;
+import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
+
+public class BaseApplication {
+
+	private static final String DEFAULT_DEPLOYMENT_XML = "deployment.xml";
+
+	public static void main(final String... args) throws Exception {
+		// verify parameter length
+		if (args.length < 1) {
+			System.err.println("At least an ADL package and filename should be passed as a parameter");
+			System.err.println("Optionally a deployment file can be passed too");
+			System.exit(1);
+		}
+
+		// handle arguments
+		final String adl = args[0];
+		final String deploymentFilename = args.length > 1 ? args[1] : DEFAULT_DEPLOYMENT_XML;
+
+		// get the component Factory allowing component creation from ADL
+		final Factory factory = org.objectweb.proactive.core.component.adl.FactoryFactory.getFactory();
+		final Map<String, Object> context = new HashMap<String, Object>();
+
+		// retrieve the deployment descriptor
+		final ProActiveDescriptor deploymentDescriptor = //
+		PADeployment.getProactiveDescriptor(BaseApplication.class.getClassLoader().getResource(deploymentFilename)
+				.getPath());
+		context.put("deployment-descriptor", deploymentDescriptor);
+		deploymentDescriptor.activateMappings();
+
+		final Component compositeWrapper = (Component) factory.newComponent(adl, context);
+
+		// start PrimitiveComputer component
+		GCM.getGCMLifeCycleController(compositeWrapper).startFc();
+	}
+
+}
