@@ -43,6 +43,8 @@ public class RouterController extends AbstractPAController implements Intercepto
 			return Integer.parseInt(lastCharacter);
 		} catch (final NumberFormatException e) {
 			// if it's not a number, let's go with the default port
+			System.err.println("Warning: Interface " + interfaceName + " from component " + owner
+					+ " does not finish in a number. Using default port (i.e. 0) instead");
 			return 0;
 		}
 	}
