@@ -6,6 +6,14 @@ import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.exceptions.RoutingException;
 import org.javatuples.Tuple;
 
+/**
+ * Base abstraction for a Operator functional content with one input source
+ * broadcasting its results across the multiples operators that are binded to
+ * it.
+ * 
+ * @author moliva
+ *
+ */
 public abstract class BaseOperator extends MulticastInStreamBindingController implements InStream {
 
 	/**

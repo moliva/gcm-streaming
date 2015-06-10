@@ -3,6 +3,15 @@ package org.inria.scale.streams.base;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 
+/**
+ * Base abstraction for an implementation of an InTap. It handles the logic for
+ * {@link RunActive running an activity} when the application is launched as
+ * well providing the behavior for forwarding the generated tuples to the next
+ * operation, inherited from {@link MulticastInStreamBindingController}.
+ * 
+ * @author moliva
+ *
+ */
 public abstract class BaseInTap extends MulticastInStreamBindingController implements RunActive {
 
 	private boolean firstTime = true;

@@ -5,6 +5,15 @@ import java.util.List;
 import org.inria.scale.streams.InStream;
 import org.javatuples.Tuple;
 
+/**
+ * Base abstraction for OutTaps. This kind of operation should receive tuples
+ * from the previous components and process them, outputting results outside the
+ * system in the form of a file, console, socket or any other form, not being
+ * able to forward tuples to any other operator.
+ * 
+ * @author moliva
+ *
+ */
 public abstract class BaseOutTap implements InStream {
 
 	/**
