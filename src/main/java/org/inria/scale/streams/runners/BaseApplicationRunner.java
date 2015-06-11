@@ -9,6 +9,13 @@ import org.objectweb.fractal.api.Component;
 import org.objectweb.proactive.api.PADeployment;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
 
+/**
+ * Allows users to execute their applications in a simple way, passing as an
+ * argument the ADL and, optionally, the deployment configuration of the system.
+ *
+ * @author moliva
+ *
+ */
 public class BaseApplicationRunner {
 
 	private static final String DEFAULT_DEPLOYMENT_XML = "deployment.xml";
@@ -22,7 +29,7 @@ public class BaseApplicationRunner {
 	 * when executing the application:<br />
 	 * <code>-Djava.security.manager -Djava.security.policy=src/test/resources/allPerm.policy  -Dgcm.provider=org.objectweb.proactive.core.component.Fractive</code>
 	 * </p>
-	 * 
+	 *
 	 * @param args
 	 *          The parameters accepted currently are an ADL file
 	 *          <b>(required)</b> and secondly, an XML deployment file as optional
@@ -45,7 +52,8 @@ public class BaseApplicationRunner {
 		final Map<String, Object> context = new HashMap<String, Object>();
 
 		// retrieve the deployment descriptor
-		final String deploymentFilePath = BaseApplicationRunner.class.getClassLoader().getResource(deploymentFilename).getPath();
+		final String deploymentFilePath = BaseApplicationRunner.class.getClassLoader().getResource(deploymentFilename)
+				.getPath();
 		final ProActiveDescriptor deploymentDescriptor = PADeployment.getProactiveDescriptor(deploymentFilePath);
 		context.put("deployment-descriptor", deploymentDescriptor);
 		deploymentDescriptor.activateMappings();

@@ -7,6 +7,15 @@ import org.javatuples.Tuple;
 
 import com.google.common.base.Joiner;
 
+/**
+ * Writes the contents of the tuples in the standard output. The tuples will be
+ * printed per line joining their components with a blank.
+ *
+ * @see System#out
+ *
+ * @author miguel
+ *
+ */
 public class SystemOutputWriter extends BaseOutTap {
 
 	@Override

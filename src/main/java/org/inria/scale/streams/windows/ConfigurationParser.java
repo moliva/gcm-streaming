@@ -2,6 +2,14 @@ package org.inria.scale.streams.windows;
 
 import com.google.gson.Gson;
 
+/**
+ * Parser for the JSON representation (and modified for ADL compatibility) for
+ * both the {@link WindowConfigurationObject} and the
+ * {@link CombinatorConfigurationObject}.
+ *
+ * @author moliva
+ *
+ */
 public class ConfigurationParser {
 
 	public CombinatorConfigurationObject parseCombinatorConfiguration(final String json) {

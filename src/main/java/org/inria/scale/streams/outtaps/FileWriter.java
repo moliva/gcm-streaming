@@ -14,11 +14,33 @@ import org.javatuples.Tuple;
 
 import com.google.common.base.Joiner;
 
+/**
+ * <p>
+ * OutTap for writing the tuples contents down to a set of files inside the
+ * directory for the <code>directory path</code> specified. A
+ * <code>prefix</code> and <code>postfix</code> for the filenames can be
+ * defined.
+ * </p>
+ * <p>
+ * Whenever a file is successfully written a file will be written inside the
+ * directory for the processed batch indicating so with a
+ * {@link FileWriter#DEFAULT_SUCCESS_FILENAME}.
+ * </p>
+ *
+ * @author moliva
+ *
+ */
 public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
 
+	public static final String DEFAULT_CONTENT_FILENAME = "part-00000";
+	public static final String DEFAULT_SUCCESS_FILENAME = "_SUCCESS";
+
+	public static final String DEFAULT_PREFIX = "";
+	public static final String DEFAULT_POSTFIX = "";
+
 	private String path;
-	private String prefix = "";
-	private String postfix = "";
+	private String prefix = DEFAULT_PREFIX;
+	private String postfix = DEFAULT_POSTFIX;
 
 	// //////////////////////////////////////////////
 	// ******* InStream *******
@@ -27,16 +49,17 @@ public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
 	@Override
 	public void process(final List<Tuple> tuplesToProcess) {
 		final Path directoryPath = FileSystems.getDefault().getPath(".", path, createDirectoryName());
-		final Path filePath = directoryPath.resolve("part-00000");
-		final Path successPath = directoryPath.resolve("_SUCCESS");
+		final Path filePath = directoryPath.resolve(DEFAULT_CONTENT_FILENAME);
+		final Path successPath = directoryPath.resolve(DEFAULT_SUCCESS_FILENAME);
 
 		try {
 			Files.createDirectories(directoryPath);
 			Files.createFile(filePath);
 
 			try (final BufferedWriter writer = Files.newBufferedWriter(filePath, Charset.defaultCharset())) {
-				for (final Tuple tuple : tuplesToProcess)
+				for (final Tuple tuple : tuplesToProcess) {
 					writer.write(Joiner.on(" ").join(tuple) + "\n");
+				}
 			}
 
 			successPath.toFile().createNewFile();
