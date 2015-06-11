@@ -1,4 +1,4 @@
-package org.inria.scale.streams.tests.unit;
+package org.inria.scale.streams.tests.unit.windows;
 
 import static org.hamcrest.Matchers.contains;
 import static org.mockito.Matchers.anyListOf;
@@ -14,21 +14,25 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.operators.Window;
-import org.inria.scale.streams.windows.sliding.CountTriggerPolicy;
+import org.inria.scale.streams.windows.sliding.TimeTriggerPolicy;
 import org.inria.scale.streams.windows.sliding.TriggerPolicy;
 import org.javatuples.Tuple;
 import org.javatuples.Unit;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CountTriggerPolicyTest {
+public class TimeTriggerPolicyTest {
+
+	private static final long MILLISECONDS_TO_WAIT = 500;
+	private static final long MILLISECONDS_EXTRA = MILLISECONDS_TO_WAIT / 2;
 
 	private final Tuple[] tuples = new Tuple[] { createTuple(1), createTuple(2) };
 	private final Queue<Tuple> queue = new ConcurrentLinkedQueue<Tuple>(Arrays.asList(tuples));
 
 	private final Window window = mock(Window.class);
 
-	private final TriggerPolicy policy = new CountTriggerPolicy(3);
+	private final TriggerPolicy policy = new TimeTriggerPolicy(MILLISECONDS_TO_WAIT);
 
 	@Before
 	public void setWindowMockUp() {
@@ -40,19 +44,20 @@ public class CountTriggerPolicyTest {
 		policy.initialize(window);
 	}
 
+	@After
+	public void tearDownPolicy() {
+		policy.tearDown();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Test
-	public void shouldTriggerWhenCountIsMet() throws Exception {
-		final Tuple tuple1 = createTuple(1);
-		policy.check(tuple1);
+	public void shouldTriggerAfterTimeReached() throws Exception {
 		verify(window, never()).send(anyListOf(Tuple.class));
 
-		final Tuple tuple2 = createTuple(2);
-		policy.check(tuple2);
-		verify(window, never()).send(anyListOf(Tuple.class));
+		// waiting a window + an interval of confidence to ensure the correct
+		// execution of the triggering
+		Thread.sleep(MILLISECONDS_TO_WAIT + MILLISECONDS_EXTRA);
 
-		final Tuple tuple3 = createTuple(3);
-		policy.check(tuple3);
 		verify(window).send((List<Tuple>) argThat(contains(tuples)));
 	}
 

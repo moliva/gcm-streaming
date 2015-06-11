@@ -1,4 +1,4 @@
-package org.inria.scale.streams.tests.unit;
+package org.inria.scale.streams.tests.unit.windows;
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;

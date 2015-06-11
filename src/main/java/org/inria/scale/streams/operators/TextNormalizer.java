@@ -20,7 +20,7 @@ import com.google.common.collect.FluentIterable;
 public class TextNormalizer extends BaseOperator {
 
 	@Override
-	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
+	public List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
 		return FluentIterable.from(tuplesToProcess).transform(new Function<Tuple, Tuple>() {
 
 			@Override

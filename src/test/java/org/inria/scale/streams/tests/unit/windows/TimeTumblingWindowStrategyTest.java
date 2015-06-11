@@ -1,4 +1,4 @@
-package org.inria.scale.streams.tests.unit;
+package org.inria.scale.streams.tests.unit.windows;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;

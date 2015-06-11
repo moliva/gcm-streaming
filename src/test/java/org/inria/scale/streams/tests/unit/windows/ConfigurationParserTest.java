@@ -1,4 +1,4 @@
-package org.inria.scale.streams.tests.unit;
+package org.inria.scale.streams.tests.unit.windows;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;

@@ -10,23 +10,30 @@ import org.javatuples.Tuple;
 import com.google.common.collect.FluentIterable;
 
 /**
+ * 
+ * <p>
  * Sorts the tuples in a single batch by the values in an index defined by
  * <code>tupleComponent</code> in each tuple. The order can be descending, from
  * biggest to lowest, using the <code>desc</code> order, or ascending,
  * otherwise.
+ * </p>
+ * <p>
+ * The tuple component must be {@link Comparable}.
+ * </p>
  * 
  * @author moliva
  *
  */
 public class SortBy extends BaseOperator implements SortByConfiguration {
 
-	private static final String DESCENDING_ORDER = "desc";
+	public static final String DESCENDING_ORDER = "desc";
+	public static final String ASCENDING_ORDER = "asc";
 
 	private int position;
 	private String order;
 
 	@Override
-	protected List<Tuple> processTuples(final List<Tuple> tuplesToProcess) {
+	public List<Tuple> processTuples(final List<Tuple> tuplesToProcess) {
 		return FluentIterable.from(tuplesToProcess).toSortedList(new Comparator<Tuple>() {
 
 			@SuppressWarnings("unchecked")
