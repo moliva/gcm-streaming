@@ -3,6 +3,7 @@ package org.inria.scale.streams.tests.unit.windows;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -14,7 +15,6 @@ import org.inria.scale.streams.operators.Window;
 import org.inria.scale.streams.windows.sliding.EvictionPolicy;
 import org.inria.scale.streams.windows.sliding.TimeEvictionPolicy;
 import org.javatuples.Tuple;
-import org.javatuples.Unit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class TimeEvictionPolicyTest {
 
 	@Test
 	public void shouldStoreTuplesWhenAddedAndEvictThemWhenTimeIsReached() throws Exception {
-		final Tuple tuple1 = createTuple(1);
+		final Tuple tuple1 = tupleWith(1);
 		policy.check(tuple1);
 		assertThat(queue, contains(tuple1));
 
@@ -55,7 +55,7 @@ public class TimeEvictionPolicyTest {
 		// window hasn't slide yet, tuple1 should be still there
 		assertThat(queue, contains(tuple1));
 
-		final Tuple tuple2 = createTuple(2);
+		final Tuple tuple2 = tupleWith(2);
 		policy.check(tuple2);
 		assertThat(queue, contains(tuple1, tuple2));
 
@@ -70,11 +70,4 @@ public class TimeEvictionPolicyTest {
 		assertThat(queue, is(empty()));
 	}
 
-	// //////////////////////////////////////////////
-	// ******* Utils *******
-	// //////////////////////////////////////////////
-
-	private Unit<Integer> createTuple(final int value) {
-		return Unit.with(value);
-	}
 }

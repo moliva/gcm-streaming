@@ -30,11 +30,11 @@ public class SlidingWindowStrategyWithCountEvictionAndCountTriggerPoliciesTest e
 
 	@Test
 	public void shouldSlideAndTriggerTuplesAccordinglyWhenAddingNewOnes() throws Exception {
-		final Tuple tuple1 = createTuple(1);
-		final Tuple tuple2 = createTuple(2);
-		final Tuple tuple3 = createTuple(3);
-		final Tuple tuple4 = createTuple(4);
-		final Tuple tuple5 = createTuple(5);
+		final Tuple tuple1 = tupleWith(1);
+		final Tuple tuple2 = tupleWith(2);
+		final Tuple tuple3 = tupleWith(3);
+		final Tuple tuple4 = tupleWith(4);
+		final Tuple tuple5 = tupleWith(5);
 
 		// stores tuples but doesn't trigger as the period hasn't passed
 		strategy.check(Arrays.asList(tuple1, tuple2));

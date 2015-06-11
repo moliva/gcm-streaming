@@ -31,9 +31,9 @@ public class SlidingWindowStrategyWithTimeEvictionAndTimeTriggerPoliciesTest ext
 
 	@Test
 	public void shouldSlideAndTriggerTuplesAccordinglyWhenAddingNewOnes() throws Exception {
-		final Tuple tuple1 = createTuple(1);
-		final Tuple tuple2 = createTuple(2);
-		final Tuple tuple3 = createTuple(3);
+		final Tuple tuple1 = tupleWith(1);
+		final Tuple tuple2 = tupleWith(2);
+		final Tuple tuple3 = tupleWith(3);
 
 		strategy.check(Arrays.asList(tuple1));
 		verify(window, never()).send(anyListOf(Tuple.class));

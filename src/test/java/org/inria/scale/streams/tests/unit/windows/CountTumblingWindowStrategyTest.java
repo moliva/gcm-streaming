@@ -3,6 +3,7 @@ package org.inria.scale.streams.tests.unit.windows;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.argThat;
@@ -21,7 +22,6 @@ import org.inria.scale.streams.operators.Window;
 import org.inria.scale.streams.windows.CountTumblingWindowStrategy;
 import org.inria.scale.streams.windows.WindowStrategy;
 import org.javatuples.Tuple;
-import org.javatuples.Unit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class CountTumblingWindowStrategyTest {
 
 	@Test
 	public void shouldNotCallTheWindowWhenTheCountIsNotMetAndAddTuplesToQueue() throws Exception {
-		final Tuple tuple = createTuple(1);
+		final Tuple tuple = tupleWith(1);
 
 		strategy.check(Arrays.asList(tuple));
 
@@ -57,7 +57,7 @@ public class CountTumblingWindowStrategyTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldCallTheWindowWhenTheCountIsMetAndEmptyTheQueue() throws Exception {
-		final Tuple[] tuples = new Tuple[] { createTuple(1), createTuple(2), createTuple(3), createTuple(4), createTuple(5) };
+		final Tuple[] tuples = new Tuple[] { tupleWith(1), tupleWith(2), tupleWith(3), tupleWith(4), tupleWith(5) };
 
 		strategy.check(Arrays.asList(tuples));
 
@@ -68,8 +68,8 @@ public class CountTumblingWindowStrategyTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldCallTheWindowWhenTheCountIsMetAndLeaveTheExtraTuplesInTheQueue() throws Exception {
-		final Tuple[] tuples = new Tuple[] { createTuple(1), createTuple(2), createTuple(3), createTuple(4), createTuple(5) };
-		final Tuple extraTuple = createTuple(6);
+		final Tuple[] tuples = new Tuple[] { tupleWith(1), tupleWith(2), tupleWith(3), tupleWith(4), tupleWith(5) };
+		final Tuple extraTuple = tupleWith(6);
 		final List<Tuple> tuplesToAdd = Lists.newArrayList(tuples);
 		tuplesToAdd.add(extraTuple);
 
@@ -79,11 +79,4 @@ public class CountTumblingWindowStrategyTest {
 		assertThat(queue, contains(extraTuple));
 	}
 
-	// //////////////////////////////////////////////
-	// ******* Utils *******
-	// //////////////////////////////////////////////
-
-	private Unit<Integer> createTuple(final int value) {
-		return Unit.with(value);
-	}
 }

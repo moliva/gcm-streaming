@@ -7,11 +7,11 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.operators.Window;
+import org.inria.scale.streams.tests.utils.TupleUtils;
 import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.inria.scale.streams.windows.WindowStrategy;
 import org.inria.scale.streams.windows.WindowStrategyFactory;
 import org.javatuples.Tuple;
-import org.javatuples.Unit;
 import org.junit.After;
 import org.junit.Before;
 
@@ -44,8 +44,8 @@ public abstract class SlidingWindowStrategyIntegrationTest {
 	// ******* Utils *******
 	// //////////////////////////////////////////////
 
-	protected Unit<Integer> createTuple(final int value) {
-		return Unit.with(value);
+	protected Tuple tupleWith(final Object... content) {
+		return TupleUtils.tupleWith(content);
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.inria.scale.streams.tests.unit.windows;
 
 import static org.hamcrest.Matchers.contains;
+import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -17,7 +18,6 @@ import org.inria.scale.streams.operators.Window;
 import org.inria.scale.streams.windows.sliding.TimeTriggerPolicy;
 import org.inria.scale.streams.windows.sliding.TriggerPolicy;
 import org.javatuples.Tuple;
-import org.javatuples.Unit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class TimeTriggerPolicyTest {
 	private static final long MILLISECONDS_TO_WAIT = 500;
 	private static final long MILLISECONDS_EXTRA = MILLISECONDS_TO_WAIT / 2;
 
-	private final Tuple[] tuples = new Tuple[] { createTuple(1), createTuple(2) };
+	private final Tuple[] tuples = new Tuple[] { tupleWith(1), tupleWith(2) };
 	private final Queue<Tuple> queue = new ConcurrentLinkedQueue<Tuple>(Arrays.asList(tuples));
 
 	private final Window window = mock(Window.class);
@@ -61,11 +61,4 @@ public class TimeTriggerPolicyTest {
 		verify(window).send((List<Tuple>) argThat(contains(tuples)));
 	}
 
-	// //////////////////////////////////////////////
-	// ******* Utils *******
-	// //////////////////////////////////////////////
-
-	private Unit<Integer> createTuple(final int value) {
-		return Unit.with(value);
-	}
 }

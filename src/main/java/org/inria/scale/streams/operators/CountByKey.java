@@ -14,8 +14,9 @@ import com.google.common.collect.FluentIterable;
 
 /**
  * Reduces the tuples in the batch by counting the number of appearances of each
- * of the keys (value 0 of the tuple). The resulting tuples are of the form of a
- * {@link Pair} like the following (key of tuple, count of appearances).
+ * of the keys (value with index 0 of the tuple). The resulting tuples are of
+ * the form of a {@link Pair} like the following (key of tuple, count of
+ * appearances).
  * 
  * @author moliva
  *
@@ -23,7 +24,7 @@ import com.google.common.collect.FluentIterable;
 public class CountByKey extends BaseOperator {
 
 	@Override
-	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
+	public List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
 		final Map<Tuple, Integer> tokenMap = new HashMap<>();
 		for (final Tuple tuple : tuplesToProcess) {
 			tokenMap.put(tuple, tokenMap.containsKey(tuple) ? tokenMap.get(tuple) + 1 : 1);

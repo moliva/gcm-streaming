@@ -3,6 +3,7 @@ package org.inria.scale.streams.tests.unit.windows;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.argThat;
@@ -20,7 +21,6 @@ import org.inria.scale.streams.operators.Window;
 import org.inria.scale.streams.windows.TimeTumblingWindowStrategy;
 import org.inria.scale.streams.windows.WindowStrategy;
 import org.javatuples.Tuple;
-import org.javatuples.Unit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,9 +51,9 @@ public class TimeTumblingWindowStrategyTest {
 
 	@Test
 	public void shouldSlideAndTriggerTuplesAccordinglyWhenTimeIsPassed() throws Exception {
-		final Tuple tuple1 = createTuple(1);
-		final Tuple tuple2 = createTuple(2);
-		final Tuple tuple3 = createTuple(3);
+		final Tuple tuple1 = tupleWith(1);
+		final Tuple tuple2 = tupleWith(2);
+		final Tuple tuple3 = tupleWith(3);
 
 		strategy.check(Arrays.asList(tuple1));
 		verify(window, never()).send(anyListOf(Tuple.class));
@@ -72,11 +72,4 @@ public class TimeTumblingWindowStrategyTest {
 		assertThat(queue, is(empty()));
 	}
 
-	// //////////////////////////////////////////////
-	// ******* Utils *******
-	// //////////////////////////////////////////////
-
-	private Unit<Integer> createTuple(final int value) {
-		return Unit.with(value);
-	}
 }
