@@ -21,10 +21,12 @@ import com.google.common.collect.FluentIterable;
  */
 public class SeparatedValuesTransformer extends BaseOperator implements SeparatedValuesConfiguration {
 
-	private String separator;
+	public static final String DEFAULT_SEPARATOR = " ";
+
+	private String separator = DEFAULT_SEPARATOR;
 
 	@Override
-	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
+	public List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
 		return FluentIterable.from(tuplesToProcess).transform(new Function<Tuple, Tuple>() {
 
 			@Override
