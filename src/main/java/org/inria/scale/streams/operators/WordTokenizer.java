@@ -16,14 +16,16 @@ import com.google.common.collect.FluentIterable;
 /**
  * Splits a tuple with string components into a set of tuples for each word in
  * the string.
- * 
+ *
+ * @see String#split(String)
+ *
  * @author moliva
  *
  */
 public class WordTokenizer extends BaseOperator {
 
 	@Override
-	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
+	public List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
 		return FluentIterable.from(tuplesToProcess).transformAndConcat(new Function<Tuple, Iterable<Unit<String>>>() {
 
 			@Override
