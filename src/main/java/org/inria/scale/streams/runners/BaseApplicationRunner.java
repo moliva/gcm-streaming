@@ -1,4 +1,4 @@
-package org.inria.scale.streams.examples;
+package org.inria.scale.streams.runners;
 
 import java.util.HashMap;
 import java.util.Map;
