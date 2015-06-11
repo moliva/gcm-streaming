@@ -1,4 +1,4 @@
-package org.inria.scale.streams.operators;
+package org.inria.scale.streams.combinators;
 
 import java.util.List;
 import java.util.Set;

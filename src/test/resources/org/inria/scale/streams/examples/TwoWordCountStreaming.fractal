@@ -45,7 +45,7 @@
 
 	<!-- CrossProduct -->
 	<component name="cross" definition="org.inria.scale.streams.Combinator">
-		<content class="org.inria.scale.streams.operators.CartesianProduct" />
+		<content class="org.inria.scale.streams.combinators.CartesianProduct" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
 			<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 6000 )" />
