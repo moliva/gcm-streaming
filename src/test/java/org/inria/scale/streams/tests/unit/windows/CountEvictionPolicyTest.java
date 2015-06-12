@@ -62,4 +62,28 @@ public class CountEvictionPolicyTest {
 		assertThat(queue, contains(tuple2, tuple3, tuple4, tuple5, extraTuple));
 	}
 
+	@Test
+	public void shouldEvictTuplesPreviouslyStoredIfTheCountIsAlreadySurpassed() throws Exception {
+		// already existing tuples in queue
+		queue.addAll(Arrays.asList( //
+				tupleWith(1), //
+				tupleWith(2), //
+				tupleWith(3), //
+				tupleWith(4), //
+				tupleWith(5), //
+				tupleWith(6), //
+				tupleWith(7)));
+
+		// reinitializing policy
+		policy.initialize(window);
+
+		// tuples must be here when policy is just initialized
+		assertThat(queue, contains( //
+				tupleWith(3), //
+				tupleWith(4), //
+				tupleWith(5), //
+				tupleWith(6), //
+				tupleWith(7)));
+	}
+
 }

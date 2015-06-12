@@ -18,6 +18,12 @@ public class CountEvictionPolicy implements EvictionPolicy {
 	@Override
 	public void initialize(final Window window) {
 		this.window = window;
+
+		final Queue<Tuple> queue = window.getTuplesQueue();
+		final int originalSize = queue.size();
+		for (int i = 0; i < originalSize - count; i++) {
+			singleCheck(queue);
+		}
 	}
 
 	@Override
@@ -25,6 +31,10 @@ public class CountEvictionPolicy implements EvictionPolicy {
 		final Queue<Tuple> queue = window.getTuplesQueue();
 		queue.add(tuple);
 
+		singleCheck(queue);
+	}
+
+	private void singleCheck(final Queue<Tuple> queue) {
 		if (queue.size() > count) {
 			queue.remove();
 		}
