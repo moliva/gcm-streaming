@@ -1,4 +1,4 @@
-package org.inria.scale.streams.windows.sliding;
+package org.inria.scale.streams.windows.policies;
 
 import java.util.ArrayList;
 import java.util.HashMap;

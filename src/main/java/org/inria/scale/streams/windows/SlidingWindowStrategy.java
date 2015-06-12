@@ -3,8 +3,8 @@ package org.inria.scale.streams.windows;
 import java.util.List;
 
 import org.inria.scale.streams.operators.Window;
-import org.inria.scale.streams.windows.sliding.EvictionPolicy;
-import org.inria.scale.streams.windows.sliding.TriggerPolicy;
+import org.inria.scale.streams.windows.policies.EvictionPolicy;
+import org.inria.scale.streams.windows.policies.TriggerPolicy;
 import org.javatuples.Tuple;
 
 public class SlidingWindowStrategy implements WindowStrategy {

@@ -15,8 +15,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.operators.Window;
-import org.inria.scale.streams.windows.sliding.TimeTriggerPolicy;
-import org.inria.scale.streams.windows.sliding.TriggerPolicy;
+import org.inria.scale.streams.windows.policies.TimeTriggerPolicy;
+import org.inria.scale.streams.windows.policies.TriggerPolicy;
 import org.javatuples.Tuple;
 import org.junit.After;
 import org.junit.Before;

@@ -7,8 +7,8 @@ import java.util.Arrays;
 
 import org.inria.scale.streams.windows.SlidingWindowStrategy;
 import org.inria.scale.streams.windows.WindowStrategy;
-import org.inria.scale.streams.windows.sliding.EvictionPolicy;
-import org.inria.scale.streams.windows.sliding.TriggerPolicy;
+import org.inria.scale.streams.windows.policies.EvictionPolicy;
+import org.inria.scale.streams.windows.policies.TriggerPolicy;
 import org.javatuples.Tuple;
 import org.javatuples.Unit;
 import org.junit.Test;

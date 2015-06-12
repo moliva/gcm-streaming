@@ -10,12 +10,12 @@ import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_SLI
 import static org.inria.scale.streams.windows.WindowConfigurationObject.TYPE_TUMBLING;
 
 import org.inria.scale.streams.exceptions.WindowStrategyCreationException;
-import org.inria.scale.streams.windows.sliding.CountEvictionPolicy;
-import org.inria.scale.streams.windows.sliding.CountTriggerPolicy;
-import org.inria.scale.streams.windows.sliding.EvictionPolicy;
-import org.inria.scale.streams.windows.sliding.TimeEvictionPolicy;
-import org.inria.scale.streams.windows.sliding.TimeTriggerPolicy;
-import org.inria.scale.streams.windows.sliding.TriggerPolicy;
+import org.inria.scale.streams.windows.policies.CountEvictionPolicy;
+import org.inria.scale.streams.windows.policies.CountTriggerPolicy;
+import org.inria.scale.streams.windows.policies.EvictionPolicy;
+import org.inria.scale.streams.windows.policies.TimeEvictionPolicy;
+import org.inria.scale.streams.windows.policies.TimeTriggerPolicy;
+import org.inria.scale.streams.windows.policies.TriggerPolicy;
 
 public class WindowStrategyFactory {
 

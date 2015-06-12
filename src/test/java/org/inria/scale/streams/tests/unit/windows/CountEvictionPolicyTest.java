@@ -12,8 +12,8 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.operators.Window;
-import org.inria.scale.streams.windows.sliding.CountEvictionPolicy;
-import org.inria.scale.streams.windows.sliding.EvictionPolicy;
+import org.inria.scale.streams.windows.policies.CountEvictionPolicy;
+import org.inria.scale.streams.windows.policies.EvictionPolicy;
 import org.javatuples.Tuple;
 import org.junit.Before;
 import org.junit.Test;

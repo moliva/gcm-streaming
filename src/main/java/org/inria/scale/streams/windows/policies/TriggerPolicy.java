@@ -1,16 +1,16 @@
-package org.inria.scale.streams.windows.sliding;
+package org.inria.scale.streams.windows.policies;
 
 import org.inria.scale.streams.operators.Window;
 import org.javatuples.Tuple;
 
 /**
- * Defines a policy for storing and dropping tuples of the queue of the
- * collaborating {@link Window}.
+ * Defines a policy for triggering the execution of the collaborating
+ * {@link Window}.
  * 
  * @author moliva
  *
  */
-public interface EvictionPolicy {
+public interface TriggerPolicy {
 
 	/**
 	 * Initializes the policy with the specified window. The policy should execute
@@ -29,11 +29,10 @@ public interface EvictionPolicy {
 	void tearDown();
 
 	/**
-	 * Executes the corresponding check for this policy if necessary. Adding the
-	 * current <code>tuple</code> and dropping any when corresponding.
+	 * Executes the corresponding check for this policy if necessary.
 	 * 
 	 * @param tuple
-	 *          New tuple to be added
+	 *          New tuple being added
 	 */
 	void check(Tuple tuple);
 
