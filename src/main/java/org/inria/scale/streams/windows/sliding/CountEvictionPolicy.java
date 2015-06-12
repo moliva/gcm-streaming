@@ -3,8 +3,19 @@ package org.inria.scale.streams.windows.sliding;
 import java.util.Queue;
 
 import org.inria.scale.streams.operators.Window;
+import org.inria.scale.streams.windows.SlidingWindowStrategy;
 import org.javatuples.Tuple;
 
+/**
+ * Eviction policy that stores up to a number of <code>count</code> tuples in
+ * total. Tuples will be dropped in FIFO order as they arrive and the window
+ * gets full.
+ * 
+ * @see SlidingWindowStrategy
+ * 
+ * @author moliva
+ *
+ */
 public class CountEvictionPolicy implements EvictionPolicy {
 
 	private final int count;

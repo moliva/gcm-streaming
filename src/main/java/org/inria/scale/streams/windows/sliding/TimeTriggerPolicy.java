@@ -5,8 +5,19 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.inria.scale.streams.operators.Window;
+import org.inria.scale.streams.windows.SlidingWindowStrategy;
 import org.javatuples.Tuple;
 
+/**
+ * Trigger policy that triggers the execution of the tuples every
+ * <code>milliseconds</code> defined by the user with the current queue stored
+ * in the window.
+ * 
+ * @see SlidingWindowStrategy
+ * 
+ * @author moliva
+ *
+ */
 public class TimeTriggerPolicy implements TriggerPolicy {
 
 	private final long milliseconds;

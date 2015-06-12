@@ -4,8 +4,19 @@ import java.util.ArrayList;
 import java.util.Queue;
 
 import org.inria.scale.streams.operators.Window;
+import org.inria.scale.streams.windows.SlidingWindowStrategy;
 import org.javatuples.Tuple;
 
+/**
+ * Trigger policy that counts the number of received tuples up to a total of
+ * <code>count</code> and triggers the execution with the currently stored
+ * tuples in the window resetting its internal counter.
+ * 
+ * @see SlidingWindowStrategy
+ * 
+ * @author moliva
+ *
+ */
 public class CountTriggerPolicy implements TriggerPolicy {
 
 	private final int count;

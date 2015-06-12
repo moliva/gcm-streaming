@@ -9,11 +9,28 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.inria.scale.streams.operators.Window;
+import org.inria.scale.streams.windows.SlidingWindowStrategy;
 import org.javatuples.Tuple;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 
+/**
+ * <p>
+ * Eviction policy that stores tuples up to a total of <code>milliseconds</code>
+ * before they are effectively dropped.
+ * </p>
+ * <p>
+ * Note that the tuples might be stored for an extra time of up to
+ * {@link TimeEvictionPolicy#DEFAULT_INTERVAL} which is the interval in between
+ * checks.
+ * </p>
+ * 
+ * @see SlidingWindowStrategy
+ * 
+ * @author moliva
+ *
+ */
 public class TimeEvictionPolicy implements EvictionPolicy {
 
 	private static final int DEFAULT_INTERVAL = 100;
