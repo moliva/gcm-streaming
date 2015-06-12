@@ -32,7 +32,7 @@ public class SystemOutputWriterTest {
 				tupleWith("b", 2), //
 				tupleWith("c", 3));
 
-		operator.process(tuples);
+		operator.processTuples(tuples);
 
 		final InOrder inOrder = inOrder(output);
 		inOrder.verify(output).println("a 1");

@@ -19,7 +19,7 @@ import com.google.common.base.Joiner;
 public class SystemOutputWriter extends BaseOutTap {
 
 	@Override
-	public void process(final List<Tuple> tuples) {
+	public void processTuples(final List<Tuple> tuples) {
 		for (final Tuple tuple : tuples)
 			System.out.println(Joiner.on(" ").join(tuple));
 	}

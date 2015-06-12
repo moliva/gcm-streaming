@@ -3,6 +3,7 @@ package org.inria.scale.streams.base;
 import java.util.List;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.exceptions.RoutingException;
 import org.javatuples.Tuple;
 
 /**
@@ -24,7 +25,7 @@ public abstract class BaseOutTap implements InStream {
 	 * @param tuples
 	 *          List of tuples to be output by the tap
 	 */
-	protected abstract void process(List<Tuple> tuples);
+	protected abstract void processTuples(List<Tuple> tuples);
 
 	// //////////////////////////////////////////////
 	// ******* InStream *******
@@ -32,7 +33,12 @@ public abstract class BaseOutTap implements InStream {
 
 	@Override
 	public void receive(final int inputSource, final List<Tuple> newTuples) {
-		process(newTuples);
+		if (inputSource > 0) {
+			throw new RoutingException("this out tap doesn't allow an input source greater than 0, invalid input source "
+					+ inputSource);
+		}
+
+		processTuples(newTuples);
 	}
 
 }

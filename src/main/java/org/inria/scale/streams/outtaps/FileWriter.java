@@ -47,7 +47,7 @@ public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
 	// //////////////////////////////////////////////
 
 	@Override
-	public void process(final List<Tuple> tuplesToProcess) {
+	public void processTuples(final List<Tuple> tuplesToProcess) {
 		final Path directoryPath = FileSystems.getDefault().getPath(".", path, createDirectoryName());
 		final Path filePath = directoryPath.resolve(DEFAULT_CONTENT_FILENAME);
 		final Path successPath = directoryPath.resolve(DEFAULT_SUCCESS_FILENAME);

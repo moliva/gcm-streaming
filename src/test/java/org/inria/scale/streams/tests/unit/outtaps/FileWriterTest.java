@@ -57,7 +57,7 @@ public class FileWriterTest {
 				tupleWith("c", 3));
 
 		final long beforeMillis = System.currentTimeMillis();
-		operator.process(tuples);
+		operator.processTuples(tuples);
 		final long afterMillis = System.currentTimeMillis();
 
 		final List<File> outputDirectoryFiles = Arrays.asList(getDirectoryFile().listFiles());
@@ -81,7 +81,7 @@ public class FileWriterTest {
 		operator.setPrefix("prefix-here");
 
 		final long beforeMillis = System.currentTimeMillis();
-		operator.process(Arrays.<Tuple> asList());
+		operator.processTuples(Arrays.<Tuple> asList());
 		final long afterMillis = System.currentTimeMillis();
 
 		final List<File> outputDirectoryFiles = Arrays.asList(getDirectoryFile().listFiles());
@@ -100,7 +100,7 @@ public class FileWriterTest {
 		operator.setPostfix("postfix-here");
 
 		final long beforeMillis = System.currentTimeMillis();
-		operator.process(Arrays.<Tuple> asList());
+		operator.processTuples(Arrays.<Tuple> asList());
 		final long afterMillis = System.currentTimeMillis();
 
 		final List<File> outputDirectoryFiles = Arrays.asList(getDirectoryFile().listFiles());
@@ -120,7 +120,7 @@ public class FileWriterTest {
 		operator.setPostfix("postfix-here");
 
 		final long beforeMillis = System.currentTimeMillis();
-		operator.process(Arrays.<Tuple> asList());
+		operator.processTuples(Arrays.<Tuple> asList());
 		final long afterMillis = System.currentTimeMillis();
 
 		final List<File> outputDirectoryFiles = Arrays.asList(getDirectoryFile().listFiles());
