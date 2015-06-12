@@ -4,7 +4,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -67,6 +67,27 @@ public class TimeEvictionPolicyTest {
 		Thread.sleep(MILLISECONDS_TO_WAIT);
 
 		// the window should have slided yet one more time
+		assertThat(queue, is(empty()));
+	}
+
+	@Test
+	public void shouldEvictTuplesPreviouslyStoredAfterTimePassedWhenEvictionPolicyIsSet() throws Exception {
+		// tear down policy, we'll reinitialize it with some preexistent tuples
+		policy.tearDown();
+
+		// already existing tuples in queue
+		queue.add(tupleWith(1));
+		queue.add(tupleWith(2));
+
+		// reinitializing policy
+		policy.initialize(window);
+
+		// tuples must be here when policy is just initialized
+		assertThat(queue, contains(tupleWith(1), tupleWith(2)));
+
+		Thread.sleep(MILLISECONDS_TO_WAIT * 2);
+
+		// tuples must be evicted after the eviction time (plus an extra) has passed
 		assertThat(queue, is(empty()));
 	}
 

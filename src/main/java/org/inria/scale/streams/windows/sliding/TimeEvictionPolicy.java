@@ -32,7 +32,16 @@ public class TimeEvictionPolicy implements EvictionPolicy {
 	@Override
 	public void initialize(final Window window) {
 		this.window = window;
+		populateTimesMap();
 		initializeTimers();
+	}
+
+	private void populateTimesMap() {
+		final long currentTime = System.currentTimeMillis();
+
+		for (final Tuple tuple : window.getTuplesQueue()) {
+			recordTime(tuple, currentTime);
+		}
 	}
 
 	private void initializeTimers() {
@@ -51,9 +60,13 @@ public class TimeEvictionPolicy implements EvictionPolicy {
 		final long currentTime = System.currentTimeMillis();
 
 		final Queue<Tuple> queue = window.getTuplesQueue();
-		times.put(tuple, currentTime);
+		recordTime(tuple, currentTime);
 
 		queue.add(tuple);
+	}
+
+	private void recordTime(final Tuple tuple, final long currentTime) {
+		times.put(tuple, currentTime);
 	}
 
 	private void singleCheck() {
