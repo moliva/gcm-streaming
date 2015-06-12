@@ -47,7 +47,7 @@ public abstract class BaseUnitOperator extends BaseOperator {
 	protected abstract Iterable<? extends Tuple> processTuple(final Tuple tupleToProcess);
 
 	@Override
-	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
+	public List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
 		return FluentIterable.from(tuplesToProcess).transformAndConcat(new Function<Tuple, Iterable<? extends Tuple>>() {
 
 			@Override
