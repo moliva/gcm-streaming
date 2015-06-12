@@ -155,7 +155,7 @@ public class FileWriterTest {
 
 			@Override
 			public void describeTo(final Description description) {
-				// TODO - describe the error
+				description.appendText("number out of bounds");
 			}
 
 			@Override
