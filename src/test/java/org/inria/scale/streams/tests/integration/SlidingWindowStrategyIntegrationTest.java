@@ -10,7 +10,7 @@ import org.inria.scale.streams.operators.Window;
 import org.inria.scale.streams.tests.utils.TupleUtils;
 import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.inria.scale.streams.windows.WindowStrategy;
-import org.inria.scale.streams.windows.WindowStrategyFactory;
+import org.inria.scale.streams.windows.StaticWindowStrategyFactory;
 import org.javatuples.Tuple;
 import org.junit.After;
 import org.junit.Before;
@@ -31,7 +31,7 @@ public abstract class SlidingWindowStrategyIntegrationTest {
 
 	@Before
 	public void initializeStrategy() {
-		strategy = WindowStrategyFactory.createFrom(createWindowConfiguration());
+		strategy = new StaticWindowStrategyFactory().createFrom(createWindowConfiguration());
 		strategy.initialize(window);
 	}
 

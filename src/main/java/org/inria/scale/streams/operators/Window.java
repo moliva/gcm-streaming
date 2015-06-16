@@ -5,10 +5,13 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.base.MultiActiveServiceFactory;
+import org.inria.scale.streams.base.MultiActiveServiceFactoryImpl;
 import org.inria.scale.streams.base.MulticastInStreamBindingController;
 import org.inria.scale.streams.configuration.WindowConfiguration;
 import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.inria.scale.streams.windows.WindowStrategy;
+import org.inria.scale.streams.windows.StaticWindowStrategyFactory;
 import org.inria.scale.streams.windows.WindowStrategyFactory;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;
@@ -31,11 +34,23 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
 public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration, RunActive {
 
 	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
+	private final MultiActiveServiceFactory multiActiveServiceFactory;
+	private final WindowStrategyFactory windowStrategyFactory;
 
 	private String windowConfigurationJson;
 	private WindowStrategy windowStrategy;
 
 	private boolean alreadyRunning = false;
+
+	public Window(final MultiActiveServiceFactory multiActiveServiceFactory,
+			final WindowStrategyFactory windowStrategyFactory) {
+		this.multiActiveServiceFactory = multiActiveServiceFactory;
+		this.windowStrategyFactory = windowStrategyFactory;
+	}
+
+	public Window() {
+		this(new MultiActiveServiceFactoryImpl(), new StaticWindowStrategyFactory());
+	}
 
 	// //////////////////////////////////////////////
 	// ******* RunActive *******
@@ -48,12 +63,16 @@ public class Window extends MulticastInStreamBindingController implements InStre
 		windowStrategy.initialize(this);
 		alreadyRunning = true;
 
-		final MultiActiveService service = new MultiActiveService(body);
+		final MultiActiveService service = createMultiActiveService(body);
 		while (body.isActive()) {
 			service.multiActiveServing();
 		}
 
 		safelyTearDownWindowStrategy();
+	}
+
+	private MultiActiveService createMultiActiveService(final Body body) {
+		return multiActiveServiceFactory.createService(body);
 	}
 
 	private void safelyTearDownWindowStrategy() {
@@ -79,7 +98,7 @@ public class Window extends MulticastInStreamBindingController implements InStre
 	public void setWindowConfiguration(final String windowConfigurationJson) {
 		this.windowConfigurationJson = windowConfigurationJson;
 
-		final WindowStrategy newWindowStrategy = WindowStrategyFactory.createFrom(windowConfigurationJson);
+		final WindowStrategy newWindowStrategy = windowStrategyFactory.createFrom(windowConfigurationJson);
 		safelyTearDownWindowStrategy();
 		windowStrategy = newWindowStrategy;
 
