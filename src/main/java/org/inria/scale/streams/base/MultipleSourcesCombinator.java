@@ -13,6 +13,8 @@ import org.inria.scale.streams.InStream;
 import org.inria.scale.streams.configuration.CombinatorConfiguration;
 import org.inria.scale.streams.controllers.RouterController;
 import org.inria.scale.streams.exceptions.RoutingException;
+import org.inria.scale.streams.multiactivity.MultiActiveServiceFactory;
+import org.inria.scale.streams.multiactivity.MultiActiveServiceFactoryImpl;
 import org.inria.scale.streams.windows.CombinatorConfigurationObject;
 import org.inria.scale.streams.windows.ConfigurationParser;
 import org.javatuples.Tuple;

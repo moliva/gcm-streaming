@@ -17,9 +17,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.inria.scale.streams.MulticastInStream;
-import org.inria.scale.streams.base.MultiActiveServiceFactory;
 import org.inria.scale.streams.base.MultipleSourcesCombinator;
 import org.inria.scale.streams.exceptions.RoutingException;
+import org.inria.scale.streams.multiactivity.MultiActiveServiceFactory;
 import org.javatuples.Tuple;
 import org.junit.After;
 import org.junit.Before;

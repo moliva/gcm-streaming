@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 
-import org.inria.scale.streams.base.MultiActiveServiceFactory;
+import org.inria.scale.streams.multiactivity.MultiActiveServiceFactory;
 import org.inria.scale.streams.operators.Window;
 import org.inria.scale.streams.windows.StaticWindowStrategyFactory;
 import org.inria.scale.streams.windows.WindowStrategy;

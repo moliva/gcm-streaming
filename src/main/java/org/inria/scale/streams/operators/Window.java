@@ -5,13 +5,13 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
-import org.inria.scale.streams.base.MultiActiveServiceFactory;
-import org.inria.scale.streams.base.MultiActiveServiceFactoryImpl;
 import org.inria.scale.streams.base.MulticastInStreamBindingController;
 import org.inria.scale.streams.configuration.WindowConfiguration;
+import org.inria.scale.streams.multiactivity.MultiActiveServiceFactory;
+import org.inria.scale.streams.multiactivity.MultiActiveServiceFactoryImpl;
+import org.inria.scale.streams.windows.StaticWindowStrategyFactory;
 import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.inria.scale.streams.windows.WindowStrategy;
-import org.inria.scale.streams.windows.StaticWindowStrategyFactory;
 import org.inria.scale.streams.windows.WindowStrategyFactory;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;

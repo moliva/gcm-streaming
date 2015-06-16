@@ -1,4 +1,4 @@
-package org.inria.scale.streams.base;
+package org.inria.scale.streams.multiactivity;
 
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
