@@ -59,7 +59,7 @@ public class TimeEvictionPolicyTest {
 		policy.check(tuple2);
 		assertThat(queue, contains(tuple1, tuple2));
 
-		Thread.sleep(MILLISECONDS_TO_WAIT);
+		Thread.sleep(MILLISECONDS_TO_WAIT * 3 / 4);
 
 		// the window should have slided one time
 		assertThat(queue, contains(tuple2));

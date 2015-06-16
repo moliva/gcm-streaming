@@ -41,6 +41,8 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 
 	private CombinatorConfigurationObject combinatorConfiguration;
 
+	private final MultiActiveServiceFactory serviceFactory;
+
 	private final int inputSourceNumber;
 	private final Map<Integer, Queue<Tuple>> tuplesMap = new HashMap<>();
 
@@ -65,11 +67,16 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	 * @param inputSourceNumber
 	 *          Total number of input sources for the defined combinator
 	 */
-	public MultipleSourcesCombinator(final int inputSourceNumber) {
+	public MultipleSourcesCombinator(final int inputSourceNumber, final MultiActiveServiceFactory serviceFactory) {
 		validateTotalInputSourceNumber(inputSourceNumber);
 
+		this.serviceFactory = serviceFactory;
 		this.inputSourceNumber = inputSourceNumber;
 		initializeQueues();
+	}
+
+	public MultipleSourcesCombinator(final int inputSourceNumber) {
+		this(inputSourceNumber, new MultiActiveServiceFactoryImpl());
 	}
 
 	private void initializeQueues() {
@@ -93,12 +100,16 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 			}
 		}, combinatorConfiguration.getTimeBetweenExecutions(), combinatorConfiguration.getTimeBetweenExecutions());
 
-		final MultiActiveService service = new MultiActiveService(body);
+		final MultiActiveService service = createService(body);
 		while (body.isActive()) {
 			service.multiActiveServing();
 		}
 
 		timer.cancel();
+	}
+
+	private MultiActiveService createService(final Body body) {
+		return this.serviceFactory.createService(body);
 	}
 
 	/**
@@ -157,7 +168,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	}
 
 	private void validateInputSource(final int inputSource) {
-		if (inputSource > inputSourceNumber) {
+		if (inputSource >= inputSourceNumber) {
 			throw new RoutingException("invalid input source: " + inputSource
 					+ ". this operator can't receive an input higher than " + (inputSourceNumber - 1));
 		}
