@@ -1,23 +1,21 @@
 package org.inria.scale.streams.tests.unit.operators;
 
 import static org.hamcrest.Matchers.contains;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.inria.scale.streams.base.MultiActiveServiceFactory;
 import org.inria.scale.streams.operators.Window;
 import org.inria.scale.streams.windows.StaticWindowStrategyFactory;
 import org.inria.scale.streams.windows.WindowStrategy;
-import org.javatuples.Tuple;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -101,10 +99,10 @@ public class WindowTest {
 		verify(newStrategy).initialize(window);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldCheckWithTheStrategyWhenANewSetOfTuplesIsReceived() throws Exception {
 		window.receive(anyInt(), Arrays.asList(tupleWith(1), tupleWith('a'), tupleWith("hello")));
-		verify(strategy).check((List<Tuple>) argThat(contains(tupleWith(1), tupleWith('a'), tupleWith("hello"))));
+		verify(strategy).check(listThat(contains(tupleWith(1), tupleWith('a'), tupleWith("hello"))));
 	}
+
 }

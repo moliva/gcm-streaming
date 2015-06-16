@@ -2,10 +2,10 @@ package org.inria.scale.streams.tests.unit.base;
 
 import static org.hamcrest.Matchers.contains;
 import static org.inria.scale.streams.base.MulticastInStreamBindingController.CLIENT_INTERFACE_NAME;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,8 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.inria.scale.streams.MulticastInStream;
-import org.inria.scale.streams.base.MultipleSourcesCombinator;
 import org.inria.scale.streams.base.MultiActiveServiceFactory;
+import org.inria.scale.streams.base.MultipleSourcesCombinator;
 import org.inria.scale.streams.exceptions.RoutingException;
 import org.javatuples.Tuple;
 import org.junit.After;
@@ -74,7 +74,6 @@ public class MultipleSourcesCombinatorTest {
 		operator.setCombinatorConfiguration("( timeBetweenExecutions: " + TIME_TO_WAIT + " )");
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldForwardResultsWhenTuplesAreReceived() throws Exception {
 		// run in a different thread as it is just a synchronous call in the test
@@ -92,7 +91,7 @@ public class MultipleSourcesCombinatorTest {
 
 		Thread.sleep(TIME_TO_WAIT * 2);
 
-		verify(out, atLeastOnce()).receive(anyInt(), (List<Tuple>) argThat(contains(tupleWith("result"))));
+		verify(out, atLeastOnce()).receive(anyInt(), listThat(contains(tupleWith("result"))));
 		assertThat(receivedTuples, contains(tupleWith(0), tupleWith(1), tupleWith(2)));
 	}
 

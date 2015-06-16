@@ -3,10 +3,10 @@ package org.inria.scale.streams.tests.unit.windows;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -54,18 +54,16 @@ public class CountTumblingWindowStrategyTest {
 		assertThat(queue, contains(tuple));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldCallTheWindowWhenTheCountIsMetAndEmptyTheQueue() throws Exception {
 		final Tuple[] tuples = new Tuple[] { tupleWith(1), tupleWith(2), tupleWith(3), tupleWith(4), tupleWith(5) };
 
 		strategy.check(Arrays.asList(tuples));
 
-		verify(window, times(1)).send((List<Tuple>) argThat(contains(tuples)));
+		verify(window, times(1)).send(listThat(contains(tuples)));
 		assertThat(queue, is(empty()));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldCallTheWindowWhenTheCountIsMetAndLeaveTheExtraTuplesInTheQueue() throws Exception {
 		final Tuple[] tuples = new Tuple[] { tupleWith(1), tupleWith(2), tupleWith(3), tupleWith(4), tupleWith(5) };
@@ -75,7 +73,7 @@ public class CountTumblingWindowStrategyTest {
 
 		strategy.check(tuplesToAdd);
 
-		verify(window, times(1)).send((List<Tuple>) argThat(contains(tuples)));
+		verify(window, times(1)).send(listThat(contains(tuples)));
 		assertThat(queue, contains(extraTuple));
 	}
 

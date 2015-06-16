@@ -2,10 +2,10 @@ package org.inria.scale.streams.tests.unit.base;
 
 import static org.hamcrest.Matchers.contains;
 import static org.inria.scale.streams.base.MulticastInStreamBindingController.CLIENT_INTERFACE_NAME;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -43,19 +43,18 @@ public class BaseOperatorTest {
 		operator.bindFc(CLIENT_INTERFACE_NAME, out);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldForwardResultsWhenTuplesAreReceived() throws Exception {
 
 		operator.receive(0, Arrays.asList(tupleWith(1), tupleWith(2)));
 
 		assertThat(tuplesToProcess, contains(tupleWith(1), tupleWith(2)));
-		verify(out).receive(anyInt(), (List<Tuple>) argThat(contains(tupleWith("results1"))));
+		verify(out).receive(anyInt(), listThat(contains(tupleWith("results1"))));
 
 		operator.receive(0, Arrays.asList(tupleWith(3), tupleWith(4)));
 
 		assertThat(tuplesToProcess, contains(tupleWith(3), tupleWith(4)));
-		verify(out).receive(anyInt(), (List<Tuple>) argThat(contains(tupleWith("results2"))));
+		verify(out).receive(anyInt(), listThat(contains(tupleWith("results2"))));
 	}
 
 	@Test(expected = RoutingException.class)

@@ -1,16 +1,15 @@
 package org.inria.scale.streams.tests.unit.windows;
 
 import static org.hamcrest.Matchers.contains;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -49,7 +48,6 @@ public class TimeTriggerPolicyTest {
 		policy.tearDown();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void shouldTriggerAfterTimeReached() throws Exception {
 		verify(window, never()).send(anyListOf(Tuple.class));
@@ -58,7 +56,7 @@ public class TimeTriggerPolicyTest {
 		// execution of the triggering
 		Thread.sleep(MILLISECONDS_TO_WAIT + MILLISECONDS_EXTRA);
 
-		verify(window).send((List<Tuple>) argThat(contains(tuples)));
+		verify(window).send(listThat(contains(tuples)));
 	}
 
 }
