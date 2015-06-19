@@ -36,9 +36,9 @@ public class TwitterStreamingTest {
 		final Hosts hosebirdHosts = new HttpHosts(Constants.STREAM_HOST);
 		final StatusesFilterEndpoint hosebirdEndpoint = new StatusesFilterEndpoint();
 		// Optional: set up some followings and track terms
-		final List<Long> followings = Lists.newArrayList(1234L, 566788L);
-		final List<String> terms = Lists.newArrayList("twitter", "api");
-		hosebirdEndpoint.followings(followings);
+		// final List<Long> followings = Lists.newArrayList(1234L, 566788L);
+		final List<String> terms = Lists.newArrayList("bieber", "shakira");
+		// hosebirdEndpoint.followings(followings);
 		hosebirdEndpoint.trackTerms(terms);
 
 		// These secrets should be read from a config file
@@ -48,6 +48,7 @@ public class TwitterStreamingTest {
 		final String secret = "";
 		final Authentication hosebirdAuth = new OAuth1(consumerKey, consumerSecret, token, secret);
 
+		// TODO - random name? sequential at least
 		final ClientBuilder builder = new ClientBuilder().name("Hosebird-Client-01")
 				// optional: mainly for the logs
 				.hosts(hosebirdHosts).authentication(hosebirdAuth).endpoint(hosebirdEndpoint)
@@ -60,9 +61,8 @@ public class TwitterStreamingTest {
 		while (!hosebirdClient.isDone()) {
 			final String msg = msgQueue.take();
 			System.out.println(msg);
+			;
 		}
-
-		// hosebirdClient.stop();
 	}
 
 }
