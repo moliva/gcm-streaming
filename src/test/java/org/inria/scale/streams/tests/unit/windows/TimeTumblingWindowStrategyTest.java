@@ -3,17 +3,16 @@ package org.inria.scale.streams.tests.unit.windows;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.inria.scale.streams.tests.utils.TupleUtils.tupleWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -68,7 +67,7 @@ public class TimeTumblingWindowStrategyTest {
 		Thread.sleep(MILLISECONDS_TRIGGER);
 
 		// after this time we check that it has triggered but tuples are still there
-		verify(window).send((List<? extends Tuple>) argThat(contains(tuple1, tuple2, tuple3)));
+		verify(window).send(listThat(contains(tuple1, tuple2, tuple3)));
 		assertThat(queue, is(empty()));
 	}
 

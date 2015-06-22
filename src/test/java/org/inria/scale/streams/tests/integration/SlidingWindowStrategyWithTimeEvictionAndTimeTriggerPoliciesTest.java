@@ -2,14 +2,13 @@ package org.inria.scale.streams.tests.integration;
 
 import static org.hamcrest.Matchers.contains;
 import static org.inria.scale.streams.tests.builders.WindowConfigurationBuilder.aWindowConfiguration;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.javatuples.Tuple;
@@ -48,7 +47,7 @@ public class SlidingWindowStrategyWithTimeEvictionAndTimeTriggerPoliciesTest ext
 		Thread.sleep(MILLISECONDS_TRIGGER);
 
 		// after this time we check that it has triggered but tuples are still there
-		verify(window).send((List<? extends Tuple>) argThat(contains(tuple1, tuple2, tuple3)));
+		verify(window).send(listThat(contains(tuple1, tuple2, tuple3)));
 		assertThat(queue, contains(tuple1, tuple2, tuple3));
 
 		Thread.sleep(MILLISECONDS_TRIGGER);

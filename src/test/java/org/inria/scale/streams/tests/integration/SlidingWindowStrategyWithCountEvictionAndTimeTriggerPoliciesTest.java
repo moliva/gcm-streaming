@@ -2,14 +2,13 @@ package org.inria.scale.streams.tests.integration;
 
 import static org.hamcrest.Matchers.contains;
 import static org.inria.scale.streams.tests.builders.WindowConfigurationBuilder.aWindowConfiguration;
+import static org.inria.scale.streams.tests.utils.Matchers.listThat;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.inria.scale.streams.windows.WindowConfigurationObject;
 import org.javatuples.Tuple;
@@ -46,15 +45,15 @@ public class SlidingWindowStrategyWithCountEvictionAndTimeTriggerPoliciesTest ex
 
 		// trigger once as policy is count of 2
 		strategy.check(Arrays.asList(tuple2, tuple3));
-		verify(window).send((List<? extends Tuple>) argThat(contains(tuple1, tuple2)));
+		verify(window).send(listThat(contains(tuple1, tuple2)));
 		assertThat(queue, contains(tuple1, tuple2, tuple3));
 
 		Thread.sleep(MILLISECONDS_TO_WAIT * 3 / 4);
 
 		// triggers twice with the tuples stored while dropping tuple1 after sliding
 		strategy.check(Arrays.asList(tuple4, tuple5, tuple6));
-		verify(window).send((List<? extends Tuple>) argThat(contains(tuple2, tuple3, tuple4)));
-		verify(window).send((List<? extends Tuple>) argThat(contains(tuple2, tuple3, tuple4, tuple5, tuple6)));
+		verify(window).send(listThat(contains(tuple2, tuple3, tuple4)));
+		verify(window).send(listThat(contains(tuple2, tuple3, tuple4, tuple5, tuple6)));
 		assertThat(queue, contains(tuple2, tuple3, tuple4, tuple5, tuple6));
 	}
 }

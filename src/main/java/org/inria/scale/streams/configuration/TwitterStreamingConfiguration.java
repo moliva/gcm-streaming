@@ -10,13 +10,13 @@ public interface TwitterStreamingConfiguration {
 
 	void setConsumerSecret(String consumerSecret);
 
-	String getToken();
+	String getAccessToken();
 
-	void setToken(String token);
+	void setAccessToken(String accessToken);
 
-	String getSecret();
+	String getAccessTokenSecret();
 
-	void setSecret(String secret);
+	void setAccessTokenSecret(String accessTokenSecret);
 
 	String getTerms();
 
@@ -25,4 +25,9 @@ public interface TwitterStreamingConfiguration {
 	String getFollowings();
 
 	void setFollowings(String followings);
+
+	String getHost();
+
+	void setHost(String host);
+
 }
