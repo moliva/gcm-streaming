@@ -10,4 +10,8 @@ public interface SentimentClassifierConfiguration {
 
 	int getComponentIndex();
 
+	void setCharset(String charset);
+
+	String getCharset();
+
 }

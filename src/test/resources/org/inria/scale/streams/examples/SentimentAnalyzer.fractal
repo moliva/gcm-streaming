@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
+
+<definition name="org.inria.scale.streams.examples.SentimentAnalyzer">
+
+	<!-- LineReader -->
+	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
+		<content class="org.inria.scale.streams.intaps.FileLineReader" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.FileLineReaderConfiguration">
+			<attribute name="filePath"
+				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/test/resources/lines.txt" />
+			<attribute name="charset" value="UTF-8" />
+		</attributes>
+	</component>
+
+	<!-- Input window -->
+	<component name="input-window" definition="org.inria.scale.streams.Window">
+		<attributes
+			signature="org.inria.scale.streams.configuration.WindowConfiguration">
+			<!-- <attribute name="windowConfiguration" value='( "type": "tumbling", 
+				"tumblingType": "count", "count": 5 )' /> -->
+			<attribute name="windowConfiguration"
+				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 1000 )' />
+		</attributes>
+	</component>
+
+	<!-- SystemOutputWriter -->
+	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
+		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
+	</component>
+
+	<!-- SeparatedValuesTransformer -->
+	<component name="csv-transformer" definition="org.inria.scale.streams.Operator">
+		<content
+			class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
+			<attribute name="separator" value="&#009;" /> <!-- tab separated -->
+		</attributes>
+	</component>
+
+	<!-- TextNormalizer -->
+	<component name="normalizer" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.TextNormalizer" />
+	</component>
+
+	<!-- Tokenizer -->
+	<component name="tokenizer" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.WordTokenizer" />
+	</component>
+
+	<!-- Count -->
+	<component name="count" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.CountByKey" />
+	</component>
+
+	<!-- SortBy -->
+	<component name="sort-by" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.SortBy" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.SortByConfiguration">
+			<attribute name="tupleComponent" value="1" />
+			<attribute name="order" value="desc" />
+		</attributes>
+	</component>
+
+	<!-- Application run -->
+
+	<!-- Operator bindings -->
+	<binding client="lines-reader.out" server="input-window.in" />
+	<binding client="input-window.out" server="normalizer.in" />
+	<binding client="normalizer.out" server="tokenizer.in" />
+	<binding client="tokenizer.out" server="count.in" />
+	<binding client="count.out" server="sort-by.in" />
+	<binding client="sort-by.out" server="csv-transformer.in" />
+	<binding client="csv-transformer.out" server="system-output-writer.in" />
+</definition>
