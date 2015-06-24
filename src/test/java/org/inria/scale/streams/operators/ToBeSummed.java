@@ -25,13 +25,25 @@ public class ToBeSummed extends BaseUnitOperator {
 		}).toList();
 	}
 
+	@SuppressWarnings("unchecked")
 	private int getSum(final Tuple tuple) {
-		return (int) ((Tuple) tuple.getValue(2)).getValue(1);
+		final List<Tuple> values = (List<Tuple>) tuple.getValue(2);
+		if (values.isEmpty()) {
+			return 0;
+		} else {
+			return (int) values.get(0).getValue(1);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<String> getTerms(final Tuple tuple) {
-		return (List<String>) ((Tuple) tuple.getValue(1)).getValue(1);
+		return FluentIterable.from((List<Tuple>) tuple.getValue(1)).transformAndConcat(new Function<Tuple, List<String>>() {
+
+			@Override
+			public List<String> apply(final Tuple tuple) {
+				return (List<String>) tuple.getValue(1);
+			}
+		}).toList();
 	}
 
 }
