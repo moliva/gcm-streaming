@@ -2,6 +2,7 @@ package org.inria.scale.streams.intaps;
 
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.not;
+import static org.inria.scale.streams.utils.Functions.trim;
 
 import java.util.Arrays;
 import java.util.List;
@@ -122,16 +123,6 @@ public class TwitterStreaming extends BaseInTap implements TwitterStreamingConfi
 		if (!parsedTerms.isEmpty()) {
 			endpoint.trackTerms(parsedTerms);
 		}
-	}
-
-	private Function<String, String> trim() {
-		return new Function<String, String>() {
-
-			@Override
-			public String apply(final String string) {
-				return string.trim();
-			}
-		};
 	}
 
 	// //////////////////////////////////////////////

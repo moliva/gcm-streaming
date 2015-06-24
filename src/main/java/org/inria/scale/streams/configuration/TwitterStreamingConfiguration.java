@@ -1,6 +1,8 @@
 package org.inria.scale.streams.configuration;
 
-public interface TwitterStreamingConfiguration {
+import org.objectweb.fractal.api.control.AttributeController;
+
+public interface TwitterStreamingConfiguration extends AttributeController {
 
 	String getConsumerKey();
 

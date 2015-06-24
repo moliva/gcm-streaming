@@ -12,7 +12,7 @@
 			<attribute name="consumerSecret" value="" />
 			<attribute name="accessToken" value="" />
 			<attribute name="accessTokenSecret" value="" />
-			<attribute name="terms" value="bieber,obama,shakira" />
+			<attribute name="terms" value="tsipras,bieber,obama,shakira" />
 		</attributes>
 	</component>
 
@@ -22,6 +22,15 @@
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
 			<attribute name="windowConfiguration"
 				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 5000 )' />
+		</attributes>
+	</component>
+
+	<!-- Getter -->
+	<component name="getter" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.Getter" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.GetterConfiguration">
+			<attribute name="tupleComponent" value="0" />
 		</attributes>
 	</component>
 
@@ -37,8 +46,12 @@
 	</component>
 
 	<!-- PeopleIdentifier -->
-	<component name="people-identifier" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.PeopleIdentifier" />
+	<component name="term-identifier" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.TermIdentifier" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.TermIdentifierConfiguration">
+			<attribute name="terms" value="tsipras,bieber,obama,shakira" />
+		</attributes>
 	</component>
 
 	<!-- CoGroup -->
@@ -50,6 +63,11 @@
 			<attribute name="indexKey0" value="0" />
 			<attribute name="indexKey1" value="0" />
 		</attributes>
+	</component>
+
+	<!-- Custom ToBeSummed -->
+	<component name="to-be-summed" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.ToBeSummed" />
 	</component>
 
 	<!-- SumBy -->
@@ -86,16 +104,16 @@
 		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
 	</component>
 
-	<!-- Application run -->
-
 	<!-- Operator bindings -->
 	<binding client="twitter.out" server="input-window.in" />
-	<binding client="input-window.out" server="normalizer.in" />
+	<binding client="input-window.out" server="getter.in" />
+	<binding client="getter.out" server="normalizer.in" />
 	<binding client="normalizer.out" server="classifier.in" />
-	<binding client="normalizer.out" server="people-identifier.in" />
-	<binding client="classifier.out" server="co-group.in0" />
-	<binding client="people-identifier.out" server="co-group.in1" />
-	<binding client="co-group.out" server="sum-by.in" />
+	<binding client="normalizer.out" server="term-identifier.in" />
+	<binding client="term-identifier.out" server="co-group.in0" />
+	<binding client="classifier.out" server="co-group.in1" />
+	<binding client="co-group.out" server="to-be-summed.in" />
+	<binding client="to-be-summed.out" server="sum-by.in" />
 	<binding client="sum-by.out" server="sort-by.in" />
 	<binding client="sort-by.out" server="sv-transformer.in" />
 	<binding client="sv-transformer.out" server="system-output-writer.in" />

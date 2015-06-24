@@ -9,7 +9,7 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.FileLineReaderConfiguration">
 			<attribute name="filePath"
-				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/test/resources/lines.txt" />
+				value="/user/moliva/home/repos/gcm-streaming/src/test/resources/lines.txt" />
 			<attribute name="charset" value="UTF-8" />
 		</attributes>
 	</component>
