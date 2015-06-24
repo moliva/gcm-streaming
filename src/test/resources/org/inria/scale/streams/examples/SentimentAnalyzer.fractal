@@ -12,7 +12,7 @@
 			<attribute name="consumerSecret" value="" />
 			<attribute name="accessToken" value="" />
 			<attribute name="accessTokenSecret" value="" />
-			<attribute name="terms" value="tsipras,bieber,obama,shakira" />
+			<attribute name="terms" value="tsipras,bieber,obama,messi,tevez" />
 		</attributes>
 	</component>
 
@@ -45,12 +45,12 @@
 			class="org.inria.scale.streams.operators.DictionarySentimentClassifier" />
 	</component>
 
-	<!-- PeopleIdentifier -->
+	<!-- TermIdentifier -->
 	<component name="term-identifier" definition="org.inria.scale.streams.Operator">
 		<content class="org.inria.scale.streams.operators.TermIdentifier" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.TermIdentifierConfiguration">
-			<attribute name="terms" value="tsipras,bieber,obama,shakira" />
+			<attribute name="terms" value="tsipras,bieber,obama,messi,tevez" />
 		</attributes>
 	</component>
 
@@ -89,6 +89,11 @@
 		</attributes>
 	</component>
 
+	<!-- AddHeader -->
+	<component name="add-header" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.AddHeader" />
+	</component>
+
 	<!-- SeparatedValuesTransformer -->
 	<component name="sv-transformer" definition="org.inria.scale.streams.Operator">
 		<content
@@ -116,6 +121,7 @@
 	<binding client="to-be-summed.out" server="sum-by.in" />
 	<binding client="sum-by.out" server="sort-by.in" />
 	<binding client="sort-by.out" server="sv-transformer.in" />
-	<binding client="sv-transformer.out" server="system-output-writer.in" />
+	<binding client="sv-transformer.out" server="add-header.in" />
+	<binding client="add-header.out" server="system-output-writer.in" />
 
 </definition>
