@@ -1,6 +1,6 @@
 package org.inria.scale.streams.configuration;
 
-public interface CoGroupConfiguration {
+public interface CoGroupConfiguration extends CombinatorConfiguration {
 
 	int getIndexKey0();
 
