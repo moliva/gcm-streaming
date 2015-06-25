@@ -18,3 +18,4 @@
 ## Future development
 * Dynamic adaptability
 * DSL
+* Improve type system

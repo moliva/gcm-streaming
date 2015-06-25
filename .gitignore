@@ -1,6 +1,7 @@
 
 # temp output files
 out
+sentiments
 
 # eclipse project files
 .classpath
