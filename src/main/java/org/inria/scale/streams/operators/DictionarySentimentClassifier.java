@@ -1,6 +1,6 @@
 package org.inria.scale.streams.operators;
 
-import static java.lang.Integer.parseInt;
+import static java.lang.Double.parseDouble;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.inria.scale.streams.base.BaseOperator;
-import org.inria.scale.streams.configuration.SentimentClassifierConfiguration;
+import org.inria.scale.streams.configuration.DictionarySentimentClassifierConfiguration;
 import org.javatuples.Pair;
 import org.javatuples.Tuple;
 
@@ -24,7 +24,7 @@ import com.google.common.collect.FluentIterable;
  * @author moliva
  *
  */
-public class DictionarySentimentClassifier extends BaseOperator implements SentimentClassifierConfiguration {
+public class DictionarySentimentClassifier extends BaseOperator implements DictionarySentimentClassifierConfiguration {
 
 	public static final String DEFAULT_CHARSET = "UTF-8";
 	public static final int DEFAULT_INDEX = 0;
@@ -37,7 +37,7 @@ public class DictionarySentimentClassifier extends BaseOperator implements Senti
 	@Override
 	public List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
 		try {
-			final Map<String, Integer> dictionary = readDictionary();
+			final Map<String, Double> dictionary = readDictionary();
 
 			final List<Tuple> resultingTuples = FluentIterable.from(tuplesToProcess).transform(new Function<Tuple, Tuple>() {
 
@@ -46,7 +46,7 @@ public class DictionarySentimentClassifier extends BaseOperator implements Senti
 					final Object value = tuple.getValue(componentIndex);
 					if (value instanceof String) {
 						final String text = (String) value;
-						final int sum = valueSumFor(dictionary, text);
+						final double sum = valueAverageFor(dictionary, text);
 						return Pair.with(text, sum);
 					}
 
@@ -62,30 +62,33 @@ public class DictionarySentimentClassifier extends BaseOperator implements Senti
 		}
 	}
 
-	private int valueSumFor(final Map<String, Integer> dictionary, final String text) {
+	private double valueAverageFor(final Map<String, Double> dictionary, final String text) {
 		final String[] words = text.split("\\s+");
-		int sum = 0;
+		double sum = 0;
+		double count = 0;
+
 		for (final String word : words) {
-			final Integer v = dictionary.get(word);
+			final Double v = dictionary.get(word);
 			if (v != null) {
 				sum += v;
+				++count;
 			}
 		}
-		return sum;
+		return count > 0 ? sum / count : 0;
 	}
 
-	private Map<String, Integer> readDictionary() throws IOException {
+	private Map<String, Double> readDictionary() throws IOException {
 		final InputStream stream = getClass().getClassLoader().getResourceAsStream(pathInResources);
 		final String tsvDictionary = IOUtils.toString(stream, charset);
 
 		final String[] lines = tsvDictionary.split(System.getProperty("line.separator"));
 
-		final HashMap<String, Integer> values = new HashMap<>();
+		final HashMap<String, Double> values = new HashMap<>();
 		for (final String line : lines) {
 			try {
 				final String[] wordValue = line.split("\t");
 				if (wordValue.length == 2) {
-					values.put(wordValue[0], parseInt(wordValue[1]));
+					values.put(wordValue[0], parseDouble(wordValue[1]));
 				}
 			} catch (final NumberFormatException e) {
 				e.printStackTrace();

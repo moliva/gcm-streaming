@@ -1,6 +1,8 @@
 package org.inria.scale.streams.configuration;
 
-public interface SentimentClassifierConfiguration {
+import org.objectweb.fractal.api.control.AttributeController;
+
+public interface DictionarySentimentClassifierConfiguration extends AttributeController {
 
 	void setPathInResources(String pathInResources);
 

@@ -8,34 +8,61 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.inria.scale.streams.base.BaseOperator;
-import org.inria.scale.streams.configuration.SumByConfiguration;
+import org.inria.scale.streams.configuration.AverageByConfiguration;
 import org.javatuples.Pair;
 import org.javatuples.Tuple;
 
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 
-public class SumBy extends BaseOperator implements SumByConfiguration {
+public class AverageBy extends BaseOperator implements AverageByConfiguration {
 
 	private int keyComponent;
 	private int sumComponent;
 
 	@Override
 	public List<Tuple> processTuples(final List<Tuple> tuplesToProcess) {
-		final Map<Object, Double> keyMap = new HashMap<>();
+		final Map<Object, Pair<Double, Integer>> keyMap = new HashMap<>();
 		for (final Tuple tuple : tuplesToProcess) {
 			final Object key = tuple.getValue(keyComponent);
+
 			final double sumValue = getSumValue(tuple);
-			keyMap.put(key, keyMap.containsKey(key) ? keyMap.get(key) + sumValue : sumValue);
+			final int countValue = getCountValue(tuple);
+
+			if (keyMap.containsKey(key)) {
+				final Pair<Double, Integer> pair = keyMap.get(key);
+				final double oldSum = pair.getValue0();
+				final int oldCount = pair.getValue1();
+
+				keyMap.put(key, Pair.with(oldSum + sumValue, oldCount + countValue));
+			} else {
+				keyMap.put(key, Pair.with(sumValue, countValue));
+			}
 		}
 
-		return FluentIterable.from(keyMap.entrySet()).transform(new Function<Entry<Object, Double>, Tuple>() {
+		return FluentIterable.from(keyMap.entrySet())
+				.transform(new Function<Entry<Object, Pair<Double, Integer>>, Tuple>() {
 
-			@Override
-			public Pair<Object, Double> apply(final Entry<Object, Double> input) {
-				return Pair.with(input.getKey(), input.getValue());
-			}
-		}).toList();
+					@Override
+					public Pair<Object, Double> apply(final Entry<Object, Pair<Double, Integer>> input) {
+						final Pair<Double, Integer> pair = input.getValue();
+						final double sum = pair.getValue0();
+						final int count = pair.getValue1();
+
+						return Pair.with(input.getKey(), count > 0 ? sum / count : 0);
+					}
+				}).toList();
+	}
+
+	private int getCountValue(final Tuple tuple) {
+		final Object value = tuple.getValue(sumComponent);
+		if (value instanceof String || value instanceof Double) {
+			return 1;
+		}
+
+		// else it doesn't modify the count
+		// TODO - add a warning in the log
+		return 0;
 	}
 
 	private double getSumValue(final Tuple tuple) {
@@ -52,7 +79,7 @@ public class SumBy extends BaseOperator implements SumByConfiguration {
 	}
 
 	// //////////////////////////////////////////////
-	// ******* SumByConfiguration *******
+	// ******* AverageByConfiguration *******
 	// //////////////////////////////////////////////
 
 	@Override

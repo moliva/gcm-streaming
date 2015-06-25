@@ -21,7 +21,7 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
 			<attribute name="windowConfiguration"
-				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 5000 )' />
+				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 60000 )' />
 		</attributes>
 	</component>
 
@@ -43,6 +43,10 @@
 	<component name="classifier" definition="org.inria.scale.streams.Operator">
 		<content
 			class="org.inria.scale.streams.operators.DictionarySentimentClassifier" />
+<!-- 		<attributes -->
+<!-- 			signature="org.inria.scale.streams.configuration.DictionarySentimentClassifierConfiguration"> -->
+<!-- 			<attribute name="pathInResources" value="dictionaries/SPANEW/SPANEW-2007.txt" /> -->
+<!-- 		</attributes> -->
 	</component>
 
 	<!-- TermIdentifier -->
@@ -59,7 +63,7 @@
 		<content class="org.inria.scale.streams.combinators.CoGroup" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.CoGroupConfiguration">
-			<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 5000 )" />
+			<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 60000 )" />
 			<attribute name="indexKey0" value="0" />
 			<attribute name="indexKey1" value="0" />
 		</attributes>
@@ -70,10 +74,10 @@
 		<content class="org.inria.scale.streams.operators.ToBeSummed" />
 	</component>
 
-	<!-- SumBy -->
-	<component name="sum-by" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.SumBy" />
-		<attributes signature="org.inria.scale.streams.configuration.SumByConfiguration">
+	<!-- AverageBy -->
+	<component name="avg-by" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.AverageBy" />
+		<attributes signature="org.inria.scale.streams.configuration.AverageByConfiguration">
 			<attribute name="keyTupleComponent" value="0" />
 			<attribute name="sumTupleComponent" value="1" />
 		</attributes>
@@ -89,11 +93,6 @@
 		</attributes>
 	</component>
 
-	<!-- AddHeader -->
-	<component name="add-header" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.AddHeader" />
-	</component>
-
 	<!-- SeparatedValuesTransformer -->
 	<component name="sv-transformer" definition="org.inria.scale.streams.Operator">
 		<content
@@ -104,9 +103,15 @@
 		</attributes>
 	</component>
 
-	<!-- SystemOutputWriter -->
-	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
-		<content class="org.inria.scale.streams.outtaps.SystemOutputWriter" />
+	<!-- FileWriter -->
+	<component name="file-writer" definition="org.inria.scale.streams.OutTap">
+		<content class="org.inria.scale.streams.outtaps.FileWriter" />
+		<attributes
+			signature="org.inria.scale.streams.configuration.FileWriterConfiguration">
+			<attribute name="directoryPath" value="sentiments" />
+			<attribute name="prefix" value="" />
+			<attribute name="postfix" value="" />
+		</attributes>
 	</component>
 
 	<!-- Operator bindings -->
@@ -118,10 +123,9 @@
 	<binding client="term-identifier.out" server="co-group.in0" />
 	<binding client="classifier.out" server="co-group.in1" />
 	<binding client="co-group.out" server="to-be-summed.in" />
-	<binding client="to-be-summed.out" server="sum-by.in" />
-	<binding client="sum-by.out" server="sort-by.in" />
+	<binding client="to-be-summed.out" server="avg-by.in" />
+	<binding client="avg-by.out" server="sort-by.in" />
 	<binding client="sort-by.out" server="sv-transformer.in" />
-	<binding client="sv-transformer.out" server="add-header.in" />
-	<binding client="add-header.out" server="system-output-writer.in" />
+	<binding client="sv-transformer.out" server="file-writer.in" />
 
 </definition>
