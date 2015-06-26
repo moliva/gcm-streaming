@@ -22,7 +22,7 @@ public class AverageBy extends BaseOperator implements AverageByConfiguration {
 
 	@Override
 	public List<Tuple> processTuples(final List<Tuple> tuplesToProcess) {
-		final Map<Object, Pair<Double, Integer>> keyMap = new HashMap<>();
+		final Map<Object, Pair<Double, Integer>> keyMap = new HashMap<Object, Pair<Double, Integer>>();
 		for (final Tuple tuple : tuplesToProcess) {
 			final Object key = tuple.getValue(keyComponent);
 
@@ -70,7 +70,7 @@ public class AverageBy extends BaseOperator implements AverageByConfiguration {
 		if (value instanceof String) {
 			return parseDouble((String) value);
 		} else if (value instanceof Double) {
-			return (double) value;
+			return (Double) value;
 		}
 
 		// else it doesn't modify the sum

@@ -56,9 +56,15 @@ public class FileWriter extends BaseOutTap implements FileWriterConfiguration {
 			Files.createDirectories(directoryPath);
 			Files.createFile(filePath);
 
-			try (final BufferedWriter writer = Files.newBufferedWriter(filePath, Charset.defaultCharset())) {
+			BufferedWriter writer = null;
+			try {
+				writer = Files.newBufferedWriter(filePath, Charset.defaultCharset());
 				for (final Tuple tuple : tuplesToProcess) {
 					writer.write(Joiner.on(" ").join(tuple) + "\n");
+				}
+			} finally {
+				if (writer != null) {
+					writer.close();
 				}
 			}
 

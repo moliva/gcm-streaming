@@ -25,7 +25,7 @@ public class CountByKey extends BaseOperator {
 
 	@Override
 	public List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
-		final Map<Tuple, Integer> tokenMap = new HashMap<>();
+		final Map<Tuple, Integer> tokenMap = new HashMap<Tuple, Integer>();
 		for (final Tuple tuple : tuplesToProcess) {
 			tokenMap.put(tuple, tokenMap.containsKey(tuple) ? tokenMap.get(tuple) + 1 : 1);
 		}

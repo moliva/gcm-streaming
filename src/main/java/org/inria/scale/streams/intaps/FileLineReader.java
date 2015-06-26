@@ -34,12 +34,25 @@ public class FileLineReader extends BaseInTap implements FileLineReaderConfigura
 	protected void startStreaming() {
 		final File file = new File(filePath);
 
-		try (final Scanner iterator = new Scanner(file, charset)) {
+//		try (final Scanner iterator = new Scanner(file, charset)) {
+//			while (iterator.hasNext()) {
+//				send(Arrays.asList(Unit.with(iterator.nextLine())));
+//			}
+//		} catch (final IOException e) {
+//			e.printStackTrace();
+//		}
+		Scanner iterator = null;
+		try {
+			iterator= new Scanner(file, charset);
 			while (iterator.hasNext()) {
 				send(Arrays.asList(Unit.with(iterator.nextLine())));
 			}
 		} catch (final IOException e) {
 			e.printStackTrace();
+		} finally {
+			if (iterator != null) {
+				iterator.close();
+			}
 		}
 	}
 

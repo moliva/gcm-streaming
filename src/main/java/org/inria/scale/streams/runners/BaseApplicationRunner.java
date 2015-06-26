@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.etsi.uri.gcm.util.GCM;
-import org.objectweb.fractal.adl.Factory;
 import org.objectweb.fractal.api.Component;
 import org.objectweb.proactive.api.PADeployment;
+import org.objectweb.proactive.core.component.Utils;
+import org.objectweb.proactive.core.component.control.PAContentController;
 import org.objectweb.proactive.core.component.identity.PAComponent;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
 import org.objectweb.proactive.extensions.autonomic.adl.AFactory;
@@ -50,34 +51,40 @@ public class BaseApplicationRunner {
 
 		// handle arguments
 		final String adl = args[0];
-		final String deploymentFilename = args.length > 1 ? args[1] : DEFAULT_DEPLOYMENT_XML;
+//		final String deploymentFilename = args.length > 1 ? args[1] : null;
 
 		// get the component Factory allowing component creation from ADL
 		final AFactory factory = (AFactory) AFactoryFactory.getAFactory();
 		// final Factory factory =
 		// org.objectweb.proactive.core.component.adl.FactoryFactory.getFactory();
-		final Map<String, Object> context = new HashMap<String, Object>();
+//		final Map<String, Object> context = new HashMap<String, Object>();
 
 		// retrieve the deployment descriptor
-		final String deploymentFilePath = BaseApplicationRunner.class.getClassLoader().getResource(deploymentFilename)
-				.getPath();
-		final ProActiveDescriptor deploymentDescriptor = PADeployment.getProactiveDescriptor(deploymentFilePath);
-		context.put("deployment-descriptor", deploymentDescriptor);
-		deploymentDescriptor.activateMappings();
+//		final String deploymentFilePath = BaseApplicationRunner.class.getClassLoader().getResource(deploymentFilename)
+//				.getPath();
+//		final ProActiveDescriptor deploymentDescriptor = PADeployment.getProactiveDescriptor(deploymentFilePath);
+//		context.put("deployment-descriptor", deploymentDescriptor);
+//		deploymentDescriptor.activateMappings();
 
-		final Component compositeWrapper = (Component) factory.newAutonomicComponent(adl, context);
+		final Component compositeWrapper = (Component) factory.newAutonomicComponent(adl, null);
 
 		Remmos.enableMonitoring(compositeWrapper);
 		Thread.sleep(1000);
 		final MonitorController mon = Remmos.getMonitorController(compositeWrapper);
 		Thread.sleep(1000);
 		mon.startGCMMonitoring();
-
+		// TODO - the metrics would come here
+		final PAContentController cc = Utils.getPAContentController(compositeWrapper);
+		for (final Component subComp : cc.getFcSubComponents())
+			Remmos.getMonitorController(subComp).setRecordStoreCapacity(16);
+		
+		
 		// final Component compositeWrapper = (Component) factory.newComponent(adl,
 		// context);
 
 		// start PrimitiveComputer component
-		GCM.getGCMLifeCycleController(compositeWrapper).startFc();
+//		GCM.getGCMLifeCycleController(compositeWrapper).startFc();
+		Utils.getPAGCMLifeCycleController(compositeWrapper).startFc();
 
 		System.out.println("*\n*\n* App ready: " + ((PAComponent) compositeWrapper).getID().toString() + "\n*\n*");
 

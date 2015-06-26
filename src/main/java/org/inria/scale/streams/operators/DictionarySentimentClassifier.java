@@ -83,7 +83,7 @@ public class DictionarySentimentClassifier extends BaseOperator implements Dicti
 
 		final String[] lines = tsvDictionary.split(System.getProperty("line.separator"));
 
-		final HashMap<String, Double> values = new HashMap<>();
+		final HashMap<String, Double> values = new HashMap<String, Double>();
 		for (final String line : lines) {
 			try {
 				final String[] wordValue = line.split("\t");

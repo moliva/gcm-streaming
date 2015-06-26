@@ -40,7 +40,7 @@ public class TimeEvictionPolicy implements EvictionPolicy {
 	private Window window;
 	private Timer timer;
 
-	private final Map<Tuple, Long> times = new HashMap<>();
+	private final Map<Tuple, Long> times = new HashMap<Tuple, Long>();
 
 	public TimeEvictionPolicy(final long milliseconds) {
 		this.milliseconds = milliseconds;
@@ -90,7 +90,7 @@ public class TimeEvictionPolicy implements EvictionPolicy {
 		final long currentTime = System.currentTimeMillis();
 
 		final Queue<Tuple> tuplesQueue = window.getTuplesQueue();
-		final List<Tuple> tuplesToRemove = FluentIterable.from(new ArrayList<>(tuplesQueue)).filter(new Predicate<Tuple>() {
+		final List<Tuple> tuplesToRemove = FluentIterable.from(new ArrayList<Tuple>(tuplesQueue)).filter(new Predicate<Tuple>() {
 
 			@Override
 			public boolean apply(final Tuple tuple) {

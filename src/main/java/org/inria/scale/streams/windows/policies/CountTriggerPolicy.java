@@ -40,7 +40,7 @@ public class CountTriggerPolicy implements TriggerPolicy {
 
 		if (++current >= count) {
 			current = 0;
-			window.send(new ArrayList<>(queue));
+			window.send(new ArrayList<Tuple>(queue));
 		}
 	}
 

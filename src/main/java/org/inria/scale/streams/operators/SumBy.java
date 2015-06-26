@@ -22,7 +22,7 @@ public class SumBy extends BaseOperator implements SumByConfiguration {
 
 	@Override
 	public List<Tuple> processTuples(final List<Tuple> tuplesToProcess) {
-		final Map<Object, Double> keyMap = new HashMap<>();
+		final Map<Object, Double> keyMap = new HashMap<Object, Double>();
 		for (final Tuple tuple : tuplesToProcess) {
 			final Object key = tuple.getValue(keyComponent);
 			final double sumValue = getSumValue(tuple);
@@ -43,7 +43,7 @@ public class SumBy extends BaseOperator implements SumByConfiguration {
 		if (value instanceof String) {
 			return parseDouble((String) value);
 		} else if (value instanceof Double) {
-			return (double) value;
+			return (Double) value;
 		}
 
 		// else it doesn't modify the sum

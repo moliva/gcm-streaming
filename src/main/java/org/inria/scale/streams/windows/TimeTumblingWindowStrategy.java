@@ -46,7 +46,7 @@ public class TimeTumblingWindowStrategy implements WindowStrategy {
 
 	private void singleCheck() {
 		final Queue<Tuple> tuplesQueue = window.getTuplesQueue();
-		final List<Tuple> tuples = new ArrayList<>(tuplesQueue);
+		final List<Tuple> tuples = new ArrayList<Tuple>(tuplesQueue);
 		tuplesQueue.removeAll(tuples);
 		window.send(tuples);
 	}

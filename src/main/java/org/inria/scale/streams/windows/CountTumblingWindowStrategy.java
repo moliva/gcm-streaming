@@ -35,7 +35,7 @@ public class CountTumblingWindowStrategy implements WindowStrategy {
 
 	private void singleCheck() {
 		final Queue<Tuple> tuplesQueue = window.getTuplesQueue();
-		final List<Tuple> selection = selectTuples(new ConcurrentLinkedQueue<>(tuplesQueue));
+		final List<Tuple> selection = selectTuples(new ConcurrentLinkedQueue<Tuple>(tuplesQueue));
 		if (!selection.isEmpty()) {
 			tuplesQueue.removeAll(selection);
 			window.send(selection);
@@ -54,7 +54,7 @@ public class CountTumblingWindowStrategy implements WindowStrategy {
 		} else if (count == size) {
 			return new ArrayList<T>(tuples);
 		} else {
-			return new ArrayList<>(tuples).subList(0, count);
+			return new ArrayList<T>(tuples).subList(0, count);
 		}
 	}
 

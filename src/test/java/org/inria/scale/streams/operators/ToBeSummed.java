@@ -38,7 +38,7 @@ public class ToBeSummed extends BaseUnitOperator {
 		if (values.isEmpty()) {
 			return 0.0;
 		} else {
-			return (double) values.get(0).getValue(1);
+			return (Double) values.get(0).getValue(1);
 		}
 	}
 

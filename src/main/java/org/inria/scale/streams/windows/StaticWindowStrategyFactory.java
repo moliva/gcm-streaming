@@ -35,43 +35,39 @@ public class StaticWindowStrategyFactory implements WindowStrategyFactory {
 
 	@Override
 	public WindowStrategy createFrom(final WindowConfigurationObject windowConfiguration) {
-		switch (windowConfiguration.getType()) {
-		case TYPE_TUMBLING:
-			switch (windowConfiguration.getTumblingType()) {
-			case TUMBLING_TIME:
+		if (windowConfiguration.getType().equals(TYPE_TUMBLING)) {
+			if (windowConfiguration.getTumblingType().equals(TUMBLING_TIME)) {
 				return new TimeTumblingWindowStrategy(windowConfiguration.getTumblingMilliseconds());
-			case TUMBLING_COUNT:
+			} else if (windowConfiguration.getTumblingType().equals(TUMBLING_COUNT)) {
 				return new CountTumblingWindowStrategy(windowConfiguration.getTumblingCount());
-			default:
+			} else {
 				throw new WindowStrategyCreationException("Tumbling type is not valid", windowConfiguration);
 			}
-		case TYPE_SLIDING:
+		} else if (windowConfiguration.getType().equals(TYPE_SLIDING)) {
 			return new SlidingWindowStrategy( //
 					createEvictionStrategyFrom(windowConfiguration), //
 					createTriggerStrategyFrom(windowConfiguration));
-		default:
+		} else {
 			throw new WindowStrategyCreationException("Window type is not valid", windowConfiguration);
 		}
 	}
 
 	private TriggerPolicy createTriggerStrategyFrom(final WindowConfigurationObject windowConfiguration) {
-		switch (windowConfiguration.getTriggerType()) {
-		case TRIGGER_TIME:
+		if (windowConfiguration.getTriggerType().equals(TRIGGER_TIME)) {
 			return new TimeTriggerPolicy(windowConfiguration.getTriggerMilliseconds());
-		case TRIGGER_COUNT:
+		} else if (windowConfiguration.getTriggerType().equals(TRIGGER_COUNT)) {
 			return new CountTriggerPolicy(windowConfiguration.getTriggerCount());
-		default:
+		} else {
 			throw new WindowStrategyCreationException("Trigger type is not valid", windowConfiguration);
 		}
 	}
 
 	private EvictionPolicy createEvictionStrategyFrom(final WindowConfigurationObject windowConfiguration) {
-		switch (windowConfiguration.getEvictionType()) {
-		case EVICTION_TIME:
+		if (windowConfiguration.getEvictionType().equals(EVICTION_TIME)) {
 			return new TimeEvictionPolicy(windowConfiguration.getEvictionMilliseconds());
-		case EVICTION_COUNT:
+		} else if (windowConfiguration.getEvictionType().equals(EVICTION_COUNT)) {
 			return new CountEvictionPolicy(windowConfiguration.getEvictionCount());
-		default:
+		} else {
 			throw new WindowStrategyCreationException("Eviction type is not valid", windowConfiguration);
 		}
 	}

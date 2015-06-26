@@ -17,9 +17,21 @@ public class SystemInputLineReader extends BaseInTap {
 
 	@Override
 	protected void startStreaming() {
-		try (final Scanner scanIn = new Scanner(System.in)) {
+//		try (final Scanner scanIn = new Scanner(System.in)) {
+//			while (scanIn.hasNext()) {
+//				send(Arrays.asList(Unit.with(scanIn.nextLine())));
+//			}
+//		}
+		
+		Scanner scanIn = null;
+		try  {
+			scanIn = new Scanner(System.in);
 			while (scanIn.hasNext()) {
 				send(Arrays.asList(Unit.with(scanIn.nextLine())));
+			}
+		} finally {
+			if (scanIn !=null) {
+				scanIn.close();
 			}
 		}
 	}

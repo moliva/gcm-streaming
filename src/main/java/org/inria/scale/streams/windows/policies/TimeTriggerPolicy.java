@@ -35,7 +35,7 @@ public class TimeTriggerPolicy implements TriggerPolicy {
 
 			@Override
 			public void run() {
-				window.send(new ArrayList<>(window.getTuplesQueue()));
+				window.send(new ArrayList<Tuple>(window.getTuplesQueue()));
 			}
 		}, milliseconds, milliseconds);
 	}

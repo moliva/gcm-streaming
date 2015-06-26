@@ -38,7 +38,7 @@ public class MultipleSourcesCombinatorTest {
 	private final MulticastInStream out = mock(MulticastInStream.class);
 	private final Body body = mock(Body.class);
 
-	private final List<Tuple> receivedTuples = new ArrayList<>();
+	private final List<Tuple> receivedTuples = new ArrayList<Tuple>();
 
 	private final MultipleSourcesCombinator operator = new MultipleSourcesCombinator(NUMBER_OF_SOURCES, serviceFactory) {
 

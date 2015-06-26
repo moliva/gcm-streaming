@@ -3,18 +3,31 @@
 
 <definition name="org.inria.scale.streams.examples.SentimentAnalyzer">
 
+	<interface name="in-stream" role="server"
+		signature="org.inria.scale.streams.InStream" />
+
 	<!-- Twitter -->
 	<component name="twitter" definition="org.inria.scale.streams.InTap">
 		<content class="org.inria.scale.streams.intaps.TwitterStreaming" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.TwitterStreamingConfiguration">
-			<attribute name="consumerKey" value="" />
-			<attribute name="consumerSecret" value="" />
-			<attribute name="accessToken" value="" />
-			<attribute name="accessTokenSecret" value="" />
+			<!-- <attribute name="consumerKey" value="" /> -->
+			<!-- <attribute name="consumerSecret" value="" /> -->
+			<!-- <attribute name="accessToken" value="" /> -->
+			<!-- <attribute name="accessTokenSecret" value="" /> -->
+
+			<attribute name="consumerKey" value="16PTKFQAFXATlyisvxYbFxTqe" />
+			<attribute name="consumerSecret"
+				value="OGuuJaBaZZO8IFNNB8M4rzk1wxhslVi7zKEJwvb1nPf0fmm38t" />
+			<attribute name="accessToken"
+				value="951832578-0QWIZGOxPOmRpqMT6VvxXAERPjaxvkzjmpN7X6NO" />
+			<attribute name="accessTokenSecret"
+				value="e0VfL8D2EEkRAsitiT6W6AQcikQ3HZPEgOYdor946Wiec" />
+
 			<attribute name="terms" value="tsipras,bieber,obama,messi,tevez" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- Input window -->
@@ -23,8 +36,9 @@
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
 			<attribute name="windowConfiguration"
 				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 5000 )' />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- Getter -->
@@ -33,14 +47,16 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.GetterConfiguration">
 			<attribute name="tupleComponent" value="0" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- TextNormalizer -->
 	<component name="normalizer" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.TextNormalizer" />	<controller desc="/default-autonomic-component-config.xml" />
-		
+		<content class="org.inria.scale.streams.operators.TextNormalizer" />
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- Classifier -->
@@ -50,8 +66,9 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.DictionarySentimentClassifierConfiguration">
 			<attribute name="pathInResources" value="dictionaries/SPANEW/SPANEW-2007.txt" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- TermIdentifier -->
@@ -60,8 +77,9 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.TermIdentifierConfiguration">
 			<attribute name="terms" value="tsipras,bieber,obama,messi,tevez" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- CoGroup -->
@@ -72,14 +90,16 @@
 			<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 5000 )" />
 			<attribute name="indexKey0" value="0" />
 			<attribute name="indexKey1" value="0" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- Custom ToBeSummed -->
 	<component name="to-be-summed" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.ToBeSummed" />	<controller desc="/default-autonomic-component-config.xml" />
-		
+		<content class="org.inria.scale.streams.operators.ToBeSummed" />
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- AverageBy -->
@@ -89,8 +109,9 @@
 			signature="org.inria.scale.streams.configuration.AverageByConfiguration">
 			<attribute name="keyTupleComponent" value="0" />
 			<attribute name="sumTupleComponent" value="1" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- SortBy -->
@@ -100,8 +121,9 @@
 			signature="org.inria.scale.streams.configuration.SortByConfiguration">
 			<attribute name="tupleComponent" value="1" />
 			<attribute name="order" value="desc" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- SeparatedValuesTransformer -->
@@ -111,8 +133,9 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
 			<attribute name="separator" value="&#009;" /> <!-- tab separated -->
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
+
 	</component>
 
 	<!-- FileWriter -->
@@ -123,9 +146,11 @@
 			<attribute name="directoryPath" value="sentiments" />
 			<attribute name="prefix" value="" />
 			<attribute name="postfix" value="" />
-		</attributes>	<controller desc="/default-autonomic-component-config.xml" />
-		
+		</attributes>
+		<controller desc="/default-autonomic-component-config.xml" />
 	</component>
+
+	<binding client="this.in-stream" server="input-window.in"/>
 
 	<!-- Operator bindings -->
 	<binding client="twitter.out" server="input-window.in" />
@@ -141,5 +166,6 @@
 	<binding client="sort-by.out" server="sv-transformer.in" />
 	<binding client="sv-transformer.out" server="file-writer.in" />
 
-	<controller desc="/default-autonomic-component-config.xml" />
+	<!-- <controller desc="/default-autonomic-component-config.xml" /> -->
+	<controller desc="composite" />
 </definition>

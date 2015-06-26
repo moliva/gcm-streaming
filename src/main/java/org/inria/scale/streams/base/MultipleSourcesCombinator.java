@@ -46,7 +46,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	private final MultiActiveServiceFactory serviceFactory;
 
 	private final int inputSourceNumber;
-	private final Map<Integer, Queue<Tuple>> tuplesMap = new HashMap<>();
+	private final Map<Integer, Queue<Tuple>> tuplesMap = new HashMap<Integer, Queue<Tuple>>();
 
 	/**
 	 * This is the method to be implemented by any subclass defining a certain
@@ -126,7 +126,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 		validateInputSource(inputSource);
 
 		final Queue<Tuple> tuples = tuplesMap.get(inputSource);
-		final List<Tuple> tuplesRemoved = new ArrayList<>(tuples);
+		final List<Tuple> tuplesRemoved = new ArrayList<Tuple>(tuples);
 		tuples.removeAll(tuplesRemoved);
 
 		return tuplesRemoved;
