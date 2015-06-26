@@ -7,7 +7,12 @@ import org.etsi.uri.gcm.util.GCM;
 import org.objectweb.fractal.adl.Factory;
 import org.objectweb.fractal.api.Component;
 import org.objectweb.proactive.api.PADeployment;
+import org.objectweb.proactive.core.component.identity.PAComponent;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
+import org.objectweb.proactive.extensions.autonomic.adl.AFactory;
+import org.objectweb.proactive.extensions.autonomic.adl.AFactoryFactory;
+import org.objectweb.proactive.extensions.autonomic.controllers.monitoring.MonitorController;
+import org.objectweb.proactive.extensions.autonomic.controllers.remmos.Remmos;
 
 /**
  * Allows users to execute their applications in a simple way, passing as an
@@ -48,7 +53,9 @@ public class BaseApplicationRunner {
 		final String deploymentFilename = args.length > 1 ? args[1] : DEFAULT_DEPLOYMENT_XML;
 
 		// get the component Factory allowing component creation from ADL
-		final Factory factory = org.objectweb.proactive.core.component.adl.FactoryFactory.getFactory();
+		final AFactory factory = (AFactory) AFactoryFactory.getAFactory();
+		// final Factory factory =
+		// org.objectweb.proactive.core.component.adl.FactoryFactory.getFactory();
 		final Map<String, Object> context = new HashMap<String, Object>();
 
 		// retrieve the deployment descriptor
@@ -58,10 +65,28 @@ public class BaseApplicationRunner {
 		context.put("deployment-descriptor", deploymentDescriptor);
 		deploymentDescriptor.activateMappings();
 
-		final Component compositeWrapper = (Component) factory.newComponent(adl, context);
+		final Component compositeWrapper = (Component) factory.newAutonomicComponent(adl, context);
+
+		Remmos.enableMonitoring(compositeWrapper);
+		Thread.sleep(1000);
+		final MonitorController mon = Remmos.getMonitorController(compositeWrapper);
+		Thread.sleep(1000);
+		mon.startGCMMonitoring();
+
+		// final Component compositeWrapper = (Component) factory.newComponent(adl,
+		// context);
 
 		// start PrimitiveComputer component
 		GCM.getGCMLifeCycleController(compositeWrapper).startFc();
+
+		System.out.println("*\n*\n* App ready: " + ((PAComponent) compositeWrapper).getID().toString() + "\n*\n*");
+
+		while (true)
+			try {
+				Thread.sleep(10000);
+			} catch (final InterruptedException e) {
+				e.printStackTrace();
+			}
 	}
 
 }

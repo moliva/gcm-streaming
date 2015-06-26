@@ -118,6 +118,7 @@ public class DictionarySentimentClassifier extends BaseOperator implements Dicti
 
 	@Override
 	public void setPathInResources(final String pathInResources) {
+		System.err.println("Changing dictionary to: " + pathInResources);
 		this.pathInResources = pathInResources;
 	}
 
