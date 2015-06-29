@@ -2,6 +2,8 @@
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
 <definition name="org.inria.scale.streams.examples.SentimentAnalyzer">
+<interface name="in-stream" role="server"
+		signature="org.inria.scale.streams.InStream" />
 
 	<!-- Twitter -->
 	<component name="twitter" definition="org.inria.scale.streams.InTap">
@@ -113,6 +115,8 @@
 			<attribute name="postfix" value="" />
 		</attributes>
 	</component>
+	
+	<binding client="this.in-stream" server="input-window.in"/>
 
 	<!-- Operator bindings -->
 	<binding client="twitter.out" server="input-window.in" />
@@ -128,4 +132,5 @@
 	<binding client="sort-by.out" server="sv-transformer.in" />
 	<binding client="sv-transformer.out" server="file-writer.in" />
 
+	<controller desc="composite" />
 </definition>
