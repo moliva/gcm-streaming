@@ -3,11 +3,23 @@
 
 <definition name="org.inria.scale.streams.Combinator">
 	<interface name="in0" role="server" signature="org.inria.scale.streams.InStream" />
-	<interface name="in1" role="server" signature="org.inria.scale.streams.InStream"
-		interceptors="this.router-controller" />
+	<!-- <interface name="in1" role="server" signature="org.inria.scale.streams.InStream" -->
+	<!-- interceptors="this.router-controller" /> -->
+	<interface name="in1" role="server" signature="org.inria.scale.streams.InStream" />
 
 	<interface name="out" role="client" cardinality="multicast"
 		signature="org.inria.scale.streams.MulticastInStream" />
 
-	<controller desc="/routing-config.xml" />
+	<component name="router1" definition="org.inria.scale.streams.Operator">
+		<content class="org.inria.scale.streams.operators.RouterOperator" />
+	</component>
+
+	<binding client="this.in0" server="impl.in" />
+	<binding client="this.in1" server="router1.in" />
+	<binding client="router1.out" server="impl.in" />
+
+	<binding client="impl.out" server="this.out" />
+
+	<controller desc="composite" />
+	<!-- <controller desc="/routing-config.xml" /> -->
 </definition>

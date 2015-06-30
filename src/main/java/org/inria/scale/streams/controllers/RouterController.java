@@ -1,5 +1,7 @@
 package org.inria.scale.streams.controllers;
 
+import java.io.Serializable;
+
 import org.inria.scale.streams.base.BaseTwoSourcesCombinator;
 import org.inria.scale.streams.base.MultipleSourcesCombinator;
 import org.objectweb.fractal.api.Component;
@@ -23,7 +25,7 @@ import org.objectweb.proactive.core.mop.MethodCall;
  * @author moliva
  *
  */
-public class RouterController extends AbstractPAController implements Interceptor {
+public class RouterController extends AbstractPAController implements Interceptor, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private static final String INTERFACE_NAME = "router-controller";

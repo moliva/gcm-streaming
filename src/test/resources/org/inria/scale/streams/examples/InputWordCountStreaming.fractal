@@ -2,9 +2,9 @@
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
 <definition name="org.inria.scale.streams.examples.InputWordCountStreaming">
-<interface name="in-stream" role="server"
+	<interface name="in-stream" role="server"
 		signature="org.inria.scale.streams.InStream" />
-		
+
 	<!-- InputSystemReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
 		<content class="org.inria.scale.streams.intaps.SystemInputLineReader" />
@@ -29,14 +29,7 @@
 	</component>
 
 	<!-- SeparatedValuesTransformer -->
-	<component name="csv-transformer" definition="org.inria.scale.streams.Operator">
-		<content
-			class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
-			<attribute name="separator" value="&#009;" /> <!-- tab separated -->
-		</attributes>
-	</component>
+	<component name="csv-transformer" definition="org.inria.scale.streams.examples.CsvTransformerOperator" />
 
 	<!-- SystemOutputWriter -->
 	<component name="system-output-writer" definition="org.inria.scale.streams.OutTap">
@@ -67,8 +60,8 @@
 			<attribute name="order" value="desc" />
 		</attributes>
 	</component>
-	
-		<binding client="this.in-stream" server="input-window.in"/>
+
+	<binding client="this.in-stream" server="input-window.in" />
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
@@ -80,6 +73,6 @@
 	<binding client="csv-transformer.out" server="system-output-writer.in" />
 
 	<binding client="normalizer.out" server="file-writer.in" />
-	
-		<controller desc="composite" />
+
+	<controller desc="composite" />
 </definition>
