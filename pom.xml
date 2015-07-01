@@ -521,20 +521,66 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/proactive/julia-runtime-2.5.3-SNAPSHOT.jar</systemPath>
 		</dependency>
-
-<dependency>
-	<groupId>org.slf4j</groupId>
-	<artifactId>slf4j-log4j12</artifactId>
-	<version>1.5.3</version>
-</dependency>
-
-
-
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>moduleloader</groupId>
+			<artifactId>moduleloader</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/moduleloader.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>mofcomp</groupId>
+			<artifactId>mofcomp</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/mofcomp.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.netty</groupId>
+			<artifactId>netty</artifactId>
+			<version>3.2.0.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>osgi</groupId>
+			<artifactId>osgi</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/osgi.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>puretls</groupId>
+			<artifactId>puretls</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/puretls.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>rabbitmq-client</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
+
+
+
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
+		<!-- TODO - To be confirmed -->
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>

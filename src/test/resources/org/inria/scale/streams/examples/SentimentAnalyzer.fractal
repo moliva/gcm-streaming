@@ -10,10 +10,10 @@
 		<content class="org.inria.scale.streams.intaps.TwitterStreaming" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.TwitterStreamingConfiguration">
-			<attribute name="consumerKey" value="" />
-			<attribute name="consumerSecret" value="" />
-			<attribute name="accessToken" value="" />
-			<attribute name="accessTokenSecret" value="" />
+ 			<attribute name="consumerKey" value="" />
+ 			<attribute name="consumerSecret" value="" /> 
+ 			<attribute name="accessToken" value="" /> 
+ 			<attribute name="accessTokenSecret" value="" />
 			<attribute name="terms" value="tsipras,bieber,obama,messi,tevez" />
 		</attributes>
 	</component>
@@ -23,7 +23,7 @@
 		<attributes
 			signature="org.inria.scale.streams.configuration.WindowConfiguration">
 			<attribute name="windowConfiguration"
-				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 10000 )' />
+				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 60000 )' />
 		</attributes>
 	</component>
 
@@ -66,7 +66,7 @@
 			<content class="org.inria.scale.streams.combinators.CoGroup" />
 			<attributes
 				signature="org.inria.scale.streams.configuration.CoGroupConfiguration">
-				<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 10000 )" />
+				<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 60000 )" />
 				<attribute name="indexKey0" value="0" />
 				<attribute name="indexKey1" value="0" />
 			</attributes>
@@ -89,14 +89,14 @@
 	</component>
 
 	<!-- SortBy -->
-	<component name="sort-by" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.SortBy" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.SortByConfiguration">
-			<attribute name="tupleComponent" value="1" />
-			<attribute name="order" value="desc" />
-		</attributes>
-	</component>
+<!-- 	<component name="sort-by" definition="org.inria.scale.streams.Operator"> -->
+<!-- 		<content class="org.inria.scale.streams.operators.SortBy" /> -->
+<!-- 		<attributes -->
+<!-- 			signature="org.inria.scale.streams.configuration.SortByConfiguration"> -->
+<!-- 			<attribute name="tupleComponent" value="1" /> -->
+<!-- 			<attribute name="order" value="desc" /> -->
+<!-- 		</attributes> -->
+<!-- 	</component> -->
 
 	<!-- SeparatedValuesTransformer -->
 	<component name="sv-transformer" definition="org.inria.scale.streams.Operator">
@@ -131,8 +131,10 @@
 	<binding client="classifier.out" server="co-group.in1" />
 	<binding client="co-group.out" server="to-be-summed.in" />
 	<binding client="to-be-summed.out" server="avg-by.in" />
-	<binding client="avg-by.out" server="sort-by.in" />
-	<binding client="sort-by.out" server="sv-transformer.in" />
+<!-- 	<binding client="avg-by.out" server="sort-by.in" /> -->
+<!-- 	<binding client="sort-by.out" server="sv-transformer.in" /> -->
+	<binding client="avg-by.out" server="sv-transformer.in" />
+
 	<binding client="sv-transformer.out" server="file-writer.in" />
 
 	<controller desc="composite" />
