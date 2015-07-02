@@ -1,8 +1,8 @@
-package org.inria.scale.streams.combinators;
+package org.inria.scale.streams.aggregators;
 
 import java.util.List;
 
-import org.inria.scale.streams.base.BaseTwoSourcesCombinator;
+import org.inria.scale.streams.base.BaseTwoSourcesAggregator;
 import org.javatuples.Pair;
 import org.javatuples.Tuple;
 
@@ -15,10 +15,10 @@ import com.google.common.collect.FluentIterable;
  * @author moliva
  *
  */
-public class CartesianProduct extends BaseTwoSourcesCombinator {
+public class CartesianProduct extends BaseTwoSourcesAggregator {
 
 	// //////////////////////////////////////////////
-	// ******* BaseTwoSourcesCombinator *******
+	// ******* BaseTwoSourcesAggregator *******
 	// //////////////////////////////////////////////
 
 	@Override

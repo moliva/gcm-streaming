@@ -10,10 +10,17 @@
 		<content class="org.inria.scale.streams.intaps.TwitterStreaming" />
 		<attributes
 			signature="org.inria.scale.streams.configuration.TwitterStreamingConfiguration">
- 			<attribute name="consumerKey" value="" />
- 			<attribute name="consumerSecret" value="" /> 
- 			<attribute name="accessToken" value="" /> 
- 			<attribute name="accessTokenSecret" value="" />
+<!--  			<attribute name="consumerKey" value="" /> -->
+<!--  			<attribute name="consumerSecret" value="" />  -->
+<!--  			<attribute name="accessToken" value="" />  -->
+<!--  			<attribute name="accessTokenSecret" value="" /> -->
+<attribute name="consumerKey" value="16PTKFQAFXATlyisvxYbFxTqe" />
+<attribute name="consumerSecret"
+  value="OGuuJaBaZZO8IFNNB8M4rzk1wxhslVi7zKEJwvb1nPf0fmm38t" />
+<attribute name="accessToken"
+  value="951832578-0QWIZGOxPOmRpqMT6VvxXAERPjaxvkzjmpN7X6NO" />
+<attribute name="accessTokenSecret"
+  value="e0VfL8D2EEkRAsitiT6W6AQcikQ3HZPEgOYdor946Wiec" />
 			<attribute name="terms" value="tsipras,bieber,obama,messi,tevez" />
 		</attributes>
 	</component>
@@ -61,9 +68,9 @@
 	</component>
 
 	<!-- CoGroup -->
-	<component name="co-group" definition="org.inria.scale.streams.Combinator">
+	<component name="co-group" definition="org.inria.scale.streams.Aggregator">
 		<component name="impl" definition="org.inria.scale.streams.Operator">
-			<content class="org.inria.scale.streams.combinators.CoGroup" />
+			<content class="org.inria.scale.streams.aggregators.CoGroup" />
 			<attributes
 				signature="org.inria.scale.streams.configuration.CoGroupConfiguration">
 				<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 60000 )" />

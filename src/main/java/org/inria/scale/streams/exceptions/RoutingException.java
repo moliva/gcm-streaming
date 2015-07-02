@@ -1,7 +1,7 @@
 package org.inria.scale.streams.exceptions;
 
 import org.inria.scale.streams.base.BaseOperator;
-import org.inria.scale.streams.base.MultipleSourcesCombinator;
+import org.inria.scale.streams.base.MultipleSourcesAggregator;
 import org.inria.scale.streams.controllers.RouterController;
 
 /**
@@ -10,7 +10,7 @@ import org.inria.scale.streams.controllers.RouterController;
  * 
  * @see RouterController
  * @see BaseOperator
- * @see MultipleSourcesCombinator
+ * @see MultipleSourcesAggregator
  * 
  * @author moliva
  *

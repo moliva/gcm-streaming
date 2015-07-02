@@ -1,10 +1,9 @@
-package org.inria.scale.streams.combinators;
+package org.inria.scale.streams.aggregators;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-import org.inria.scale.streams.base.BaseTwoSourcesCombinator;
+import org.inria.scale.streams.base.BaseTwoSourcesAggregator;
 import org.inria.scale.streams.configuration.CoGroupConfiguration;
 import org.javatuples.Triplet;
 import org.javatuples.Tuple;
@@ -23,13 +22,13 @@ import com.google.common.collect.Sets;
  * @author moliva
  *
  */
-public class CoGroup extends BaseTwoSourcesCombinator implements CoGroupConfiguration, Serializable {
+public class CoGroup extends BaseTwoSourcesAggregator implements CoGroupConfiguration {
 
 	private int indexKey0;
 	private int indexKey1;
 
 	// //////////////////////////////////////////////
-	// ******* BaseTwoSourcesCombinator *******
+	// ******* BaseTwoSourcesAggregator *******
 	// //////////////////////////////////////////////
 
 	@Override

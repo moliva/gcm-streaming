@@ -8,14 +8,18 @@
     * Combinator
   * OutTap
 * Common operations for each kind and extensibility for the application developer to build its own abstractions enabling best practices (e.g. easily testable behavior)
-* Window confiuration management
+* Window configuration management
   * Tumbling strategies based on count and time
   * Sliding
     * Eviction policies based on count and time
     * Trigger policies based on count and time
 * Basic runner
+* Dynamic adaptability
+  * Reconfiguration of components attributes
 
 ## Future development
 * Dynamic adaptability
+  * Adaptation of the operation graph
+  * Autonomic adaptation
 * DSL
 * Improve type system

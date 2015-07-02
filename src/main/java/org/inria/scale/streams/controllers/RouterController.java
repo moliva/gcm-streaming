@@ -2,8 +2,8 @@ package org.inria.scale.streams.controllers;
 
 import java.io.Serializable;
 
-import org.inria.scale.streams.base.BaseTwoSourcesCombinator;
-import org.inria.scale.streams.base.MultipleSourcesCombinator;
+import org.inria.scale.streams.base.BaseTwoSourcesAggregator;
+import org.inria.scale.streams.base.MultipleSourcesAggregator;
 import org.objectweb.fractal.api.Component;
 import org.objectweb.fractal.api.factory.InstantiationException;
 import org.objectweb.fractal.api.type.TypeFactory;
@@ -19,8 +19,8 @@ import org.objectweb.proactive.core.mop.MethodCall;
  * interfaces into its own way inside a Combinator operator (see ADL definition)
  * with more than one input source possible.
  * 
- * @see MultipleSourcesCombinator
- * @see BaseTwoSourcesCombinator
+ * @see MultipleSourcesAggregator
+ * @see BaseTwoSourcesAggregator
  * 
  * @author moliva
  *

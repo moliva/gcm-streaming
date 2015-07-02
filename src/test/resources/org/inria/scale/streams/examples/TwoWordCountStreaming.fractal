@@ -2,6 +2,8 @@
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
 <definition name="org.inria.scale.streams.examples.TwoWordCountStreaming">
+	<interface name="in-stream" role="server"
+		signature="org.inria.scale.streams.InStream" />
 
 	<!-- InputSystemReader -->
 	<component name="input-system" definition="org.inria.scale.streams.InTap">
@@ -44,12 +46,14 @@
 	</component>
 
 	<!-- CrossProduct -->
-	<component name="cross" definition="org.inria.scale.streams.Combinator">
-		<content class="org.inria.scale.streams.combinators.CartesianProduct" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
-			<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 6000 )" />
-		</attributes>
+	<component name="cross" definition="org.inria.scale.streams.Aggregator">
+		<component name="impl" definition="org.inria.scale.streams.Operator">
+			<content class="org.inria.scale.streams.aggregators.CartesianProduct" />
+			<attributes
+				signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
+				<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 6000 )" />
+			</attributes>
+		</component>
 	</component>
 
 	<!-- TextNormalizer -->
@@ -78,6 +82,7 @@
 	</component>
 
 	<!-- Application run -->
+	<binding client="this.in-stream" server="input-window.in" />
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
@@ -91,4 +96,6 @@
 	<binding client="count.out" server="sort-by.in" />
 	<binding client="sort-by.out" server="csv-transformer.in" />
 	<binding client="csv-transformer.out" server="system-output-writer.in" />
+
+	<controller desc="composite" />
 </definition>

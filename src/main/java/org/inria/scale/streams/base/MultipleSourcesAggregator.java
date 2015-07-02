@@ -38,7 +38,7 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
  * @author moliva
  *
  */
-public abstract class MultipleSourcesCombinator extends MulticastInStreamBindingController implements InStream,
+public abstract class MultipleSourcesAggregator extends MulticastInStreamBindingController implements InStream,
 		CombinatorConfiguration, RunActive {
 
 	private CombinatorConfigurationObject combinatorConfiguration;
@@ -69,7 +69,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 	 * @param inputSourceNumber
 	 *          Total number of input sources for the defined combinator
 	 */
-	public MultipleSourcesCombinator(final int inputSourceNumber, final MultiActiveServiceFactory serviceFactory) {
+	public MultipleSourcesAggregator(final int inputSourceNumber, final MultiActiveServiceFactory serviceFactory) {
 		validateTotalInputSourceNumber(inputSourceNumber);
 
 		this.serviceFactory = serviceFactory;
@@ -77,7 +77,7 @@ public abstract class MultipleSourcesCombinator extends MulticastInStreamBinding
 		initializeQueues();
 	}
 
-	public MultipleSourcesCombinator(final int inputSourceNumber) {
+	public MultipleSourcesAggregator(final int inputSourceNumber) {
 		this(inputSourceNumber, new MultiActiveServiceFactoryImpl());
 	}
 

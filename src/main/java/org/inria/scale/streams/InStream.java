@@ -3,7 +3,7 @@ package org.inria.scale.streams;
 import java.util.List;
 
 import org.inria.scale.streams.base.MulticastInStreamBindingController;
-import org.inria.scale.streams.base.MultipleSourcesCombinator;
+import org.inria.scale.streams.base.MultipleSourcesAggregator;
 import org.inria.scale.streams.controllers.RouterController;
 import org.javatuples.Tuple;
 
@@ -33,7 +33,7 @@ public interface InStream {
 	 *          By default, this will always 0 and the forwarding port will also
 	 *          be it, but this could change in a scenario implementing an
 	 *          operator with multiple sources, more on this in
-	 *          {@link MultipleSourcesCombinator} and {@link RouterController}
+	 *          {@link MultipleSourcesAggregator} and {@link RouterController}
 	 * @param newTuples
 	 *          Tuples received from the previous operation in the graph, could be
 	 *          of any subclass of {@link Tuple} as processed by the previous

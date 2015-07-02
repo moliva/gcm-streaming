@@ -1,10 +1,10 @@
 package org.inria.scale.streams.windows;
 
-import org.inria.scale.streams.base.MultipleSourcesCombinator;
+import org.inria.scale.streams.base.MultipleSourcesAggregator;
 
 /**
  *
- * Represents the configuration for the {@link MultipleSourcesCombinator} to use
+ * Represents the configuration for the {@link MultipleSourcesAggregator} to use
  * when combining batches of tuples.
  *
  * @author moliva

@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.inria.scale.streams.MulticastInStream;
-import org.inria.scale.streams.base.MultipleSourcesCombinator;
+import org.inria.scale.streams.base.MultipleSourcesAggregator;
 import org.inria.scale.streams.exceptions.RoutingException;
 import org.inria.scale.streams.multiactivity.MultiActiveServiceFactory;
 import org.javatuples.Tuple;
@@ -40,7 +40,7 @@ public class MultipleSourcesCombinatorTest {
 
 	private final List<Tuple> receivedTuples = new ArrayList<>();
 
-	private final MultipleSourcesCombinator operator = new MultipleSourcesCombinator(NUMBER_OF_SOURCES, serviceFactory) {
+	private final MultipleSourcesAggregator operator = new MultipleSourcesAggregator(NUMBER_OF_SOURCES, serviceFactory) {
 
 		@Override
 		protected List<? extends Tuple> process() {
