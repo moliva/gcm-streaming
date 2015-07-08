@@ -1,9 +1,8 @@
 package org.inria.scale.streams.base;
 
+import org.inria.scale.streams.LifeCycleSelfAwareObject;
+import org.inria.scale.streams.multiactivity.ComponentMultiActiveServiceFactory;
 import org.inria.scale.streams.multiactivity.MultiActiveServiceFactory;
-import org.inria.scale.streams.multiactivity.MultiActiveServiceFactoryImpl;
-import org.inria.scale.streams.windows.StaticWindowStrategyFactory;
-import org.inria.scale.streams.windows.WindowStrategyFactory;
 import org.objectweb.proactive.Body;
 import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
@@ -17,10 +16,10 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
  * @author moliva
  *
  */
-public abstract class BaseInTap extends MulticastInStreamBindingController implements RunActive {
+public abstract class BaseInTap extends MulticastInStreamBindingController implements LifeCycleSelfAwareObject {
 
-	private boolean firstTime = true;
 	private final MultiActiveServiceFactory multiActiveServiceFactory;
+	private Thread thread;
 
 	/**
 	 * <p>
@@ -33,15 +32,17 @@ public abstract class BaseInTap extends MulticastInStreamBindingController imple
 	 * {@link MulticastInStreamBindingController#send(int, java.util.List)} method
 	 * whenever a new batch of tuples is prepared to be sent.</b>
 	 * </p>
+	 * 
+	 * @throws InterruptedException
 	 */
-	protected abstract void startStreaming();
+	protected abstract void startStreaming() throws InterruptedException;
 
 	public BaseInTap(final MultiActiveServiceFactory multiActiveServiceFactory) {
 		this.multiActiveServiceFactory = multiActiveServiceFactory;
 	}
 
 	public BaseInTap() {
-		this(new MultiActiveServiceFactoryImpl());
+		this(new ComponentMultiActiveServiceFactory());
 	}
 
 	// //////////////////////////////////////////////
@@ -49,25 +50,26 @@ public abstract class BaseInTap extends MulticastInStreamBindingController imple
 	// //////////////////////////////////////////////
 
 	@Override
-	public void runActivity(final Body body) {
-		final Thread thread = new Thread("Streaming InTap") {
+	public void onStart() {
+		thread = new Thread("Streaming InTap") {
 			@Override
 			public void run() {
-				if (firstTime) {
+				try {
 					startStreaming();
-					firstTime = false;
+				} catch (final InterruptedException e) {
+					System.err.println("Thread interrupted " + Thread.currentThread().getName());
 				}
 			}
 		};
 
 		thread.start();
+	}
 
-		final MultiActiveService service = createMultiActiveService(body);
-		while (body.isActive()) {
-			service.multiActiveServing();
+	@Override
+	public void onStop() {
+		if (thread != null) {
+			thread.interrupt();
 		}
-		
-		thread.stop();
 	}
 
 	private MultiActiveService createMultiActiveService(final Body body) {

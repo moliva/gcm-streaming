@@ -5,7 +5,7 @@
 	<content class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
 	<attributes
 		signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
-		<attribute name="separator" value="&#009;" /> <!-- tab separated -->
+		<attribute name="separator" value="," />
 	</attributes>
 	<controller desc="primitive" />
 </definition>

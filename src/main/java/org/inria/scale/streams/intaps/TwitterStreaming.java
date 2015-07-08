@@ -41,7 +41,7 @@ public class TwitterStreaming extends BaseInTap implements TwitterStreamingConfi
 	private String host = Constants.STREAM_HOST;
 
 	@Override
-	public void startStreaming() {
+	public void startStreaming() throws InterruptedException {
 		/**
 		 * Set up your blocking queues: Be sure to size these properly based on
 		 * expected TPS of your stream
@@ -66,7 +66,7 @@ public class TwitterStreaming extends BaseInTap implements TwitterStreamingConfi
 			try {
 				final String tweet = messageQueue.take();
 				send(Arrays.asList(createTuple(tweet)));
-			} catch (final InterruptedException | NullPointerException e) {
+			} catch (final NullPointerException e) {
 				e.printStackTrace();
 			}
 		}

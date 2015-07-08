@@ -70,7 +70,7 @@
 			<version>2.4</version>
 			<!-- <version>2.4-SNAPSHOT</version> -->
 			<!-- <scope>system</scope> -->
-			<!-- <systemPath>${project.basedir}/lib/task-framework-2.4-SNAPSHOT.jar</systemPath> -->
+			<!-- <systemPath>${project.basedir}/lib/task-deployment-2.4-SNAPSHOT.jar</systemPath> -->
 		</dependency>
 
 		<!-- gcmscript deps -->
@@ -253,7 +253,11 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/proactive/colobus-0.1.jar</systemPath>
 		</dependency>
-		<!-- commons-cli 1.1 -->
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.1</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -569,35 +573,277 @@
 			<artifactId>rabbitmq-client</artifactId>
 			<version>0.9.1</version>
 		</dependency>
-
-
-
-
-
+		<dependency>
+			<groupId>saaj-impl</groupId>
+			<artifactId>saaj-impl</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/saaj-impl.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.servicebinder</artifactId>
+			<version>0.9.0-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/servicebinder-0.9.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>servlet-api-2.5</artifactId>
+			<version>6.1.11</version>
+		</dependency>
+		<dependency>
+			<groupId>servlet-api</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/servlet-api.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>servlet</groupId>
+			<artifactId>servlet</artifactId>
+			<version>2.3.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/servlet.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.shell</artifactId>
+			<version>1.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>shellgui</groupId>
+			<artifactId>shellgui</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/shellgui.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>shellplugin</groupId>
+			<artifactId>shellplugin</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/shellplugin.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>shelltui</groupId>
+			<artifactId>shelltui</artifactId>
+			<version>1.4.2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/shelltui-1.4.2.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>simple</groupId>
+			<artifactId>simple</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/simple.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.5.3</version>
 		</dependency>
-
-		<!-- TODO - To be confirmed -->
+		<dependency>
+			<groupId>soap</groupId>
+			<artifactId>soap</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/soap.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>ssj</groupId>
+			<artifactId>ssj</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/ssj.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>sunxacml</groupId>
+			<artifactId>sunxacml</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/sunxacml.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.jets3t</groupId>
+			<artifactId>synchronize</artifactId>
+			<version>0.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>tablelayout</groupId>
+			<artifactId>tablelayout</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/tablelayout.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.objectweb.fractal.fractaladl</groupId>
+			<artifactId>task-deployment</artifactId>
+			<version>2.4</version>
+			<!-- <version>2.4-SNAPSHOT</version> -->
+			<!-- <scope>system</scope> -->
+			<!-- <systemPath>${project.basedir}/lib/task-framework-2.4-SNAPSHOT.jar</systemPath> -->
+		</dependency>
+		<dependency>
+			<groupId>org.objectweb.fractal.fractaladl</groupId>
+			<artifactId>task-framework</artifactId>
+			<version>2.4</version>
+			<!-- <version>2.4-SNAPSHOT</version> -->
+			<!-- <scope>system</scope> -->
+			<!-- <systemPath>${project.basedir}/lib/task-framework-2.4-SNAPSHOT.jar</systemPath> -->
+		</dependency>
+		<dependency>
+			<groupId>trilead-ssh2</groupId>
+			<artifactId>trilead-ssh2</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/trilead-ssh2.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>uploader</groupId>
+			<artifactId>uploader</artifactId>
+			<version>0.9.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/uploader-0.9.0.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>vfs_s3</groupId>
+			<artifactId>vfs_s3</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/vfs_s3.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>vi-java</groupId>
+			<artifactId>vi-java</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/vi-java.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>vim</groupId>
+			<artifactId>vim</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/vim.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>vim25</groupId>
+			<artifactId>vim25</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/vim25.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualbox-wsdl</groupId>
+			<artifactId>virtualbox-wsdl</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualbox-wsdl.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-core</groupId>
+			<artifactId>virtualization-core</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-core.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-hyperv-winrm</groupId>
+			<artifactId>virtualization-hyperv-winrm</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-hyperv-winrm.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-hyperv-wmi</groupId>
+			<artifactId>virtualization-hyperv-wmi</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-hyperv-wmi.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-libvirt</groupId>
+			<artifactId>virtualization-libvirt</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-libvirt.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-virtualbox</groupId>
+			<artifactId>virtualization-virtualbox</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-virtualbox.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-vmware-vi</groupId>
+			<artifactId>virtualization-vmware-vi</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-vmware-vi.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-vmware-vix</groupId>
+			<artifactId>virtualization-vmware-vix</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-vmware-vix.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>virtualization-xenserver</groupId>
+			<artifactId>virtualization-xenserver</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/virtualization-xenserver.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>wbem</groupId>
+			<artifactId>wbem</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/wbem.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>winp</groupId>
+			<artifactId>winp</artifactId>
+			<version>1.17-patched</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/winp-1.17-patched.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>wiseman-tools</groupId>
+			<artifactId>wiseman-tools</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/proactive/wiseman-tools.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ws.commons.util</groupId>
+			<artifactId>ws-commons-util</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>net.java.dev.vcc.thirdparty</groupId>
+			<artifactId>xen-api</artifactId>
+			<version>5.0.0-3</version>
+		</dependency>
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 			<version>2.8.1</version>
 		</dependency>
-
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+			<groupId>org.apache.xmlrpc</groupId>
+			<artifactId>xmlrpc-client</artifactId>
+			<version>3.1</version>
 		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.objectweb.fractal.fractaladl</groupId> -->
-		<!-- <artifactId>fractal-adl</artifactId> -->
-		<!-- <version>2.6.1</version> -->
-		<!-- </dependency> -->
+		<dependency>
+			<groupId>org.apache.xmlrpc</groupId>
+			<artifactId>xmlrpc-common</artifactId>
+			<version>3.1</version>
+		</dependency>
 
 		<!-- Others -->
 		<dependency>

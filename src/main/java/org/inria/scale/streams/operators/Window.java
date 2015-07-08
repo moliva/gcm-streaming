@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.LifeCycleSelfAwareObject;
 import org.inria.scale.streams.base.MulticastInStreamBindingController;
 import org.inria.scale.streams.configuration.WindowConfiguration;
 import org.inria.scale.streams.multiactivity.MultiActiveServiceFactory;
@@ -31,7 +32,8 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
  * @author moliva
  *
  */
-public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration, RunActive {
+public class Window extends MulticastInStreamBindingController implements InStream, WindowConfiguration,
+		LifeCycleSelfAwareObject {
 
 	private final Queue<Tuple> tuples = new ConcurrentLinkedQueue<>();
 	private final MultiActiveServiceFactory multiActiveServiceFactory;
@@ -57,17 +59,17 @@ public class Window extends MulticastInStreamBindingController implements InStre
 	// //////////////////////////////////////////////
 
 	@Override
-	public void runActivity(final Body body) {
+	public void onStart() {
 		// the first time we have to initialize the window from here, when all the
 		// bindings have been completed by the GCM platform
+		System.out.println("Starting window");
 		windowStrategy.initialize(this);
 		alreadyRunning = true;
+	}
 
-		final MultiActiveService service = createMultiActiveService(body);
-		while (body.isActive()) {
-			service.multiActiveServing();
-		}
-
+	@Override
+	public void onStop() {
+		System.out.println("Stopping window");
 		safelyTearDownWindowStrategy();
 	}
 

@@ -10,6 +10,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.inria.scale.streams.InStream;
+import org.inria.scale.streams.LifeCycleSelfAwareObject;
 import org.inria.scale.streams.configuration.CombinatorConfiguration;
 import org.inria.scale.streams.controllers.RouterController;
 import org.inria.scale.streams.exceptions.RoutingException;
@@ -19,7 +20,6 @@ import org.inria.scale.streams.windows.CombinatorConfigurationObject;
 import org.inria.scale.streams.windows.ConfigurationParser;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;
-import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
 
 /**
@@ -39,7 +39,7 @@ import org.objectweb.proactive.multiactivity.MultiActiveService;
  *
  */
 public abstract class MultipleSourcesAggregator extends MulticastInStreamBindingController implements InStream,
-		CombinatorConfiguration, RunActive {
+		CombinatorConfiguration, LifeCycleSelfAwareObject {
 
 	private CombinatorConfigurationObject combinatorConfiguration;
 
@@ -47,6 +47,8 @@ public abstract class MultipleSourcesAggregator extends MulticastInStreamBinding
 
 	private final int inputSourceNumber;
 	private final Map<Integer, Queue<Tuple>> tuplesMap = new HashMap<>();
+
+	private Timer timer;
 
 	/**
 	 * This is the method to be implemented by any subclass defining a certain
@@ -92,8 +94,8 @@ public abstract class MultipleSourcesAggregator extends MulticastInStreamBinding
 	// //////////////////////////////////////////////
 
 	@Override
-	public void runActivity(final Body body) {
-		final Timer timer = new Timer();
+	public void onStart() {
+		timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
 
 			@Override
@@ -101,13 +103,13 @@ public abstract class MultipleSourcesAggregator extends MulticastInStreamBinding
 				send(process());
 			}
 		}, combinatorConfiguration.getTimeBetweenExecutions(), combinatorConfiguration.getTimeBetweenExecutions());
+	}
 
-		final MultiActiveService service = createService(body);
-		while (body.isActive()) {
-			service.multiActiveServing();
+	@Override
+	public void onStop() {
+		if (timer != null) {
+			timer.cancel();
 		}
-
-		timer.cancel();
 	}
 
 	private MultiActiveService createService(final Body body) {

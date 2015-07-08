@@ -10,9 +10,12 @@
 		<proactive base="root" relpath="${proactive.home}">
 			<configuration>
 				<applicationClasspath>
-					<pathElement base="home" relpath="Taller/memoria/mape-component-controllers/build/test-src.jar"/>
-	           		<pathElement base="home" relpath="Taller/memoria/mape-component-controllers/build/test.jar"/>
+					<pathElement base="home" relpath="repos/mape-component-controllers/build/test-src.jar"/>
+	           		<pathElement base="home" relpath="repos/mape-component-controllers/build/test.jar"/>
 					<pathElement base="root" relpath="${proactive.home}/dist/lib/ProActive.jar"/>
+					<!-- Added -->
+					<pathElement base="root" relpath="${proactive.home}/dist/lib/commons-cli-1.1.jar"/>
+					<pathElement base="root" relpath="${proactive.home}/dist/lib/*"/>
 				</applicationClasspath>
 
 				<securityPolicy base="root" relpath="${proactive.home}/dist/proactive.java.policy"/>
