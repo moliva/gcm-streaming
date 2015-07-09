@@ -55,8 +55,10 @@ import org.objectweb.fractal.api.type.ComponentType;
 import org.objectweb.fractal.api.type.InterfaceType;
 import org.objectweb.fractal.api.type.TypeFactory;
 import org.objectweb.fractal.util.Fractal;
+import org.objectweb.proactive.Body;
 import org.objectweb.proactive.api.PAActiveObject;
 import org.objectweb.proactive.core.ProActiveRuntimeException;
+import org.objectweb.proactive.core.body.ActiveBody;
 import org.objectweb.proactive.core.component.Constants;
 import org.objectweb.proactive.core.component.PAInterface;
 import org.objectweb.proactive.core.component.Utils;
@@ -66,12 +68,14 @@ import org.objectweb.proactive.core.component.control.ControllerStateDuplication
 import org.objectweb.proactive.core.component.control.PAGCMLifeCycleController;
 import org.objectweb.proactive.core.component.control.PAMembraneController;
 import org.objectweb.proactive.core.component.identity.PAComponent;
+import org.objectweb.proactive.core.component.identity.PAComponentImpl;
 import org.objectweb.proactive.core.component.type.PAGCMTypeFactoryImpl;
 
 /**
- * Implementation of the {@link PAGCMLifeCycleController life cycle controller}.
+ * Implementation of the {@link PAGCMLifeCycleController life cycle controller}
+ * enabling the implementors of {@link LifeCycleSelfAwareObject} to be called
+ * when being started and stopped.
  *
- * @author The ProActive Team
  * @see PAGCMLifeCycleController
  */
 public class SelfAwareLifeCycleControllerImpl extends AbstractPAController implements PAGCMLifeCycleController,
@@ -80,6 +84,7 @@ public class SelfAwareLifeCycleControllerImpl extends AbstractPAController imple
 	private static final long serialVersionUID = 1L;
 
 	protected String fcState = LifeCycleController.STOPPED;
+	private boolean firstTime = true;
 
 	/**
 	 * Creates a {@link SelfAwareLifeCycleControllerImpl}.
@@ -289,11 +294,20 @@ public class SelfAwareLifeCycleControllerImpl extends AbstractPAController imple
 			controllerLogger.error("interface not found : " + nsie.getMessage(), nsie);
 		}
 
+		if (owner instanceof PAComponentImpl) {
+			final PAComponentImpl impl = (PAComponentImpl) owner;
+			final Body body = impl.getBody();
+			if (!firstTime && body instanceof ActiveBody) {
+				final ActiveBody activeBody = (ActiveBody) body;
+				new Thread(activeBody).start();
+			}
+			firstTime = false;
+		}
+
 		if (owner.getReferenceOnBaseObject() instanceof LifeCycleSelfAwareObject) {
 			final LifeCycleSelfAwareObject selfAwareObject = (LifeCycleSelfAwareObject) owner.getReferenceOnBaseObject();
 			selfAwareObject.onStart();
 		}
-
 	}
 
 	/**

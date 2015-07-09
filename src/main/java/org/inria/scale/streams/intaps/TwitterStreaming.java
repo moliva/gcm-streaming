@@ -62,13 +62,17 @@ public class TwitterStreaming extends BaseInTap implements TwitterStreamingConfi
 
 		client.connect();
 
-		while (!client.isDone()) {
-			try {
-				final String tweet = messageQueue.take();
-				send(Arrays.asList(createTuple(tweet)));
-			} catch (final NullPointerException e) {
-				e.printStackTrace();
+		try {
+			while (!client.isDone() || !Thread.interrupted()) {
+				try {
+					final String tweet = messageQueue.take();
+					send(Arrays.asList(createTuple(tweet)));
+				} catch (final NullPointerException e) {
+					e.printStackTrace();
+				}
 			}
+		} finally {
+			client.stop();
 		}
 	}
 

@@ -62,14 +62,12 @@ public class Window extends MulticastInStreamBindingController implements InStre
 	public void onStart() {
 		// the first time we have to initialize the window from here, when all the
 		// bindings have been completed by the GCM platform
-		System.out.println("Starting window");
 		windowStrategy.initialize(this);
 		alreadyRunning = true;
 	}
 
 	@Override
 	public void onStop() {
-		System.out.println("Stopping window");
 		safelyTearDownWindowStrategy();
 	}
 
