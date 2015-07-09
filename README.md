@@ -16,10 +16,10 @@
 * Basic runner
 * Dynamic adaptability
   * Reconfiguration of components attributes
+  * Adaptation of the operation graph
 
 ## Future development
 * Dynamic adaptability
-  * Adaptation of the operation graph
   * Autonomic adaptation
 * DSL
-* Improve type system
+* Improvements in type system

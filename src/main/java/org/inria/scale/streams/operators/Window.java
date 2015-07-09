@@ -16,7 +16,6 @@ import org.inria.scale.streams.windows.WindowStrategy;
 import org.inria.scale.streams.windows.WindowStrategyFactory;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.Body;
-import org.objectweb.proactive.RunActive;
 import org.objectweb.proactive.multiactivity.MultiActiveService;
 
 /**
