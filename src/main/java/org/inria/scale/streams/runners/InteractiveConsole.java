@@ -3,7 +3,6 @@ package org.inria.scale.streams.runners;
 import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Arrays;
 import java.util.Scanner;
 
 import javax.naming.NamingException;
@@ -12,7 +11,6 @@ import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
-import org.javatuples.Unit;
 import org.objectweb.fractal.api.Component;
 import org.objectweb.proactive.core.component.Fractive;
 import org.objectweb.proactive.core.component.identity.PAComponent;
@@ -21,7 +19,7 @@ import org.objectweb.proactive.extensions.autonomic.exceptions.NotAutonomicExcep
 
 public class InteractiveConsole {
 
-	public static void main(final String[] args) throws Exception {
+	public static void main(final String... args) throws Exception {
 		final Options options = new Options();
 		options.addOption("c", true, "component url");
 		options.addOption("l", false, "print remi objects");
@@ -31,14 +29,14 @@ public class InteractiveConsole {
 		final CommandLineParser parser = new BasicParser();
 		final CommandLine cmd = parser.parse(options, args);
 
-		int PORT = 1099;
+		int port = 1099;
 		if (cmd.hasOption("p")) {
-			PORT = Integer.parseInt(cmd.getOptionValue("p"));
+			port = Integer.parseInt(cmd.getOptionValue("p"));
 		}
 
-		String HOST = "localhost";
+		String host = "localhost";
 		if (cmd.hasOption("h")) {
-			HOST = cmd.getOptionValue("h");
+			host = cmd.getOptionValue("h");
 		}
 
 		if (cmd.hasOption("c")) {
@@ -53,7 +51,7 @@ public class InteractiveConsole {
 		}
 
 		if (cmd.hasOption("l")) {
-			final Registry registry = LocateRegistry.getRegistry(HOST, PORT);
+			final Registry registry = LocateRegistry.getRegistry(host, port);
 			final String[] boundNames = registry.list();
 			for (final String name : boundNames) {
 				System.out.println("\t" + name);
