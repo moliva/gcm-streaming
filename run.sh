@@ -1,1 +1,0 @@
-mvn exec:java -Dexec.mainClass=org.inria.scale.streams.Main -Djava.security.manager -Djava.security.policy=src/test/resources/allPerm.policy  -Dgcm.provider=org.objectweb.proactive.core.component.Fractive
