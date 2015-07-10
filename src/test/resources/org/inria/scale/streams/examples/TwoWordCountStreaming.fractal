@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.inria.scale.streams.examples.TwoWordCountStreaming">
-	<interface name="in-stream" role="server"
-		signature="org.inria.scale.streams.InStream" />
+<definition name="org.inria.scale.streams.examples.TwoWordCountStreaming" extends="org.inria.scale.streams.DataStreamApplication">
 
 	<!-- InputSystemReader -->
 	<component name="input-system" definition="org.inria.scale.streams.InTap">
@@ -13,20 +11,16 @@
 	<!-- LineReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
 		<content class="org.inria.scale.streams.intaps.FileLineReader" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.FileLineReaderConfiguration">
-			<attribute name="filePath"
-				value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/test/resources/lines.txt" />
+		<attributes signature="org.inria.scale.streams.configuration.FileLineReaderConfiguration">
+			<attribute name="filePath" value="/user/moliva/home/repos/adaptable-stream-gcm-example/src/test/resources/lines.txt" />
 			<attribute name="charset" value="UTF-8" />
 		</attributes>
 	</component>
 
 	<!-- Input window -->
 	<component name="input-window" definition="org.inria.scale.streams.Window">
-		<attributes
-			signature="org.inria.scale.streams.configuration.WindowConfiguration">
-			<attribute name="windowConfiguration"
-				value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 2000 )' />
+		<attributes signature="org.inria.scale.streams.configuration.WindowConfiguration">
+			<attribute name="windowConfiguration" value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 2000 )' />
 		</attributes>
 	</component>
 
@@ -37,10 +31,8 @@
 
 	<!-- SeparatedValuesTransformer -->
 	<component name="csv-transformer" definition="org.inria.scale.streams.Operator">
-		<content
-			class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
+		<content class="org.inria.scale.streams.operators.SeparatedValuesTransformer" />
+		<attributes signature="org.inria.scale.streams.configuration.SeparatedValuesConfiguration">
 			<attribute name="separator" value="&#009;" /> <!-- tab separated -->
 		</attributes>
 	</component>
@@ -49,8 +41,7 @@
 	<component name="cross" definition="org.inria.scale.streams.Aggregator">
 		<component name="impl" definition="org.inria.scale.streams.Operator">
 			<content class="org.inria.scale.streams.aggregators.CartesianProduct" />
-			<attributes
-				signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
+			<attributes signature="org.inria.scale.streams.configuration.CombinatorConfiguration">
 				<attribute name="combinatorConfiguration" value="( timeBetweenExecutions: 6000 )" />
 			</attributes>
 		</component>
@@ -74,15 +65,11 @@
 	<!-- SortBy -->
 	<component name="sort-by" definition="org.inria.scale.streams.Operator">
 		<content class="org.inria.scale.streams.operators.SortBy" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.SortByConfiguration">
+		<attributes signature="org.inria.scale.streams.configuration.SortByConfiguration">
 			<attribute name="tupleComponent" value="1" />
 			<attribute name="order" value="desc" />
 		</attributes>
 	</component>
-
-	<!-- Application run -->
-	<binding client="this.in-stream" server="input-window.in" />
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
@@ -97,5 +84,4 @@
 	<binding client="sort-by.out" server="csv-transformer.in" />
 	<binding client="csv-transformer.out" server="system-output-writer.in" />
 
-	<controller desc="composite" />
 </definition>

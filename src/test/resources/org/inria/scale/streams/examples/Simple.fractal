@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.inria.scale.streams.examples.Simple">
-	<interface name="in-stream" role="server"
-		signature="org.inria.scale.streams.InStream" />
+<definition name="org.inria.scale.streams.examples.Simple" extends="org.inria.scale.streams.DataStreamApplication">
 
 	<!-- Twitter -->
 	<component name="twitter" definition="org.inria.scale.streams.InTap">
 		<content class="org.inria.scale.streams.intaps.TwitterStreaming" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.TwitterStreamingConfiguration">
- 			<attribute name="consumerKey" value="" />
- 			<attribute name="consumerSecret" value="" /> 
- 			<attribute name="accessToken" value="" /> 
- 			<attribute name="accessTokenSecret" value="" />
+		<attributes signature="org.inria.scale.streams.configuration.TwitterStreamingConfiguration">
+			<attribute name="consumerKey" value="" />
+			<attribute name="consumerSecret" value="" />
+			<attribute name="accessToken" value="" />
+			<attribute name="accessTokenSecret" value="" />
 			<attribute name="terms" value="tsipras,bieber,obama,messi,tevez" />
 		</attributes>
 	</component>
@@ -26,7 +23,4 @@
 	<!-- Operator bindings -->
 	<binding client="twitter.out" server="system-output.in" />
 
-	<binding client="this.in-stream" server="system-output.in" />
-
-	<controller desc="composite" />
 </definition>

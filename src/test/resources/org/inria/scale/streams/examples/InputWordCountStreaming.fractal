@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN" "classpath://org/objectweb/proactive/core/component/adl/xml/proactive.dtd">
 
-<definition name="org.inria.scale.streams.examples.InputWordCountStreaming">
-	<interface name="in-stream" role="server"
-		signature="org.inria.scale.streams.InStream" />
+<definition name="org.inria.scale.streams.examples.InputWordCountStreaming" extends="org.inria.scale.streams.DataStreamApplication">
 
 	<!-- InputSystemReader -->
 	<component name="lines-reader" definition="org.inria.scale.streams.InTap">
@@ -12,8 +10,7 @@
 
 	<!-- Input window -->
 	<component name="input-window" definition="org.inria.scale.streams.Window">
-		<attributes
-			signature="org.inria.scale.streams.configuration.WindowConfiguration">
+		<attributes signature="org.inria.scale.streams.configuration.WindowConfiguration">
 			<attribute name="windowConfiguration"
 				value='( "type": "sliding", "evictionType": "time", "evictionMilliseconds": 4000, "triggerType": "count", "triggerCount": 2 )' />
 		</attributes>
@@ -22,8 +19,7 @@
 	<!-- FileWriter -->
 	<component name="file-writer" definition="org.inria.scale.streams.OutTap">
 		<content class="org.inria.scale.streams.outtaps.FileWriter" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.FileWriterConfiguration">
+		<attributes signature="org.inria.scale.streams.configuration.FileWriterConfiguration">
 			<attribute name="directoryPath" value="out" />
 		</attributes>
 	</component>
@@ -54,14 +50,11 @@
 	<!-- SortBy -->
 	<component name="sort-by" definition="org.inria.scale.streams.Operator">
 		<content class="org.inria.scale.streams.operators.SortBy" />
-		<attributes
-			signature="org.inria.scale.streams.configuration.SortByConfiguration">
+		<attributes signature="org.inria.scale.streams.configuration.SortByConfiguration">
 			<attribute name="tupleComponent" value="1" />
 			<attribute name="order" value="desc" />
 		</attributes>
 	</component>
-
-	<binding client="this.in-stream" server="input-window.in" />
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
@@ -74,5 +67,4 @@
 
 	<binding client="normalizer.out" server="file-writer.in" />
 
-	<controller desc="composite" />
 </definition>
