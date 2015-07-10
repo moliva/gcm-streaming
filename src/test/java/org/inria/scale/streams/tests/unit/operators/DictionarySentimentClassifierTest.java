@@ -28,7 +28,7 @@ public class DictionarySentimentClassifierTest {
 
 		final List<? extends Tuple> tuples = classifier.processTuples(Arrays.asList(tuplesToProcess));
 
-		assertThat(tuples, contains(tupleWith("wow", 4), tupleWith("abhors", -3)));
+		assertThat(tuples, contains(tupleWith("wow", 4.0), tupleWith("abhors", -3.0)));
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class DictionarySentimentClassifierTest {
 
 		final List<? extends Tuple> tuples = classifier.processTuples(Arrays.asList(tuplesToProcess));
 
-		assertThat(tuples, contains(tupleWith("amazing abductions wow", 6), tupleWith("aboard abhors", -2)));
+		assertThat(tuples, contains(tupleWith("amazing abductions wow", 2.0), tupleWith("aboard abhors", -1.0)));
 	}
 
 	@Test
@@ -46,6 +46,6 @@ public class DictionarySentimentClassifierTest {
 
 		final List<? extends Tuple> tuples = classifier.processTuples(Arrays.asList(tuplesToProcess));
 
-		assertThat(tuples, contains(tupleWith("hunted neighbor", 0), tupleWith("random yesterday snore", -1)));
+		assertThat(tuples, contains(tupleWith("hunted neighbor", 0.0), tupleWith("random yesterday snore", -1.0)));
 	}
 }

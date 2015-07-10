@@ -80,7 +80,7 @@ public class MultipleSourcesCombinatorTest {
 		new Thread() {
 			@Override
 			public void run() {
-				operator.runActivity(body);
+				operator.onStart();
 			}
 
 		}.start();

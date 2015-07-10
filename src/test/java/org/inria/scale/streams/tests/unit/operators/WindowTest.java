@@ -67,7 +67,7 @@ public class WindowTest {
 		final Thread thread = new Thread() {
 			@Override
 			public void run() {
-				window.runActivity(body);
+				window.onStart();
 			}
 		};
 		thread.start();
@@ -87,7 +87,7 @@ public class WindowTest {
 		final Thread thread = new Thread() {
 			@Override
 			public void run() {
-				window.runActivity(body);
+				window.onStart();;
 			}
 		};
 		thread.start();
