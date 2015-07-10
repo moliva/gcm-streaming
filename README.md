@@ -5,7 +5,7 @@
 * Base abstractions for operations
   * InTap
   * Operator
-    * Combinator
+    * Aggregator
   * OutTap
 * Common operations for each kind and extensibility for the application developer to build its own abstractions enabling best practices (e.g. easily testable behavior)
 * Window configuration management
@@ -23,3 +23,4 @@
   * Autonomic adaptation
 * DSL
 * Improvements in type system
+* FScript actions for handling reconfiguration
