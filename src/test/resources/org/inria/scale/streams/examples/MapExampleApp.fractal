@@ -18,6 +18,13 @@
 	<!-- Map -->
 	<component name="map" definition="org.inria.scale.streams.Operator">
 		<content class="org.inria.scale.streams.operators.Map" />
+
+		<component name="worker0" definition="org.inria.scale.streams.Operator">
+			<content class="org.inria.scale.streams.operators.Worker" />
+		</component>
+		
+		<binding client="this.workers" server="worker.in" />
+		
 		<!-- <attributes signature="org.inria.scale.streams.configuration.SortByConfiguration"> -->
 		<!-- <attribute name="tupleComponent" value="1" /> -->
 		<!-- <attribute name="order" value="desc" /> -->
