@@ -17,19 +17,26 @@
 
 	<!-- Map -->
 	<component name="map" definition="org.inria.scale.streams.Operator">
-		<content class="org.inria.scale.streams.operators.Map" />
 
-		<component name="worker0" definition="org.inria.scale.streams.Operator">
-			<content class="org.inria.scale.streams.operators.Worker" />
+		<component name="worker0" definition="org.inria.scale.streams.Worker">
+			<content class="org.inria.scale.streams.map.ReflectionMapWorker" />
 		</component>
+
+		<component name="impl" definition="org.inria.scale.streams.Operator">
+			<interface name="workers" role="client" cardinality="multicast" signature="org.inria.scale.streams.map.MulticastMapWorker" />
+			<content class="org.inria.scale.streams.operators.Map" />
+		</component>
+
+		<binding client="impl.workers" server="worker0.in" />
 		
-		<binding client="this.workers" server="worker.in" />
-		
+		<binding client="this.in" server="impl.in" />
+		<binding client="impl.out" server="this.out" />
+
+	</component>
 		<!-- <attributes signature="org.inria.scale.streams.configuration.SortByConfiguration"> -->
 		<!-- <attribute name="tupleComponent" value="1" /> -->
 		<!-- <attribute name="order" value="desc" /> -->
 		<!-- </attributes> -->
-	</component>
 
 	<!-- SystemOutputWriter -->
 	<component name="system-output" definition="org.inria.scale.streams.OutTap">
@@ -38,6 +45,9 @@
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
+	
+<!-- 	<binding client="input-window.out" server="system-output.in" /> -->
+	
 	<binding client="input-window.out" server="map.in" />
 	<binding client="map.out" server="system-output.in" />
 
