@@ -11,7 +11,7 @@
 	<!-- Input window -->
 	<component name="input-window" definition="org.inria.scale.streams.Window">
 		<attributes signature="org.inria.scale.streams.configuration.WindowConfiguration">
-			<attribute name="windowConfiguration" value='( "type": "tumbling", "tumblingType": "count", "count": 3 )' />
+			<attribute name="windowConfiguration" value='( "type": "tumbling", "tumblingType": "time", "milliseconds": 5000 )' />
 		</attributes>
 	</component>
 
@@ -22,21 +22,27 @@
 			<content class="org.inria.scale.streams.map.ReflectionMapWorker" />
 		</component>
 
+		<component name="worker1" definition="org.inria.scale.streams.Worker">
+			<content class="org.inria.scale.streams.map.ReflectionMapWorker" />
+		</component>
+
 		<component name="impl" definition="org.inria.scale.streams.Operator">
 			<interface name="workers" role="client" cardinality="multicast" signature="org.inria.scale.streams.map.MulticastMapWorker" />
 			<content class="org.inria.scale.streams.operators.Map" />
 		</component>
 
 		<binding client="impl.workers" server="worker0.in" />
-		
+		<binding client="impl.workers" server="worker1.in" />
+
 		<binding client="this.in" server="impl.in" />
 		<binding client="impl.out" server="this.out" />
 
+		<controller desc="composite" />
 	</component>
-		<!-- <attributes signature="org.inria.scale.streams.configuration.SortByConfiguration"> -->
-		<!-- <attribute name="tupleComponent" value="1" /> -->
-		<!-- <attribute name="order" value="desc" /> -->
-		<!-- </attributes> -->
+	<!-- <attributes signature="org.inria.scale.streams.configuration.SortByConfiguration"> -->
+	<!-- <attribute name="tupleComponent" value="1" /> -->
+	<!-- <attribute name="order" value="desc" /> -->
+	<!-- </attributes> -->
 
 	<!-- SystemOutputWriter -->
 	<component name="system-output" definition="org.inria.scale.streams.OutTap">
@@ -45,9 +51,9 @@
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
-	
-<!-- 	<binding client="input-window.out" server="system-output.in" /> -->
-	
+
+	<!-- <binding client="input-window.out" server="system-output.in" /> -->
+
 	<binding client="input-window.out" server="map.in" />
 	<binding client="map.out" server="system-output.in" />
 

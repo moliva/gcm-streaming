@@ -9,7 +9,7 @@ public class ReflectionMapWorker implements MapWorker {
 
 	@Override
 	public Wrapper<Tuple> receive(final Tuple newTuple) {
-		return new ValidWrapper<Tuple>(Unit.with("loquito"));
+		return new ValidWrapper<Tuple>(Unit.with("[Worker=" + toString() + "] " + newTuple.getValue(0)));
 	}
 
 }

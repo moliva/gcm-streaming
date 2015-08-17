@@ -1,0 +1,34 @@
+action add-worker(solver, gcma) {
+
+	worker = gcm-new("org.inria.scale.streams.TestWorker", $gcma);
+	set-name($worker, "Worker");
+
+	stop($solver/parent::*);
+
+	add($solver, $worker);
+	bind($master/interface::workers, $worker/interface::in);
+
+	start($solver/parent::*);
+	return true();
+}
+
+action remove-worker(solver) {
+	
+	number = value($solver/child::Dispatcher/attribute::workers)
+	if ( $number <= 1.0 ) {
+		return false();
+	}
+
+	worker = false();
+	for w : $solver/child::"Worker" {
+		worker = $w;
+	}
+
+	stop($solver);
+	unbind-unit($solver/child::Dispatcher/interface::worker-multicast, $worker/interface::worker);
+	set-value($solver/child::Dispatcher/attribute::workers, $number - 1);
+	remove($solver, $worker);
+	start($solver);
+	
+	return true();
+}
