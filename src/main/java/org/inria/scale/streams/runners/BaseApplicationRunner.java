@@ -3,6 +3,8 @@ package org.inria.scale.streams.runners;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.inria.scale.streams.metrics.RequestReceptionSpeedMetric;
+import org.inria.scale.streams.rules.ScalingAnalyzerRule;
 import org.objectweb.fractal.api.Component;
 import org.objectweb.proactive.api.PADeployment;
 import org.objectweb.proactive.core.component.Utils;
@@ -11,8 +13,11 @@ import org.objectweb.proactive.core.component.identity.PAComponent;
 import org.objectweb.proactive.core.descriptor.data.ProActiveDescriptor;
 import org.objectweb.proactive.extensions.autonomic.adl.AFactory;
 import org.objectweb.proactive.extensions.autonomic.adl.AFactoryFactory;
+import org.objectweb.proactive.extensions.autonomic.controllers.execution.ExecutorController;
 import org.objectweb.proactive.extensions.autonomic.controllers.monitoring.MonitorController;
 import org.objectweb.proactive.extensions.autonomic.controllers.remmos.Remmos;
+
+import cl.niclabs.autonomic.examples.balancer.plans.UpdatePointsPlan;
 
 /**
  * Allows users to execute their applications in a simple way, passing as an
@@ -69,14 +74,27 @@ public class BaseApplicationRunner {
 		final MonitorController mon = Remmos.getMonitorController(compositeWrapper);
 		mon.startGCMMonitoring();
 
-		// TODO - the metrics would come here
+		// METRICS
+		mon.addMetric("request-reception-speed", new RequestReceptionSpeedMetric("/map"));
+		mon.enableMetric("request-reception-speed");
 
 		final PAContentController cc = Utils.getPAContentController(compositeWrapper);
-		for (final Component subComp : cc.getFcSubComponents())
+		for (final Component subComp : cc.getFcSubComponents()) {
 			Remmos.getMonitorController(subComp).setRecordStoreCapacity(16);
+		}
+
+		// RULE
+		Remmos.getAnalyzerController(compositeWrapper).addRule("scaling-analyzer", new ScalingAnalyzerRule());
+
+		// PLAN
+		Remmos.getPlannerController(compositeWrapper).setPlan(new UpdatePointsPlan());
+
+		// EXECUTOR
+		final ExecutorController exec = Remmos.getExecutorController(compositeWrapper);
 
 		Utils.getPAGCMLifeCycleController(compositeWrapper).startFc();
 
 		System.out.println("*\n*\n* App ready: " + ((PAComponent) compositeWrapper).getID().toString() + "\n*\n*");
 	}
+
 }
