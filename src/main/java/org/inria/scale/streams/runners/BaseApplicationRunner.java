@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.inria.scale.streams.metrics.RequestReceptionSpeedMetric;
+import org.inria.scale.streams.plans.MapPlan;
 import org.inria.scale.streams.rules.ScalingAnalyzerRule;
 import org.objectweb.fractal.api.Component;
 import org.objectweb.proactive.api.PADeployment;
@@ -16,8 +17,6 @@ import org.objectweb.proactive.extensions.autonomic.adl.AFactoryFactory;
 import org.objectweb.proactive.extensions.autonomic.controllers.execution.ExecutorController;
 import org.objectweb.proactive.extensions.autonomic.controllers.monitoring.MonitorController;
 import org.objectweb.proactive.extensions.autonomic.controllers.remmos.Remmos;
-
-import cl.niclabs.autonomic.examples.balancer.plans.UpdatePointsPlan;
 
 /**
  * Allows users to execute their applications in a simple way, passing as an
@@ -71,26 +70,27 @@ public class BaseApplicationRunner {
 		final Component compositeWrapper = (Component) factory.newAutonomicComponent(adl, context);
 
 		Remmos.enableMonitoring(compositeWrapper);
-		final MonitorController mon = Remmos.getMonitorController(compositeWrapper);
-		mon.startGCMMonitoring();
+		final MonitorController monitor = Remmos.getMonitorController(compositeWrapper);
+		monitor.startGCMMonitoring();
 
 		// METRICS
-		mon.addMetric("request-reception-speed", new RequestReceptionSpeedMetric("/map"));
-		mon.enableMetric("request-reception-speed");
+		monitor.addMetric(RequestReceptionSpeedMetric.DEFAULT_NAME, new RequestReceptionSpeedMetric("/map"));
+		monitor.enableMetric(RequestReceptionSpeedMetric.DEFAULT_NAME);
+		
 
-		final PAContentController cc = Utils.getPAContentController(compositeWrapper);
-		for (final Component subComp : cc.getFcSubComponents()) {
-			Remmos.getMonitorController(subComp).setRecordStoreCapacity(16);
+		final PAContentController contentController = Utils.getPAContentController(compositeWrapper);
+		for (final Component subComponent : contentController.getFcSubComponents()) {
+			Remmos.getMonitorController(subComponent).setRecordStoreCapacity(16);
 		}
 
 		// RULE
 		Remmos.getAnalyzerController(compositeWrapper).addRule("scaling-analyzer", new ScalingAnalyzerRule());
 
 		// PLAN
-		Remmos.getPlannerController(compositeWrapper).setPlan(new UpdatePointsPlan());
+		Remmos.getPlannerController(compositeWrapper).setPlan(new MapPlan());
 
 		// EXECUTOR
-		final ExecutorController exec = Remmos.getExecutorController(compositeWrapper);
+		final ExecutorController executor = Remmos.getExecutorController(compositeWrapper);
 
 		Utils.getPAGCMLifeCycleController(compositeWrapper).startFc();
 

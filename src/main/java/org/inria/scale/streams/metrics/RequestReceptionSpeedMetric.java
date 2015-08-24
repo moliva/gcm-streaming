@@ -10,19 +10,23 @@ import org.objectweb.proactive.extensions.autonomic.controllers.monitoring.recor
 public class RequestReceptionSpeedMetric extends Metric<Double> {
 
 	private static final long serialVersionUID = 1L;
-	private Double value;
+
+	public static final String DEFAULT_NAME = "request-reception-speed";
+
+	private double value;
 	private final String itfName;
 
 	public RequestReceptionSpeedMetric(final String interfaceName) {
 		this.value = 0.0;
 		this.itfName = interfaceName;
 
-		subscribeTo(RemmosEventType.INCOMING_REQUEST_EVENT);
+		subscribeTo(RemmosEventType.NEW_INCOMING_REQUEST_EVENT);
 	}
 
 	@Override
 	public Double calculate() {
 
+		System.out.println("Metric!");
 		final List<IncomingRequestRecord> records = recordStore
 				.getIncomingRequestRecords(new Condition<IncomingRequestRecord>() {
 					private static final long serialVersionUID = 1L;
@@ -42,7 +46,9 @@ public class RequestReceptionSpeedMetric extends Metric<Double> {
 			}
 		}
 
-		return value = nRecords > 0 ? sum / nRecords : 0;
+		value = nRecords > 0 ? sum / nRecords : 0;
+		System.out.println("Value is " + value);
+		return value;
 	}
 
 	@Override
