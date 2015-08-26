@@ -16,31 +16,12 @@
 	</component>
 
 	<!-- Map -->
-	<component name="map" definition="org.inria.scale.streams.Operator">
-
-		<component name="worker0" definition="org.inria.scale.streams.Worker">
-			<content class="org.inria.scale.streams.map.ReflectionMapWorker" />
-		</component>
-
-		<component name="worker1" definition="org.inria.scale.streams.Worker">
-			<content class="org.inria.scale.streams.map.ReflectionMapWorker" />
-		</component>
-
-		<component name="impl" definition="org.inria.scale.streams.Operator">
-			<interface name="workers" role="client" cardinality="multicast" signature="org.inria.scale.streams.map.MulticastMapWorker" />
-			<content class="org.inria.scale.streams.operators.Map" />
+	<component name="map" definition="org.inria.scale.streams.Map">
+		<component name="impl" definition="org.inria.scale.streams.MapOperator">
 			<attributes signature="org.inria.scale.streams.configuration.MapConfiguration">
 				<attribute name="className" value="org.inria.scale.streams.examples.functions.StringToNumber" />
 			</attributes>
 		</component>
-
-		<binding client="impl.workers" server="worker0.in" />
-		<binding client="impl.workers" server="worker1.in" />
-
-		<binding client="this.in" server="impl.in" />
-		<binding client="impl.out" server="this.out" />
-
-		<controller desc="composite" />
 	</component>
 
 	<!-- SystemOutputWriter -->
