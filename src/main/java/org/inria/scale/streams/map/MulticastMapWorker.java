@@ -2,7 +2,7 @@ package org.inria.scale.streams.map;
 
 import java.util.List;
 
-import org.inria.scale.streams.operators.Map;
+import org.inria.scale.streams.operators.MapReduce;
 import org.javatuples.Tuple;
 import org.objectweb.proactive.core.component.type.annotations.multicast.MethodDispatchMetadata;
 import org.objectweb.proactive.core.component.type.annotations.multicast.ParamDispatchMetadata;
@@ -11,7 +11,7 @@ import org.objectweb.proactive.extensions.autonomic.controllers.utils.Wrapper;
 
 /**
  * Interface to talk to a group of {@link MapWorker} that belong to a
- * {@link Map} operator.
+ * {@link MapReduce} operator.
  * 
  * @author moliva
  *

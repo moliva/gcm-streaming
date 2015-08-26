@@ -15,11 +15,12 @@
 		</attributes>
 	</component>
 
-	<!-- Map -->
-	<component name="map" definition="org.inria.scale.streams.Map">
-		<component name="impl" definition="org.inria.scale.streams.MapOperator">
-			<attributes signature="org.inria.scale.streams.configuration.MapConfiguration">
-				<attribute name="className" value="org.inria.scale.streams.examples.functions.StringToNumber" />
+	<!-- MapReduce -->
+	<component name="map-reduce" definition="org.inria.scale.streams.MasterWorker">
+		<component name="impl" definition="org.inria.scale.streams.MapReduce">
+			<attributes signature="org.inria.scale.streams.configuration.MapReduceConfiguration">
+				<attribute name="mappingClassName" value="org.inria.scale.streams.examples.functions.StringToNumber" />
+				<attribute name="reductionClassName" value="org.inria.scale.streams.examples.functions.Summer" />
 			</attributes>
 		</component>
 	</component>
@@ -31,7 +32,7 @@
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
-	<binding client="input-window.out" server="map.in" />
-	<binding client="map.out" server="system-output.in" />
+	<binding client="input-window.out" server="map-reduce.in" />
+	<binding client="map-reduce.out" server="system-output.in" />
 
 </definition>
