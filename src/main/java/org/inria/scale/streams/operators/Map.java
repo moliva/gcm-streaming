@@ -3,10 +3,10 @@ package org.inria.scale.streams.operators;
 import java.util.List;
 
 import org.inria.scale.streams.base.BaseOperator;
+import org.inria.scale.streams.configuration.MapConfiguration;
 import org.inria.scale.streams.map.MulticastMapWorker;
 import org.javatuples.Tuple;
 import org.objectweb.fractal.api.NoSuchInterfaceException;
-import org.objectweb.fractal.api.control.AttributeController;
 import org.objectweb.fractal.api.control.IllegalBindingException;
 import org.objectweb.fractal.api.control.IllegalLifeCycleException;
 import org.objectweb.proactive.extensions.autonomic.controllers.utils.Wrapper;
@@ -15,11 +15,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 
-public class Map extends BaseOperator implements AttributeController {
+public class Map extends BaseOperator implements MapConfiguration {
 
 	public static final String WORKER_INTERFACE_NAME = "workers";
 
 	private MulticastMapWorker workers;
+
+	private String className;
 
 	// //////////////////////////////////////////////
 	// ******* BaseOperator *******
@@ -27,7 +29,9 @@ public class Map extends BaseOperator implements AttributeController {
 
 	@Override
 	protected List<? extends Tuple> processTuples(final List<Tuple> tuplesToProcess) {
-		final List<Wrapper<Tuple>> results = workers.receive(tuplesToProcess);
+		workers.setClassName(className);
+		
+		final List<Wrapper<Tuple>> results = workers.process(tuplesToProcess);
 		return FluentIterable.from(results).transform(new Function<Wrapper<Tuple>, Tuple>() {
 
 			@Override
@@ -75,6 +79,20 @@ public class Map extends BaseOperator implements AttributeController {
 		} else {
 			super.unbindFc(clientItfName);
 		}
+	}
+
+	// //////////////////////////////////////////////
+	// ******* Mapconfiguratino *******
+	// //////////////////////////////////////////////
+
+	@Override
+	public String getClassName() {
+		return className;
+	}
+
+	@Override
+	public void setClassName(final String className) {
+		this.className = className;
 	}
 
 }

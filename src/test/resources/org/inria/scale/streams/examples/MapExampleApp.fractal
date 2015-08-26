@@ -29,6 +29,9 @@
 		<component name="impl" definition="org.inria.scale.streams.Operator">
 			<interface name="workers" role="client" cardinality="multicast" signature="org.inria.scale.streams.map.MulticastMapWorker" />
 			<content class="org.inria.scale.streams.operators.Map" />
+			<attributes signature="org.inria.scale.streams.configuration.MapConfiguration">
+				<attribute name="className" value="org.inria.scale.streams.examples.functions.StringToNumber" />
+			</attributes>
 		</component>
 
 		<binding client="impl.workers" server="worker0.in" />
@@ -39,10 +42,6 @@
 
 		<controller desc="composite" />
 	</component>
-	<!-- <attributes signature="org.inria.scale.streams.configuration.SortByConfiguration"> -->
-	<!-- <attribute name="tupleComponent" value="1" /> -->
-	<!-- <attribute name="order" value="desc" /> -->
-	<!-- </attributes> -->
 
 	<!-- SystemOutputWriter -->
 	<component name="system-output" definition="org.inria.scale.streams.OutTap">
@@ -51,9 +50,6 @@
 
 	<!-- Operator bindings -->
 	<binding client="lines-reader.out" server="input-window.in" />
-
-	<!-- <binding client="input-window.out" server="system-output.in" /> -->
-
 	<binding client="input-window.out" server="map.in" />
 	<binding client="map.out" server="system-output.in" />
 

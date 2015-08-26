@@ -12,6 +12,8 @@ import org.objectweb.proactive.extensions.autonomic.controllers.utils.Wrapper;
  */
 public interface MapWorker {
 
-	 Wrapper<Tuple> receive(Tuple newTuple);
+	Wrapper<Tuple> process(Tuple newTuple);
+
+	void setClassName(String className);
 
 }

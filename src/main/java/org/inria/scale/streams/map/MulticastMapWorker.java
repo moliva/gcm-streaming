@@ -18,7 +18,10 @@ import org.objectweb.proactive.extensions.autonomic.controllers.utils.Wrapper;
  */
 public interface MulticastMapWorker {
 
+	@MethodDispatchMetadata(mode = @ParamDispatchMetadata(mode = ParamDispatchMode.BROADCAST))
+	void setClassName(String className);
+
 	@MethodDispatchMetadata(mode = @ParamDispatchMetadata(mode = ParamDispatchMode.ROUND_ROBIN))
-	List<Wrapper<Tuple>> receive(List<Tuple> newTuples);
+	List<Wrapper<Tuple>> process(List<Tuple> newTuples);
 
 }
